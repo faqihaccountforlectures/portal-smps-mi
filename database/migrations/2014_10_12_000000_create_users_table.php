@@ -12,12 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+           $table->id(); // Primary Key: id (BIGINT UNSIGNED)
+            $table->string('email')->unique(); // Email untuk login / notifikasi
+            $table->string('password')->nullable(); // Nullable jika login lewat Google OAuth
+            $table->string('google_id')->nullable(); // ID akun google dari Socialite
+            $table->enum('role', ['admin', 'guru', 'siswa', 'kepsek'])->default('siswa'); // Hak akses role
             $table->timestamps();
         });
     }
