@@ -26,7 +26,7 @@ class GoogleAuthController extends Controller
                         ->orWhere('email', $googleUser->getEmail())
                 ->first();
             
-                if (user) {
+                if ($user) {
                     // Jika user ditemukan (sudah didaftarkan oleh admin)
                     // Update google_id untuk berjaga-jaga jika login pertama kali pakai Google
                     $user->update(['google_id' => $googleUser->getId()]);
@@ -44,7 +44,7 @@ class GoogleAuthController extends Controller
 
             } catch (\Exception $e) {
                 // Jika terjadi error (misal user batal memilih akun Google)
-                return redirect('/login')->with('error', 'Terjadi kesalahan saat mencoba login dengan Google.');
+                return redirect('/login')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
             }
         }
     }
