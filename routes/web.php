@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleAuthController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,9 @@ Route::get('/login', function () {
     }
     return view('auth.login');
 })->name('login');
+
+// Route untuk memproses form login manual (Email & Password)
+Route::post('/login', [AuthController::class, 'authenticate'])->name('login.post');
 
 // Route untuk Login Google
 Route::get('/auth/google/redirect', [GoogleAuthController::class, 'redirect'])->name('google.redirect');
