@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Portal Akademik') - SMPS MI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- Sidebar (Kiri) -->
+        <aside class="w-64 bg-white border-r border-gray-100 flex flex-col shadow-sm">
+            <!-- Logo area -->
+            <div class="h-20 flex items-center px-6 border-b border-gray-50">
+                <div class="bg-blue-900 text-white p-2 rounded-lg mr-3">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path></svg>
+                </div>
+                <div>
+                    <h2 class="text-sm font-bold text-blue-900 leading-tight">Portal Akademik</h2>
+                    <p class="text-xs text-gray-500">SMPS MI</p>
+                </div>
+            </div>
+
+            <!-- Menu Navigasi -->
+            <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+                <a href="/dashboard" class="flex items-center gap-3 px-3 py-2.5 bg-blue-50 text-blue-700 rounded-lg font-medium text-sm">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    Dashboard
+                </a>
+                
+                <p class="px-3 pt-4 pb-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">Menu Utama</p>
+                
+                <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg font-medium text-sm transition">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    Data Pengguna
+                </a>
+                <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg font-medium text-sm transition">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                    Absensi & Nilai
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Area Kanan (Topbar & Konten) -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            
+            <!-- Topbar (Atas) -->
+            <header class="h-20 bg-white border-b border-gray-100 flex items-center justify-between px-8">
+                <h1 class="text-xl font-semibold text-slate-800">@yield('header', 'Dashboard')</h1>
+                
+                <div class="flex items-center gap-4">
+                    <div class="text-right">
+                        <p class="text-sm font-semibold text-slate-700">{{ Auth::user()->email }}</p>
+                        <p class="text-xs text-blue-600 font-bold uppercase">{{ Auth::user()->role }}</p>
+                    </div>
+                    <!-- Tombol Logout -->
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <button type="submit" class="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition" title="Keluar">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                        </button>
+                    </form>
+                </div>
+            </header>
+
+            <!-- Area Konten Dinamis -->
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-slate-50 p-8">
+                @yield('content')
+            </main>
+
+        </div>
+    </div>
+
+</body>
+</html>
