@@ -1,4 +1,4 @@
-<!-- Catatan: File ini adalah modal pop-up khusus buat konfirmasi pas admin ngeklik tombol tong sampah buat ngehapus data guru -->
+<!-- File ini adalah modal pop-up khusus buat konfirmasi pas admin ngeklik tombol tong sampah buat ngehapus data guru -->
 <div id="deleteModal-{{ $teacher->id }}" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity">
     <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden text-center relative">
         <div class="p-6">

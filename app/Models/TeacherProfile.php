@@ -9,7 +9,8 @@ class TeacherProfile extends Model
 {
     use HasFactory;
 
-     protected $fillable = [
+    // Daftar kolom yang bisa diisi sekalian (mass assignment)
+    protected $fillable = [
         'user_id',
         'nip',
         'full_name',
@@ -18,9 +19,8 @@ class TeacherProfile extends Model
         'phone_number',
     ];
 
-    /**
-     * Relasi balik ke tabel User (One-to-One Inverse).
-     */
+    // Relasi balik (Inverse) ke tabel users
+    // Biar kalo kita manggil profil guru, kita bisa tau ini profil punya akun (email) siapa
     public function user()
     {
         return $this->belongsTo(User::class);

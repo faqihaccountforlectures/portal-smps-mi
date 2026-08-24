@@ -17,71 +17,71 @@ class AcademicYearController extends Controller
     // Menyimpan tahun ajaran baru
     public function store(Request $request)
     {
-       // PENJELASAN: Validasi memastikan data yang diinputkan user sudah benar dan tidak kosong
+       // Validasi pastiin data yang diinputkan user udah bener dan gak kosong
        $request->validate([
-        'year_name' => 'required|string|max:20', // CATATAN: Ini sebelumnya 'name', kita perbaiki ke 'year_name' menyesuaikan kolom tabel database
+        'year_name' => 'required|string|max:20', // Nyesuaiin nama kolom di database
         'semester' => 'required|in:ganjil,genap',
         'is_active' => 'required|boolean',
        ]);
        
-       // PENJELASAN: Jika user mencentang status "Aktif" (is_active = true) untuk tahun ajaran baru ini, 
-       // maka kita harus mengubah semua tahun ajaran lain yang tadinya aktif menjadi tidak aktif (false).
-       // Tujuannya agar hanya ada 1 tahun ajaran yang aktif pada satu waktu.
+       // Kalo user nyentang status "Aktif" (is_active = true) buat tahun ajaran baru ini, 
+       // berarti tahun ajaran lain yang tadinya aktif harus dimatiin (false).
+       // Biar cuma ada 1 tahun ajaran yang aktif pada satu waktu.
        if ($request->is_active) {
         AcademicYear::where('is_active', true)->update(['is_active' => false]);
        }
 
-       // PENJELASAN: Menyimpan data yang diinputkan ke dalam tabel academic_years
+       // Simpan data yang diinputin ke tabel academic_years
        AcademicYear::create($request->all());
 
        return redirect()->back()->with('success', 'Tahun ajaran berhasil ditambahkan.');
     }
 
-    // PENJELASAN: Menampilkan halaman khusus untuk form Edit Data
+    // Nampilin form khusus buat ngedit data
     public function edit($id)
     {
         $academicYear = AcademicYear::findOrFail($id);
         return view('admin.academic-years.edit', compact('academicYear'));
     }
 
-    // Mengupdate (Edit) data tahun ajaran yang sudah ada
+    // Mengupdate (Edit) data tahun ajaran yang udah ada
     public function update(Request $request, $id)
     {
-        // PENJELASAN: Mencari data tahun ajaran berdasarkan ID yang dikirim. Jika ID tidak ada, akan otomatis error 404 (Not Found)
+        // Cari data tahun ajaran berdasarkan ID yang dikirim. Kalo gak ketemu otomatis error 404 (Not Found)
         $academicYear = AcademicYear::findOrFail($id);
 
-        // PENJELASAN: Memvalidasi data yang baru diinputkan user
+        // Validasi lagi datanya
         $request->validate([
             'year_name' => 'required|string|max:20',
             'semester' => 'required|in:ganjil,genap',
             'is_active' => 'required|boolean',
         ]);
 
-        // PENJELASAN: Jika user mengubah status menjadi "Aktif", pastikan kita menonaktifkan tahun ajaran yang lain dulu
+        // Kalo user ngubah status jadi "Aktif", pastiin kita non-aktifin tahun ajaran yang lain dulu
         if ($request->is_active && !$academicYear->is_active) {
             AcademicYear::where('is_active', true)->update(['is_active' => false]);
         }
 
-        // PENJELASAN: Menyimpan perubahan data ke dalam database
+        // Simpan perubahan data ke database
         $academicYear->update($request->all());
 
-        // PENJELASAN: Mengembalikan user ke halaman daftar utama setelah berhasil diedit
+        // Balikin user ke halaman daftar utama habis ngedit
         return redirect()->route('academic-years.index')->with('success', 'Data tahun ajaran berhasil diperbarui.');
     }
 
     // Menghapus data tahun ajaran
     public function destroy($id)
     {
-        // PENJELASAN: Mencari data tahun ajaran yang ingin dihapus berdasarkan ID
+        // Cari data tahun ajaran yang mau dihapus pake ID
         $academicYear = AcademicYear::findOrFail($id);
 
-        // PENJELASAN: Proteksi (pencegahan) agar user tidak menghapus tahun ajaran yang sedang berjalan (Aktif)
+        // Proteksi nih, biar user gak asal hapus tahun ajaran yang lagi jalan (Aktif)
         if ($academicYear->is_active) {
-            // Mengembalikan pesan error (harus ditangani di file .blade.php nantinya jika ingin dimunculkan)
+            // Balikin pesan error
             return redirect()->back()->with('error', 'Tahun ajaran yang sedang aktif tidak dapat dihapus. Non-aktifkan terlebih dahulu.');
         }
 
-        // PENJELASAN: Menghapus data dari database secara permanen
+        // Hapus datanya dari database secara permanen
         $academicYear->delete();
 
         return redirect()->back()->with('success', 'Tahun ajaran berhasil dihapus.');

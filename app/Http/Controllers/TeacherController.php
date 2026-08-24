@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
-    // Catatan: Ngambil data buat ditampilin di tabel utama
+    // Ngambil data buat ditampilin di tabel utama
     public function index()
     {
         // Narik user yang rolenya 'guru', sekalian ngambil profilnya biar gampang pas ditampilin
@@ -17,13 +17,13 @@ class TeacherController extends Controller
         return view('admin.teachers.index', compact('teachers'));
     }
 
-    // Catatan: Nampilin halaman form tambah data
+    // Nampilin halaman form tambah data
     public function create()
     {
         return view('admin.teachers.create');
     }
 
-    // Catatan: Proses nyimpen data baru ke database (masukin ke 2 tabel sekaligus)
+    // Proses nyimpen data baru ke database (masukin ke 2 tabel sekaligus)
     public function store(Request $request)
     {
         // Validasi inputan dari form admin biar datanya bener dan gak kosong melompong
@@ -60,7 +60,7 @@ class TeacherController extends Controller
         return redirect()->route('teachers.index')->with('success', 'Asik! Data guru baru berhasil ditambahkan.');
     }
 
-    // Catatan: Nampilin halaman form buat edit data (narik datanya dulu berdasarkan ID)
+    // Nampilin halaman form buat edit data (narik datanya dulu berdasarkan ID)
     public function edit($id)
     {
         // Cari usernya, pastiin dapet
@@ -68,7 +68,7 @@ class TeacherController extends Controller
         return view('admin.teachers.edit', compact('teacher'));
     }
 
-    // Catatan: Proses nyimpen update data ke database
+    // Proses nyimpen update data ke database
     public function update(Request $request, $id)
     {
         $teacher = User::findOrFail($id);
@@ -115,7 +115,7 @@ class TeacherController extends Controller
         return redirect()->route('teachers.index')->with('success', 'Sip! Perubahan data guru sudah disimpan.');
     }
 
-    // Catatan: Proses hapus data guru
+    // Proses hapus data guru
     public function destroy($id)
     {
         $teacher = User::findOrFail($id);

@@ -8,23 +8,23 @@ use Illuminate\Http\Request;
 
 class ClassRoomController extends Controller
 {
-    // PENJELASAN: Menampilkan halaman utama daftar Data Kelas
+    // Nampilin halaman utama daftar Data Kelas
     public function index()
     {
-        // Mengambil semua data kelas beserta relasi wali kelas (dan profil gurunya)
-        // Diurutkan berdasarkan tingkat kelas (grade_level) lalu nama kelas
+        // Ngambil semua data kelas beserta relasi wali kelas (dan profil gurunya)
+        // Diurutin berdasarkan tingkat kelas (grade_level) terus nama kelas
         $classes = ClassRoom::with('homeroomTeacher.teacherProfile')
             ->orderBy('grade_level')
             ->orderBy('name')
             ->get();
         
-        // Mengambil daftar akun yang ber-role 'guru' untuk mengisi pilihan dropdown Wali Kelas
+        // Ngambil daftar akun yang ber-role 'guru' buat ngisi pilihan dropdown Wali Kelas
         $teachers = User::where('role', 'guru')->with('teacherProfile')->get();
 
         return view('admin.classes.index', compact('classes', 'teachers'));
     }
 
-    // PENJELASAN: Menyimpan data kelas baru ke tabel class_rooms
+    // Nyimpen data kelas baru ke tabel class_rooms
     public function store(Request $request)
     {
         $request->validate([
@@ -38,18 +38,18 @@ class ClassRoomController extends Controller
         return redirect()->back()->with('success', 'Data kelas berhasil ditambahkan.');
     }
 
-    // PENJELASAN: Menampilkan halaman khusus untuk form Edit Data Kelas
+    // Nampilin halaman khusus buat form Edit Data Kelas
     public function edit($id)
     {
         $classRoom = ClassRoom::findOrFail($id);
         
-        // Perlu mengambil daftar guru lagi untuk dropdown di halaman edit
+        // Perlu ngambil daftar guru lagi buat dropdown di halaman edit
         $teachers = User::where('role', 'guru')->with('teacherProfile')->get();
 
         return view('admin.classes.edit', compact('classRoom', 'teachers'));
     }
 
-    // PENJELASAN: Mengupdate (Edit) data kelas yang sudah ada di database
+    // Ngupdate (Edit) data kelas yang udah ada di database
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -61,17 +61,17 @@ class ClassRoomController extends Controller
         $classRoom = ClassRoom::findOrFail($id);
         $classRoom->update($request->all());
 
-        // Mengarahkan kembali ke halaman index tabel kelas
+        // Balikin lagi ke halaman index tabel kelas
         return redirect()->route('classes.index')->with('success', 'Data kelas berhasil diperbarui.');
     }
 
-    // PENJELASAN: Menghapus data kelas dari database
+    // Menghapus data kelas dari database
     public function destroy($id)
     {
         $classRoom = ClassRoom::findOrFail($id);
         
-        // Catatan: Di masa depan jika diperlukan, kita bisa menambahkan proteksi 
-        // agar kelas tidak bisa dihapus jika sudah ada siswa di dalamnya.
+        // Buat jaga-jaga di masa depan, kita bisa nambahin proteksi 
+        // biar kelas gak bisa dihapus kalo udah ada siswa di dalemnya.
         
         $classRoom->delete();
 
