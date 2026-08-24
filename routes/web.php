@@ -88,3 +88,14 @@ Route::post('/admin/classes', [\App\Http\Controllers\ClassRoomController::class,
 Route::get('/admin/classes/{id}/edit', [\App\Http\Controllers\ClassRoomController::class, 'edit'])->name('classes.edit');
 Route::put('/admin/classes/{id}', [\App\Http\Controllers\ClassRoomController::class, 'update'])->name('classes.update');
 Route::delete('/admin/classes/{id}', [\App\Http\Controllers\ClassRoomController::class, 'destroy'])->name('classes.destroy');
+
+// ==========================================
+// ROUTES MASTER DATA GURU (TEACHERS)
+// ==========================================
+// Catatan: Kumpulan route untuk CRUD Data Guru (juga cuma admin yang bisa akses)
+Route::get('/admin/teachers', [\App\Http\Controllers\TeacherController::class, 'index'])->name('teachers.index');
+Route::get('/admin/teachers/create', [\App\Http\Controllers\TeacherController::class, 'create'])->name('teachers.create');
+Route::post('/admin/teachers', [\App\Http\Controllers\TeacherController::class, 'store'])->name('teachers.store');
+Route::get('/admin/teachers/{id}/edit', [\App\Http\Controllers\TeacherController::class, 'edit'])->name('teachers.edit');
+Route::put('/admin/teachers/{id}', [\App\Http\Controllers\TeacherController::class, 'update'])->name('teachers.update');
+Route::delete('/admin/teachers/{id}', [\App\Http\Controllers\TeacherController::class, 'destroy'])->name('teachers.destroy');
