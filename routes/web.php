@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AcademicYearController;
 
 /*
 |--------------------------------------------------------------------------
@@ -65,3 +66,15 @@ Route::get('/dashboard', function () {
     Auth::logout();
     return redirect('/login')->with('error', 'Hak akses tidak valid.');
 })->middleware('auth');
+
+// Route Tahun Ajaran
+// PENJELASAN: Route GET untuk menampilkan halaman daftar tahun ajaran
+Route::get('/admin/academic-years', [AcademicYearController::class, 'index'])->name('academic-years.index');
+// PENJELASAN: Route POST untuk memproses form tambah tahun ajaran baru
+Route::post('/admin/academic-years', [AcademicYearController::class, 'store'])->name('academic-years.store');
+// PENJELASAN: Route GET untuk menampilkan halaman terpisah khusus Edit
+Route::get('/admin/academic-years/{id}/edit', [AcademicYearController::class, 'edit'])->name('academic-years.edit');
+// PENJELASAN: Route PUT untuk memproses form edit (update) tahun ajaran berdasarkan ID
+Route::put('/admin/academic-years/{id}', [AcademicYearController::class, 'update'])->name('academic-years.update');
+// PENJELASAN: Route DELETE untuk memproses penghapusan tahun ajaran berdasarkan ID
+Route::delete('/admin/academic-years/{id}', [AcademicYearController::class, 'destroy'])->name('academic-years.destroy');
