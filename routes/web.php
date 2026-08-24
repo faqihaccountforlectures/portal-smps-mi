@@ -130,3 +130,18 @@ Route::get('/admin/students/{id}/edit', [\App\Http\Controllers\StudentController
 Route::put('/admin/students/{id}', [\App\Http\Controllers\StudentController::class, 'update'])->name('students.update');
 // Hapus akun dan biodata siswa (biasanya kalo salah input atau udah lulus)
 Route::delete('/admin/students/{id}', [\App\Http\Controllers\StudentController::class, 'destroy'])->name('students.destroy');
+
+// ==========================================
+// ROUTES PEMBAGIAN KELAS (CLASS ENROLLMENTS)
+// ==========================================
+// Kumpulan route untuk mem-plot siswa ke dalam kelas di tahun ajaran aktif
+// Nampilin halaman utama daftar semua kelas beserta jumlah siswanya
+Route::get('/admin/class-enrollments', [\App\Http\Controllers\ClassEnrollmentController::class, 'index'])->name('class-enrollments.index');
+// Nampilin detail daftar nama-nama siswa yang udah masuk di satu kelas tertentu
+Route::get('/admin/class-enrollments/{class_id}', [\App\Http\Controllers\ClassEnrollmentController::class, 'show'])->name('class-enrollments.show');
+// Nampilin halaman form yang isinya daftar siswa yang belum kebagian kelas buat dicentang-centang
+Route::get('/admin/class-enrollments/{class_id}/add-students', [\App\Http\Controllers\ClassEnrollmentController::class, 'addStudents'])->name('class-enrollments.add-students');
+// Proses nyimpen data siswa-siswa yang udah dicentang tadi biar beneran masuk ke database kelas
+Route::post('/admin/class-enrollments/{class_id}', [\App\Http\Controllers\ClassEnrollmentController::class, 'storeStudents'])->name('class-enrollments.store-students');
+// Tombol buat ngeluarin (kick) siswa dari kelas kalau seandainya salah masukin kelas
+Route::delete('/admin/class-enrollments/{enrollment_id}', [\App\Http\Controllers\ClassEnrollmentController::class, 'destroy'])->name('class-enrollments.destroy');

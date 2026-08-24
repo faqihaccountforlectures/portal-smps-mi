@@ -22,4 +22,12 @@ class ClassRoom extends Model
     {
         return $this->belongsTo(User::class, 'homeroom_teacher_id');
     }
+
+    // Relasi ke tabel class_enrollments.
+    // Ibaratnya, ini tuh buat nyari "Siapa aja sih anak-anak yang terdaftar dan duduk di kelas ini?"
+    // Lewat sini kita bisa ngambil semua histori pendaftaran kelas (enrollments) yang nyangkut ke ID kelas ini.
+    public function enrollments()
+    {
+        return $this->hasMany(ClassEnrollment::class, 'class_room_id');
+    }
 }
