@@ -25,12 +25,12 @@ class ClassEnrollment extends Model
     // Relasi balik ke Kelas
     public function classRoom()
     {
-        return $this->belongsTo(User::class, 'class_room_id');
+        return $this->belongsTo(ClassRoom::class, 'class_room_id');
     }
 
     // Relasi balik ke Tahun Ajaran
     public function academicYear()
     {
-        return $this->belongsTo(User::class, 'academic_year_id');
+        return $this->belongsTo(AcademicYear::class, 'academic_year_id');
     }
 }

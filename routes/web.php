@@ -78,3 +78,13 @@ Route::get('/admin/academic-years/{id}/edit', [AcademicYearController::class, 'e
 Route::put('/admin/academic-years/{id}', [AcademicYearController::class, 'update'])->name('academic-years.update');
 // PENJELASAN: Route DELETE untuk memproses penghapusan tahun ajaran berdasarkan ID
 Route::delete('/admin/academic-years/{id}', [AcademicYearController::class, 'destroy'])->name('academic-years.destroy');
+
+// ==========================================
+// ROUTES MASTER DATA KELAS (CLASS ROOMS)
+// ==========================================
+// PENJELASAN: Kumpulan route untuk CRUD Data Kelas (hanya bisa diakses admin sesuai grup middleware)
+Route::get('/admin/classes', [\App\Http\Controllers\ClassRoomController::class, 'index'])->name('classes.index');
+Route::post('/admin/classes', [\App\Http\Controllers\ClassRoomController::class, 'store'])->name('classes.store');
+Route::get('/admin/classes/{id}/edit', [\App\Http\Controllers\ClassRoomController::class, 'edit'])->name('classes.edit');
+Route::put('/admin/classes/{id}', [\App\Http\Controllers\ClassRoomController::class, 'update'])->name('classes.update');
+Route::delete('/admin/classes/{id}', [\App\Http\Controllers\ClassRoomController::class, 'destroy'])->name('classes.destroy');
