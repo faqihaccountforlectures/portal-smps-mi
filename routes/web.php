@@ -67,35 +67,66 @@ Route::get('/dashboard', function () {
     return redirect('/login')->with('error', 'Hak akses tidak valid.');
 })->middleware('auth');
 
-// Route Tahun Ajaran
-// PENJELASAN: Route GET untuk menampilkan halaman daftar tahun ajaran
+// ==========================================
+// ROUTES MASTER DATA TAHUN AJARAN (ACADEMIC YEARS)
+// ==========================================
+// Kumpulan route buat ngatur Tahun Ajaran (sementara ini cuma admin yang boleh akses)
+// Nampilin halaman utama daftar tahun ajaran
 Route::get('/admin/academic-years', [AcademicYearController::class, 'index'])->name('academic-years.index');
-// PENJELASAN: Route POST untuk memproses form tambah tahun ajaran baru
+// Buat nyimpen data tahun ajaran baru dari form tambah
 Route::post('/admin/academic-years', [AcademicYearController::class, 'store'])->name('academic-years.store');
-// PENJELASAN: Route GET untuk menampilkan halaman terpisah khusus Edit
+// Nampilin form khusus buat ngedit tahun ajaran
 Route::get('/admin/academic-years/{id}/edit', [AcademicYearController::class, 'edit'])->name('academic-years.edit');
-// PENJELASAN: Route PUT untuk memproses form edit (update) tahun ajaran berdasarkan ID
+// Proses update data tahun ajaran ke database
 Route::put('/admin/academic-years/{id}', [AcademicYearController::class, 'update'])->name('academic-years.update');
-// PENJELASAN: Route DELETE untuk memproses penghapusan tahun ajaran berdasarkan ID
+// Proses ngehapus data tahun ajaran secara permanen
 Route::delete('/admin/academic-years/{id}', [AcademicYearController::class, 'destroy'])->name('academic-years.destroy');
 
 // ==========================================
 // ROUTES MASTER DATA KELAS (CLASS ROOMS)
 // ==========================================
-// PENJELASAN: Kumpulan route untuk CRUD Data Kelas (hanya bisa diakses admin sesuai grup middleware)
+// Kumpulan route buat fitur manajemen Kelas
+// Nampilin daftar kelas sekalian nama wali kelasnya
 Route::get('/admin/classes', [\App\Http\Controllers\ClassRoomController::class, 'index'])->name('classes.index');
+// Proses nyimpen kelas baru
 Route::post('/admin/classes', [\App\Http\Controllers\ClassRoomController::class, 'store'])->name('classes.store');
+// Buka halaman buat ngedit kelas tertentu
 Route::get('/admin/classes/{id}/edit', [\App\Http\Controllers\ClassRoomController::class, 'edit'])->name('classes.edit');
+// Simpan hasil editan kelas ke database
 Route::put('/admin/classes/{id}', [\App\Http\Controllers\ClassRoomController::class, 'update'])->name('classes.update');
+// Hapus data kelas (hati-hati, kelas yang udah ada muridnya baiknya jangan dihapus)
 Route::delete('/admin/classes/{id}', [\App\Http\Controllers\ClassRoomController::class, 'destroy'])->name('classes.destroy');
 
 // ==========================================
 // ROUTES MASTER DATA GURU (TEACHERS)
 // ==========================================
-// Catatan: Kumpulan route untuk CRUD Data Guru (juga cuma admin yang bisa akses)
+// Kumpulan route buat kelola data Guru (plus sekalian bikin akun loginnya)
+// Nampilin tabel daftar semua guru yang terdaftar
 Route::get('/admin/teachers', [\App\Http\Controllers\TeacherController::class, 'index'])->name('teachers.index');
+// Nampilin form pendaftaran guru baru
 Route::get('/admin/teachers/create', [\App\Http\Controllers\TeacherController::class, 'create'])->name('teachers.create');
+// Nyimpen data guru ke tabel user dan profilnya pake DB transaction
 Route::post('/admin/teachers', [\App\Http\Controllers\TeacherController::class, 'store'])->name('teachers.store');
+// Nampilin form edit data guru
 Route::get('/admin/teachers/{id}/edit', [\App\Http\Controllers\TeacherController::class, 'edit'])->name('teachers.edit');
+// Nyimpen update profil sama email guru
 Route::put('/admin/teachers/{id}', [\App\Http\Controllers\TeacherController::class, 'update'])->name('teachers.update');
+// Hapus akun sama profil guru sekaligus
 Route::delete('/admin/teachers/{id}', [\App\Http\Controllers\TeacherController::class, 'destroy'])->name('teachers.destroy');
+
+// ==========================================
+// ROUTES DATA SISWA (STUDENTS)
+// ==========================================
+// Kumpulan route buat pendaftaran dan manajemen Siswa
+// Nampilin daftar semua siswa (beserta info NISN dan kontak ortu)
+Route::get('/admin/students', [\App\Http\Controllers\StudentController::class, 'index'])->name('students.index');
+// Nampilin form pendaftaran siswa baru
+Route::get('/admin/students/create', [\App\Http\Controllers\StudentController::class, 'create'])->name('students.create');
+// Nyimpen biodata siswa ke tabel profil dan bikin akunnya otomatis
+Route::post('/admin/students', [\App\Http\Controllers\StudentController::class, 'store'])->name('students.store');
+// Nampilin form update biodata siswa
+Route::get('/admin/students/{id}/edit', [\App\Http\Controllers\StudentController::class, 'edit'])->name('students.edit');
+// Proses update data siswa di database
+Route::put('/admin/students/{id}', [\App\Http\Controllers\StudentController::class, 'update'])->name('students.update');
+// Hapus akun dan biodata siswa (biasanya kalo salah input atau udah lulus)
+Route::delete('/admin/students/{id}', [\App\Http\Controllers\StudentController::class, 'destroy'])->name('students.destroy');

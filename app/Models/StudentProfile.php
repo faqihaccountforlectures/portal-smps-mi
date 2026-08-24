@@ -9,7 +9,7 @@ class StudentProfile extends Model
 {
     use HasFactory;
 
-    // Kolom yang boleh diisi secara massal
+    // Kolom-kolom yang boleh diisi sekalian (mass assignment)
     protected $fillable = [
         'user_id',
         'nisn',
@@ -19,9 +19,8 @@ class StudentProfile extends Model
         'parent_phone',
     ];
 
-    /**
-     * Relasi balik ke tabel User (One-to-One Inverse).
-     */
+    // Relasi balik (Inverse) ke tabel users
+    // Biar kalo kita nge-load profil siswa, kita gampang nyari ini profil punya akun login siapa
     public function user()
     {
         return $this->belongsTo(User::class);
