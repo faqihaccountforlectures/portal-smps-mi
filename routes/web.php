@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherAssignmentController;
+use App\Http\Controllers\LessonScheduleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -104,9 +105,6 @@ Route::delete('/admin/classes/{id}', [\App\Http\Controllers\ClassRoomController:
 // ROUTES MASTER DATA MATA PELAJARAN (SUBJECTS)
 // ==========================================
 // Kumpulan route buat kelola Mata Pelajaran (Wajib & Muatan Lokal)
-
-
-
 // Nampilin halaman utama daftar mata pelajaran
 Route::get('/admin/subjects', [SubjectController::class, 'index'])->name('subjects.index');
 // Nampilin form untuk tambah mata pelajaran baru
@@ -123,20 +121,26 @@ Route::delete('/admin/subjects/{id}', [SubjectController::class, 'destroy'])->na
 // ==========================================
 // ROUTES PENUGASAN GURU (TEACHER ASSIGNMENTS)
 // ==========================================
-    // RUTE MANAJEMEN PENUGASAN GURU (Jadwal Siapa Ngajar Apa)
-    // ==========================================
-    // Tampilan awal jadwal guru
-    Route::get('/teacher-assignments', [TeacherAssignmentController::class, 'index'])->name('teacher-assignments.index');
-    // Form nambah penugasan
-    Route::get('/teacher-assignments/create', [TeacherAssignmentController::class, 'create'])->name('teacher-assignments.create');
-    // Proses nyimpen data penugasan
-    Route::post('/teacher-assignments', [TeacherAssignmentController::class, 'store'])->name('teacher-assignments.store');
-    // Form ngedit penugasan (pakai rute yang dimodifikasi biar bisa ambil 2 parameter)
-    Route::get('/teacher-assignments/{teacher_id}/{subject_id}/edit', [TeacherAssignmentController::class, 'edit'])->name('teacher-assignments.edit');
-    // Proses update penugasan
-    Route::put('/teacher-assignments/{teacher_id}/{subject_id}', [TeacherAssignmentController::class, 'update'])->name('teacher-assignments.update');
-    // Proses ngehapus penugasan
-    Route::delete('/teacher-assignments/{teacher_id}/{subject_id}', [TeacherAssignmentController::class, 'destroy'])->name('teacher-assignments.destroy');
+// RUTE MANAJEMEN PENUGASAN GURU (Jadwal Siapa Ngajar Apa)
+// ==========================================
+// Tampilan awal jadwal guru
+Route::get('/teacher-assignments', [TeacherAssignmentController::class, 'index'])->name('teacher-assignments.index');
+// Form nambah penugasan
+Route::get('/teacher-assignments/create', [TeacherAssignmentController::class, 'create'])->name('teacher-assignments.create');
+// Proses nyimpen data penugasan
+Route::post('/teacher-assignments', [TeacherAssignmentController::class, 'store'])->name('teacher-assignments.store');
+// Form ngedit penugasan (pakai rute yang dimodifikasi biar bisa ambil 2 parameter)
+Route::get('/teacher-assignments/{teacher_id}/{subject_id}/edit', [TeacherAssignmentController::class, 'edit'])->name('teacher-assignments.edit');
+// Proses update penugasan
+Route::put('/teacher-assignments/{teacher_id}/{subject_id}', [TeacherAssignmentController::class, 'update'])->name('teacher-assignments.update');
+// Proses ngehapus penugasan
+Route::delete('/teacher-assignments/{teacher_id}/{subject_id}', [TeacherAssignmentController::class, 'destroy'])->name('teacher-assignments.destroy');
+
+
+// ==========================================
+// RUTE MANAJEMEN JADWAL PELAJARAN (Timetables)
+// ==========================================
+Route::resource('lesson-schedules', LessonScheduleController::class);
 
 // ==========================================
 // ROUTES MASTER DATA GURU (TEACHERS)
