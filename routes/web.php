@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AcademicYearController;
+use App\Http\Controllers\SubjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,6 +97,23 @@ Route::get('/admin/classes/{id}/edit', [\App\Http\Controllers\ClassRoomControlle
 Route::put('/admin/classes/{id}', [\App\Http\Controllers\ClassRoomController::class, 'update'])->name('classes.update');
 // Hapus data kelas (hati-hati, kelas yang udah ada muridnya baiknya jangan dihapus)
 Route::delete('/admin/classes/{id}', [\App\Http\Controllers\ClassRoomController::class, 'destroy'])->name('classes.destroy');
+
+// ==========================================
+// ROUTES MASTER DATA MATA PELAJARAN (SUBJECTS)
+// ==========================================
+// Kumpulan route buat kelola Mata Pelajaran (Wajib & Muatan Lokal)
+// Nampilin halaman utama daftar mata pelajaran
+Route::get('/admin/subjects', [SubjectController::class, 'index'])->name('subjects.index');
+// Nampilin form untuk tambah mata pelajaran baru
+Route::get('/admin/subjects/create', [SubjectController::class, 'create'])->name('subjects.create');
+// Nyimpen data mata pelajaran baru ke database
+Route::post('/admin/subjects', [SubjectController::class, 'store'])->name('subjects.store');
+// Nampilin form buat edit data mata pelajaran yang udah ada
+Route::get('/admin/subjects/{id}/edit', [SubjectController::class, 'edit'])->name('subjects.edit');
+// Proses nyimpen editan data mata pelajaran
+Route::put('/admin/subjects/{id}', [SubjectController::class, 'update'])->name('subjects.update');
+// Proses ngehapus mata pelajaran
+Route::delete('/admin/subjects/{id}', [SubjectController::class, 'destroy'])->name('subjects.destroy');
 
 // ==========================================
 // ROUTES MASTER DATA GURU (TEACHERS)
