@@ -21,11 +21,24 @@ class TeacherAssignment extends Model
     {
         return $this->belongsTo(User::class, 'teacher_id');
     }
-
     // Relasi balik ke Mata Pelajaran
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'subject_id');
+    }
+
+    // Relasi balik ke Kelas
     public function classRoom()
     {
         return $this->belongsTo(ClassRoom::class, 'class_room_id');
+    }
+
+    /**
+     * Jadwal pelajaran dari penugasan ini
+     */
+    public function lessonSchedules()
+    {
+        return $this->hasMany(LessonSchedule::class);
     }
 
     // Relasi balik ke Tahun Ajaran
