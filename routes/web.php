@@ -8,6 +8,7 @@ use App\Http\Controllers\AcademicYearController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherAssignmentController;
 use App\Http\Controllers\LessonScheduleController;
+use App\Http\Controllers\ExtracurricularController;
 
 /*
 |--------------------------------------------------------------------------
@@ -141,6 +142,19 @@ Route::delete('/teacher-assignments/{teacher_id}/{subject_id}', [TeacherAssignme
 // RUTE MANAJEMEN JADWAL PELAJARAN (Timetables)
 // ==========================================
 Route::resource('lesson-schedules', LessonScheduleController::class);
+
+// ==========================================
+// ROUTES EKSTRAKURIKULER (EXTRACURRICULARS)
+// ==========================================
+// Mendaftarkan rute CRUD (index, create, store, edit, update, destroy) untuk ekstrakurikuler
+Route::resource('admin/extracurriculars', ExtracurricularController::class)->names([
+    'index' => 'extracurriculars.index',
+    'create' => 'extracurriculars.create',
+    'store' => 'extracurriculars.store',
+    'edit' => 'extracurriculars.edit',
+    'update' => 'extracurriculars.update',
+    'destroy' => 'extracurriculars.destroy',
+]);
 
 // ==========================================
 // ROUTES MASTER DATA GURU (TEACHERS)
