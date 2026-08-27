@@ -12,7 +12,6 @@ class ExtracurricularRegistration extends Model
     protected $fillable = [
         'student_id',
         'extracurricular_id',
-        'payment_id',
         'status'
     ];
 
@@ -24,10 +23,5 @@ class ExtracurricularRegistration extends Model
     public function extracurricular()
     {
         return $this->belongsTo(Extracurricular::class, 'extracurricular_id');
-    }
-
-    public function payment()
-    {
-        return $this->belongsTo(Payment::class, 'payment_id');
     }
 }

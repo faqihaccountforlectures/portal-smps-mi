@@ -11,6 +11,9 @@ class Payment extends Model
 
     protected $fillable = [
         'student_id',
+        'extracurricular_id',
+        'month',
+        'year',
         'total_amount',
         'payment_method',
         'proof_of_payment',
@@ -22,6 +25,11 @@ class Payment extends Model
    {
     return $this->belongsTo(User::class, 'student_id');
    } 
+
+   public function extracurricular()
+   {
+       return $this->belongsTo(Extracurricular::class, 'extracurricular_id');
+   }
 
    public function verifier()
    {

@@ -16,6 +16,13 @@ return new class extends Migration
 
             // Siswa yang membayar
             $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
+            
+            // Ekskul yang dibayar
+            $table->foreignId('extracurricular_id')->constrained('extracurriculars')->onDelete('cascade');
+            
+            // Bulan dan Tahun Pembayaran
+            $table->string('month', 20);
+            $table->integer('year');
 
             $table->decimal('total_amount', 10, 2);
             $table->enum('payment_method', ['transfer', 'cash']);

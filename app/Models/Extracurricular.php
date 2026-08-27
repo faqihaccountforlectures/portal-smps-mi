@@ -14,7 +14,12 @@ class Extracurricular extends Model
         'image',
         'description',
         'schedule',
-        'instructor_name',
+        'teacher_id',
         'fee'
     ];
+
+    public function teacher()
+    {
+        return $this->belongsTo(User::class, 'teacher_id');
+    }
 }

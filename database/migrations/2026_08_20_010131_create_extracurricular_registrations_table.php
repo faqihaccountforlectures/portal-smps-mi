@@ -17,7 +17,6 @@ return new class extends Migration
             // Relasi ke Siswa, Eskul, dan Pembayaran
             $table->foreignId('student_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('extracurricular_id')->constrained('extracurriculars')->onDelete('cascade');
-            $table->foreignId('payment_id')->constrained('payments')->onDelete('cascade');
 
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->timestamps();
