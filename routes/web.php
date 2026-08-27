@@ -9,6 +9,7 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherAssignmentController;
 use App\Http\Controllers\LessonScheduleController;
 use App\Http\Controllers\ExtracurricularController;
+use App\Http\Controllers\ExtracurricularRegistrationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -155,6 +156,16 @@ Route::resource('admin/extracurriculars', ExtracurricularController::class)->nam
     'update' => 'extracurriculars.update',
     'destroy' => 'extracurriculars.destroy',
 ]);
+
+// ==========================================
+// ROUTES APPROVAL PENDAFTARAN EKSKUL (ADMIN)
+// ==========================================
+// Nampilin halaman daftar semua siswa yang mendaftar ekskul
+Route::get('/admin/extracurricular-registrations', [ExtracurricularRegistrationController::class, 'index'])->name('extracurricular-registrations.index');
+// Proses persetujuan (approve) siswa agar resmi gabung ke ekskul
+Route::patch('/admin/extracurricular-registrations/{id}/approve', [ExtracurricularRegistrationController::class, 'approve'])->name('extracurricular-registrations.approve');
+// Proses penolakan (reject) pendaftaran siswa
+Route::patch('/admin/extracurricular-registrations/{id}/reject', [ExtracurricularRegistrationController::class, 'reject'])->name('extracurricular-registrations.reject');
 
 // ==========================================
 // ROUTES MASTER DATA GURU (TEACHERS)
