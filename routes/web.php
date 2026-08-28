@@ -69,7 +69,8 @@ Route::get('/dashboard', function () {
     } elseif ($role === 'guru') {
         return view('guru.dashboard');
     } elseif ($role === 'siswa') {
-        return view('siswa.dashboard');
+        // Siswa diarahkan ke controller khusus agar bisa memuat data dinamis
+        return app(\App\Http\Controllers\Siswa\DashboardController::class)->index();
     }
 
     // Jika rolenya tidak jelas, alihkan kembali ke depan
