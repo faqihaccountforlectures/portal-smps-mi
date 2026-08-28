@@ -233,6 +233,9 @@ Route::delete('/admin/class-enrollments/{enrollment_id}', [\App\Http\Controllers
 // ROUTES HALAMAN KHUSUS SISWA
 // ==========================================
 Route::middleware(['auth'])->group(function () {
+    // Menampilkan jadwal pelajaran mingguan kelas siswa
+    Route::get('/siswa/timetables', [\App\Http\Controllers\Siswa\TimetableController::class, 'index'])->name('siswa.timetables.index');
+
     // Menampilkan katalog ekskul agar siswa bisa mendaftar
     Route::get('/siswa/extracurriculars', [StudentExtracurricularController::class, 'index'])->name('siswa.extracurriculars.index');
     
