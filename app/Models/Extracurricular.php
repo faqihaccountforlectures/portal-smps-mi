@@ -22,4 +22,9 @@ class Extracurricular extends Model
     {
         return $this->belongsTo(User::class, 'teacher_id');
     }
+
+    public function registrations()
+    {
+        return $this->hasMany(ExtracurricularRegistration::class, 'extracurricular_id');
+    }
 }

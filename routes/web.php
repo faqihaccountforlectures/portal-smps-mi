@@ -64,7 +64,8 @@ Route::get('/dashboard', function () {
 
     // Arahkan ke folder masing-masing sesuai role
     if ($role === 'admin') {
-        return view('admin.dashboard');
+        // Admin diarahkan ke controller khusus agar bisa memuat data dinamis
+        return app(\App\Http\Controllers\Admin\DashboardController::class)->index();
     } elseif ($role === 'guru') {
         return view('guru.dashboard');
     } elseif ($role === 'siswa') {
@@ -74,7 +75,7 @@ Route::get('/dashboard', function () {
     // Jika rolenya tidak jelas, alihkan kembali ke depan
     Auth::logout();
     return redirect('/login')->with('error', 'Hak akses tidak valid.');
-})->middleware('auth');
+})->middleware('auth')->name('dashboard');
 
 // ==========================================
 // ROUTES MASTER DATA TAHUN AJARAN (ACADEMIC YEARS)
