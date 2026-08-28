@@ -10,6 +10,9 @@ use App\Http\Controllers\TeacherAssignmentController;
 use App\Http\Controllers\LessonScheduleController;
 use App\Http\Controllers\ExtracurricularController;
 use App\Http\Controllers\ExtracurricularRegistrationController;
+use App\Http\Controllers\Siswa\ExtracurricularController as StudentExtracurricularController;
+use App\Http\Controllers\Siswa\PaymentController as StudentPaymentController;
+use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -138,7 +141,6 @@ Route::put('/teacher-assignments/{teacher_id}/{subject_id}', [TeacherAssignmentC
 // Proses ngehapus penugasan
 Route::delete('/teacher-assignments/{teacher_id}/{subject_id}', [TeacherAssignmentController::class, 'destroy'])->name('teacher-assignments.destroy');
 
-
 // ==========================================
 // RUTE MANAJEMEN JADWAL PELAJARAN (Timetables)
 // ==========================================
@@ -166,6 +168,16 @@ Route::get('/admin/extracurricular-registrations', [ExtracurricularRegistrationC
 Route::patch('/admin/extracurricular-registrations/{id}/approve', [ExtracurricularRegistrationController::class, 'approve'])->name('extracurricular-registrations.approve');
 // Proses penolakan (reject) pendaftaran siswa
 Route::patch('/admin/extracurricular-registrations/{id}/reject', [ExtracurricularRegistrationController::class, 'reject'])->name('extracurricular-registrations.reject');
+
+// ==========================================
+// ROUTES VERIFIKASI PEMBAYARAN EKSKUL (ADMIN)
+// ==========================================
+// Nampilin tabel riwayat pembayaran dari semua siswa
+Route::get('/admin/payments', [AdminPaymentController::class, 'index'])->name('admin.payments.index');
+// Rute untuk menyetujui (verify) bukti pembayaran
+Route::patch('/admin/payments/{id}/verify', [AdminPaymentController::class, 'verify'])->name('admin.payments.verify');
+// Rute untuk menolak (reject) bukti pembayaran
+Route::patch('/admin/payments/{id}/reject', [AdminPaymentController::class, 'reject'])->name('admin.payments.reject');
 
 // ==========================================
 // ROUTES MASTER DATA GURU (TEACHERS)
@@ -215,3 +227,22 @@ Route::get('/admin/class-enrollments/{class_id}/add-students', [\App\Http\Contro
 Route::post('/admin/class-enrollments/{class_id}', [\App\Http\Controllers\ClassEnrollmentController::class, 'storeStudents'])->name('class-enrollments.store-students');
 // Tombol buat ngeluarin (kick) siswa dari kelas kalau seandainya salah masukin kelas
 Route::delete('/admin/class-enrollments/{enrollment_id}', [\App\Http\Controllers\ClassEnrollmentController::class, 'destroy'])->name('class-enrollments.destroy');
+
+// ==========================================
+// ROUTES HALAMAN KHUSUS SISWA
+// ==========================================
+Route::middleware(['auth'])->group(function () {
+    // Menampilkan katalog ekskul agar siswa bisa mendaftar
+    Route::get('/siswa/extracurriculars', [StudentExtracurricularController::class, 'index'])->name('siswa.extracurriculars.index');
+    
+    // Memproses pengiriman pendaftaran ekskul oleh siswa (tombol daftar)
+    Route::post('/siswa/extracurricular-registrations', [ExtracurricularRegistrationController::class, 'store'])->name('extracurricular-registrations.store');
+    
+    // Memproses pembatalan/keluar dari ekskul oleh siswa (tombol keluar ekskul)
+    Route::delete('/siswa/extracurricular-registrations/{id}', [ExtracurricularRegistrationController::class, 'destroy'])->name('extracurricular-registrations.destroy');
+    
+    // Menampilkan riwayat pembayaran siswa & form upload bukti transfer
+    Route::get('/siswa/payments', [StudentPaymentController::class, 'index'])->name('siswa.payments.index');
+    // Memproses unggahan (upload) bukti pembayaran ke database
+    Route::post('/siswa/payments', [StudentPaymentController::class, 'store'])->name('siswa.payments.store');
+});
