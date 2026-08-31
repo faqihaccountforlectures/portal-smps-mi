@@ -234,6 +234,11 @@ Route::delete('/admin/class-enrollments/{enrollment_id}', [\App\Http\Controllers
 // ROUTES HALAMAN KHUSUS SISWA
 // ==========================================
 Route::middleware(['auth'])->group(function () {
+    // Menampilkan profil siswa dan form pengaturan akun
+    Route::get('/siswa/profile', [\App\Http\Controllers\Siswa\ProfileController::class, 'index'])->name('siswa.profile.index');
+    // Memproses update data profil siswa (seperti nomor hp)
+    Route::put('/siswa/profile', [\App\Http\Controllers\Siswa\ProfileController::class, 'update'])->name('siswa.profile.update');
+
     // Menampilkan jadwal pelajaran mingguan kelas siswa
     Route::get('/siswa/timetables', [\App\Http\Controllers\Siswa\TimetableController::class, 'index'])->name('siswa.timetables.index');
 
