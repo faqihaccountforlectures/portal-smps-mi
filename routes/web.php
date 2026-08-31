@@ -245,6 +245,10 @@ Route::middleware(['auth'])->prefix('guru')->group(function () {
 
     // Menampilkan jadwal mengajar mingguan
     Route::get('/schedules', [\App\Http\Controllers\Guru\ScheduleController::class, 'index'])->name('guru.schedules.index');
+
+    // Menampilkan dan memproses update profil guru
+    Route::get('/profile', [\App\Http\Controllers\Guru\ProfileController::class, 'index'])->name('guru.profile.index');
+    Route::put('/profile', [\App\Http\Controllers\Guru\ProfileController::class, 'update'])->name('guru.profile.update');
 });
 
 // ==========================================
