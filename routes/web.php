@@ -242,6 +242,9 @@ Route::middleware(['auth'])->prefix('guru')->group(function () {
     Route::get('/classes', [\App\Http\Controllers\Guru\MyClassController::class, 'index'])->name('guru.classes.index');
     // Menampilkan detail siswa di suatu kelas
     Route::get('/classes/{id}', [\App\Http\Controllers\Guru\MyClassController::class, 'show'])->name('guru.classes.show');
+
+    // Menampilkan jadwal mengajar mingguan
+    Route::get('/schedules', [\App\Http\Controllers\Guru\ScheduleController::class, 'index'])->name('guru.schedules.index');
 });
 
 // ==========================================
