@@ -231,6 +231,20 @@ Route::post('/admin/class-enrollments/{class_id}', [\App\Http\Controllers\ClassE
 Route::delete('/admin/class-enrollments/{enrollment_id}', [\App\Http\Controllers\ClassEnrollmentController::class, 'destroy'])->name('class-enrollments.destroy');
 
 // ==========================================
+// ROUTES HALAMAN KHUSUS GURU
+// ==========================================
+Route::middleware(['auth'])->prefix('guru')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('guru.dashboard');
+    })->name('guru.dashboard');
+
+    // Menampilkan daftar kelas yang diajar atau dipimpin (wali kelas)
+    Route::get('/classes', [\App\Http\Controllers\Guru\MyClassController::class, 'index'])->name('guru.classes.index');
+    // Menampilkan detail siswa di suatu kelas
+    Route::get('/classes/{id}', [\App\Http\Controllers\Guru\MyClassController::class, 'show'])->name('guru.classes.show');
+});
+
+// ==========================================
 // ROUTES HALAMAN KHUSUS SISWA
 // ==========================================
 Route::middleware(['auth'])->group(function () {
