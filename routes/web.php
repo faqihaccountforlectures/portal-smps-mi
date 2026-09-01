@@ -249,6 +249,11 @@ Route::middleware(['auth'])->prefix('guru')->group(function () {
     // Menampilkan dan memproses update profil guru
     Route::get('/profile', [\App\Http\Controllers\Guru\ProfileController::class, 'index'])->name('guru.profile.index');
     Route::put('/profile', [\App\Http\Controllers\Guru\ProfileController::class, 'update'])->name('guru.profile.update');
+
+    // Menampilkan ekstrakurikuler binaan
+    Route::get('/extracurriculars', [\App\Http\Controllers\Guru\ExtracurricularController::class, 'index'])->name('guru.extracurriculars.index');
+    // Menampilkan daftar siswa di ekstrakurikuler binaan
+    Route::get('/extracurriculars/{id}', [\App\Http\Controllers\Guru\ExtracurricularController::class, 'show'])->name('guru.extracurriculars.show');
 });
 
 // ==========================================

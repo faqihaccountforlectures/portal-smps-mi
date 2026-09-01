@@ -111,6 +111,11 @@
                     Jadwal Mengajar
                 </a>
 
+                <a href="{{ route('guru.extracurriculars.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium text-sm transition {{ request()->routeIs('guru.extracurriculars.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                    <svg class="w-5 h-5 {{ request()->routeIs('guru.extracurriculars.*') ? 'text-blue-600' : 'text-gray-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Ekstrakurikuler Binaan
+                </a>
+
                 @elseif(Auth::user()->role === 'siswa')
                 <!-- Menu Khusus Siswa -->
                 <a href="{{ route('siswa.profile.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-gray-600 hover:bg-gray-50 rounded-lg font-medium text-sm transition">
