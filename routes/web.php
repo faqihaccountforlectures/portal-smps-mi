@@ -67,7 +67,8 @@ Route::get('/dashboard', function () {
         // Admin diarahkan ke controller khusus agar bisa memuat data dinamis
         return app(\App\Http\Controllers\Admin\DashboardController::class)->index();
     } elseif ($role === 'guru') {
-        return view('guru.dashboard');
+        // Guru diarahkan ke controller khusus
+        return app(\App\Http\Controllers\Guru\DashboardController::class)->index();
     } elseif ($role === 'siswa') {
         // Siswa diarahkan ke controller khusus agar bisa memuat data dinamis
         return app(\App\Http\Controllers\Siswa\DashboardController::class)->index();
@@ -234,9 +235,7 @@ Route::delete('/admin/class-enrollments/{enrollment_id}', [\App\Http\Controllers
 // ROUTES HALAMAN KHUSUS GURU
 // ==========================================
 Route::middleware(['auth'])->prefix('guru')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('guru.dashboard');
-    })->name('guru.dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\Guru\DashboardController::class, 'index'])->name('guru.dashboard');
 
     // Menampilkan daftar kelas yang diajar atau dipimpin (wali kelas)
     Route::get('/classes', [\App\Http\Controllers\Guru\MyClassController::class, 'index'])->name('guru.classes.index');
