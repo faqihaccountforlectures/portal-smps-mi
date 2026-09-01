@@ -8,7 +8,7 @@ use App\Models\ExtracurricularRegistration;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-class PaymentController extends Controller
+class AdminPaymentController extends Controller
 {
     /**
      * Menampilkan halaman riwayat semua pembayaran ekskul.

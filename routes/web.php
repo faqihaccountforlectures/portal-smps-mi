@@ -4,15 +4,15 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AcademicYearController;
-use App\Http\Controllers\SubjectController;
-use App\Http\Controllers\TeacherAssignmentController;
-use App\Http\Controllers\LessonScheduleController;
-use App\Http\Controllers\ExtracurricularController;
-use App\Http\Controllers\ExtracurricularRegistrationController;
-use App\Http\Controllers\Siswa\ExtracurricularController as StudentExtracurricularController;
-use App\Http\Controllers\Siswa\PaymentController as StudentPaymentController;
-use App\Http\Controllers\Admin\PaymentController as AdminPaymentController;
+use App\Http\Controllers\Admin\AcademicYearController;
+use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\Admin\TeacherAssignmentController;
+use App\Http\Controllers\Admin\LessonScheduleController;
+use App\Http\Controllers\Admin\ExtracurricularController;
+use App\Http\Controllers\Admin\ExtracurricularRegistrationController;
+use App\Http\Controllers\Siswa\StudentExtracurricularController;
+use App\Http\Controllers\Siswa\StudentPaymentController;
+use App\Http\Controllers\Admin\AdminPaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -99,15 +99,15 @@ Route::delete('/admin/academic-years/{id}', [AcademicYearController::class, 'des
 // ==========================================
 // Kumpulan route buat fitur manajemen Kelas
 // Nampilin daftar kelas sekalian nama wali kelasnya
-Route::get('/admin/classes', [\App\Http\Controllers\ClassRoomController::class, 'index'])->name('classes.index');
+Route::get('/admin/classes', [\App\Http\Controllers\Admin\ClassRoomController::class, 'index'])->name('classes.index');
 // Proses nyimpen kelas baru
-Route::post('/admin/classes', [\App\Http\Controllers\ClassRoomController::class, 'store'])->name('classes.store');
+Route::post('/admin/classes', [\App\Http\Controllers\Admin\ClassRoomController::class, 'store'])->name('classes.store');
 // Buka halaman buat ngedit kelas tertentu
-Route::get('/admin/classes/{id}/edit', [\App\Http\Controllers\ClassRoomController::class, 'edit'])->name('classes.edit');
+Route::get('/admin/classes/{id}/edit', [\App\Http\Controllers\Admin\ClassRoomController::class, 'edit'])->name('classes.edit');
 // Simpan hasil editan kelas ke database
-Route::put('/admin/classes/{id}', [\App\Http\Controllers\ClassRoomController::class, 'update'])->name('classes.update');
+Route::put('/admin/classes/{id}', [\App\Http\Controllers\Admin\ClassRoomController::class, 'update'])->name('classes.update');
 // Hapus data kelas (hati-hati, kelas yang udah ada muridnya baiknya jangan dihapus)
-Route::delete('/admin/classes/{id}', [\App\Http\Controllers\ClassRoomController::class, 'destroy'])->name('classes.destroy');
+Route::delete('/admin/classes/{id}', [\App\Http\Controllers\Admin\ClassRoomController::class, 'destroy'])->name('classes.destroy');
 
 // ==========================================
 // ROUTES MASTER DATA MATA PELAJARAN (SUBJECTS)
@@ -187,49 +187,49 @@ Route::patch('/admin/payments/{id}/reject', [AdminPaymentController::class, 'rej
 // ==========================================
 // Kumpulan route buat kelola data Guru (plus sekalian bikin akun loginnya)
 // Nampilin tabel daftar semua guru yang terdaftar
-Route::get('/admin/teachers', [\App\Http\Controllers\TeacherController::class, 'index'])->name('teachers.index');
+Route::get('/admin/teachers', [\App\Http\Controllers\Admin\TeacherController::class, 'index'])->name('teachers.index');
 // Nampilin form pendaftaran guru baru
-Route::get('/admin/teachers/create', [\App\Http\Controllers\TeacherController::class, 'create'])->name('teachers.create');
+Route::get('/admin/teachers/create', [\App\Http\Controllers\Admin\TeacherController::class, 'create'])->name('teachers.create');
 // Nyimpen data guru ke tabel user dan profilnya pake DB transaction
-Route::post('/admin/teachers', [\App\Http\Controllers\TeacherController::class, 'store'])->name('teachers.store');
+Route::post('/admin/teachers', [\App\Http\Controllers\Admin\TeacherController::class, 'store'])->name('teachers.store');
 // Nampilin form edit data guru
-Route::get('/admin/teachers/{id}/edit', [\App\Http\Controllers\TeacherController::class, 'edit'])->name('teachers.edit');
+Route::get('/admin/teachers/{id}/edit', [\App\Http\Controllers\Admin\TeacherController::class, 'edit'])->name('teachers.edit');
 // Nyimpen update profil sama email guru
-Route::put('/admin/teachers/{id}', [\App\Http\Controllers\TeacherController::class, 'update'])->name('teachers.update');
+Route::put('/admin/teachers/{id}', [\App\Http\Controllers\Admin\TeacherController::class, 'update'])->name('teachers.update');
 // Hapus akun sama profil guru sekaligus
-Route::delete('/admin/teachers/{id}', [\App\Http\Controllers\TeacherController::class, 'destroy'])->name('teachers.destroy');
+Route::delete('/admin/teachers/{id}', [\App\Http\Controllers\Admin\TeacherController::class, 'destroy'])->name('teachers.destroy');
 
 // ==========================================
 // ROUTES DATA SISWA (STUDENTS)
 // ==========================================
 // Kumpulan route buat pendaftaran dan manajemen Siswa
 // Nampilin daftar semua siswa (beserta info NISN dan kontak ortu)
-Route::get('/admin/students', [\App\Http\Controllers\StudentController::class, 'index'])->name('students.index');
+Route::get('/admin/students', [\App\Http\Controllers\Admin\StudentController::class, 'index'])->name('students.index');
 // Nampilin form pendaftaran siswa baru
-Route::get('/admin/students/create', [\App\Http\Controllers\StudentController::class, 'create'])->name('students.create');
+Route::get('/admin/students/create', [\App\Http\Controllers\Admin\StudentController::class, 'create'])->name('students.create');
 // Nyimpen biodata siswa ke tabel profil dan bikin akunnya otomatis
-Route::post('/admin/students', [\App\Http\Controllers\StudentController::class, 'store'])->name('students.store');
+Route::post('/admin/students', [\App\Http\Controllers\Admin\StudentController::class, 'store'])->name('students.store');
 // Nampilin form update biodata siswa
-Route::get('/admin/students/{id}/edit', [\App\Http\Controllers\StudentController::class, 'edit'])->name('students.edit');
+Route::get('/admin/students/{id}/edit', [\App\Http\Controllers\Admin\StudentController::class, 'edit'])->name('students.edit');
 // Proses update data siswa di database
-Route::put('/admin/students/{id}', [\App\Http\Controllers\StudentController::class, 'update'])->name('students.update');
+Route::put('/admin/students/{id}', [\App\Http\Controllers\Admin\StudentController::class, 'update'])->name('students.update');
 // Hapus akun dan biodata siswa (biasanya kalo salah input atau udah lulus)
-Route::delete('/admin/students/{id}', [\App\Http\Controllers\StudentController::class, 'destroy'])->name('students.destroy');
+Route::delete('/admin/students/{id}', [\App\Http\Controllers\Admin\StudentController::class, 'destroy'])->name('students.destroy');
 
 // ==========================================
 // ROUTES PEMBAGIAN KELAS (CLASS ENROLLMENTS)
 // ==========================================
 // Kumpulan route untuk mem-plot siswa ke dalam kelas di tahun ajaran aktif
 // Nampilin halaman utama daftar semua kelas beserta jumlah siswanya
-Route::get('/admin/class-enrollments', [\App\Http\Controllers\ClassEnrollmentController::class, 'index'])->name('class-enrollments.index');
+Route::get('/admin/class-enrollments', [\App\Http\Controllers\Admin\ClassEnrollmentController::class, 'index'])->name('class-enrollments.index');
 // Nampilin detail daftar nama-nama siswa yang udah masuk di satu kelas tertentu
-Route::get('/admin/class-enrollments/{class_id}', [\App\Http\Controllers\ClassEnrollmentController::class, 'show'])->name('class-enrollments.show');
+Route::get('/admin/class-enrollments/{class_id}', [\App\Http\Controllers\Admin\ClassEnrollmentController::class, 'show'])->name('class-enrollments.show');
 // Nampilin halaman form yang isinya daftar siswa yang belum kebagian kelas buat dicentang-centang
-Route::get('/admin/class-enrollments/{class_id}/add-students', [\App\Http\Controllers\ClassEnrollmentController::class, 'addStudents'])->name('class-enrollments.add-students');
+Route::get('/admin/class-enrollments/{class_id}/add-students', [\App\Http\Controllers\Admin\ClassEnrollmentController::class, 'addStudents'])->name('class-enrollments.add-students');
 // Proses nyimpen data siswa-siswa yang udah dicentang tadi biar beneran masuk ke database kelas
-Route::post('/admin/class-enrollments/{class_id}', [\App\Http\Controllers\ClassEnrollmentController::class, 'storeStudents'])->name('class-enrollments.store-students');
+Route::post('/admin/class-enrollments/{class_id}', [\App\Http\Controllers\Admin\ClassEnrollmentController::class, 'storeStudents'])->name('class-enrollments.store-students');
 // Tombol buat ngeluarin (kick) siswa dari kelas kalau seandainya salah masukin kelas
-Route::delete('/admin/class-enrollments/{enrollment_id}', [\App\Http\Controllers\ClassEnrollmentController::class, 'destroy'])->name('class-enrollments.destroy');
+Route::delete('/admin/class-enrollments/{enrollment_id}', [\App\Http\Controllers\Admin\ClassEnrollmentController::class, 'destroy'])->name('class-enrollments.destroy');
 
 // ==========================================
 // ROUTES HALAMAN KHUSUS GURU

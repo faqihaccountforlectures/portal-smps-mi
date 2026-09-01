@@ -8,7 +8,7 @@ use App\Models\ExtracurricularRegistration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class PaymentController extends Controller
+class StudentPaymentController extends Controller
 {
     /**
      * Menampilkan riwayat pembayaran siswa.
