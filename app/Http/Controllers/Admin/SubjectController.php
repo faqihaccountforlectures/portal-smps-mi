@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\Subject;
+use App\Http\Requests\Admin\StoreSubjectRequest;
+use App\Http\Requests\Admin\UpdateSubjectRequest;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
@@ -36,31 +38,12 @@ class SubjectController extends Controller
      * Nah, fungsi ini buat nangkap data dari form tambah mata pelajaran, 
      * trus di-save ke database.
      */
-    public function store(Request $request)
+    public function store(StoreSubjectRequest $request)
     {
-        // 1. Validasi dulu inputannya, mastiin data yang diisi bener dan lengkap
-        $validatedData = $request->validate([
-            // Kode mapel wajib diisi, maksimal 20 karakter, dan nggak boleh kembar (unik di tabel subjects)
-            'code' => 'required|string|max:20|unique:subjects,code',
-            // Nama mapel wajib diisi, maksimal 100 karakter
-            'name' => 'required|string|max:100',
-            // Tingkat kelas (misal kelas 7, 8, 9). Opsional (boleh kosong), kalau diisi harus angka
-            'grade_level' => 'nullable|integer',
-            // KKM (Kriteria Ketuntasan Minimal). Wajib diisi, formatnya angka/desimal (misal 75.00)
-            'kkm' => 'required|numeric|min:0|max:100',
-            // Kategori mapel. Opsional, tapi kalau diisi cuma boleh 'A' (Wajib) atau 'B' (Muatan Lokal)
-            'category' => 'nullable|in:A,B',
-        ], [
-            // Ini pesan error custom biar lebih gampang dimengerti sama user (bahasa Indonesia)
-            'code.unique' => 'Kode mata pelajaran ini udah dipakai. Cari kode lain ya!',
-            'code.required' => 'Kode mata pelajaran nggak boleh kosong.',
-            'name.required' => 'Nama mata pelajaran wajib diisi.',
-            'kkm.required' => 'Nilai KKM harus diisi.',
-            'kkm.numeric' => 'Nilai KKM harus berupa angka.',
-            'category.in' => 'Kategori cuma bisa pilih Wajib (A) atau Muatan Lokal (B).',
-        ]);
+        // 1. Data yang sampai di sini sudah 100% tervalidasi oleh StoreSubjectRequest
+        $validatedData = $request->validated();
 
-        // 2. Kalau validasi lolos, kita simpan datanya ke tabel subjects
+        // 2. Kita tinggal simpan datanya ke tabel subjects
         Subject::create($validatedData);
 
         // 3. Habis nyimpen, balikin user ke halaman daftar mapel sambil bawa pesan sukses
@@ -84,29 +67,15 @@ class SubjectController extends Controller
     /**
      * Fungsi ini buat nangkap hasil editan dari form edit, trus di-update ke database.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateSubjectRequest $request, $id)
     {
         // Cari dulu data aslinya di database
         $subject = Subject::findOrFail($id);
 
-        // 1. Validasi inputan hasil editannya
-        $validatedData = $request->validate([
-            // Kode mapel wajib unik, TAPI kecualikan ID mapel ini sendiri biar dia tetep bisa simpan kodenya yang lama
-            'code' => 'required|string|max:20|unique:subjects,code,' . $subject->id,
-            'name' => 'required|string|max:100',
-            'grade_level' => 'nullable|integer',
-            'kkm' => 'required|numeric|min:0|max:100',
-            'category' => 'nullable|in:A,B',
-        ], [
-            'code.unique' => 'Kode mata pelajaran ini udah dipakai mata pelajaran lain.',
-            'code.required' => 'Kode mata pelajaran wajib diisi.',
-            'name.required' => 'Nama mata pelajaran wajib diisi.',
-            'kkm.required' => 'Nilai KKM harus diisi.',
-            'kkm.numeric' => 'Nilai KKM harus berupa angka.',
-            'category.in' => 'Pilihan kategori tidak valid.',
-        ]);
+        // 1. Ambil data yang sudah lolos validasi dari UpdateSubjectRequest
+        $validatedData = $request->validated();
 
-        // 2. Update datanya di database pake data baru yang udah tervalidasi
+        // 2. Update datanya di database
         $subject->update($validatedData);
 
         // 3. Tendang balik usernya ke halaman daftar mapel pake notifikasi sukses

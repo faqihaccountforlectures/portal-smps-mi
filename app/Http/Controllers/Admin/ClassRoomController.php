@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 
 use App\Models\ClassRoom;
 use App\Models\User;
+use App\Http\Requests\Admin\StoreClassRoomRequest;
+use App\Http\Requests\Admin\UpdateClassRoomRequest;
 use Illuminate\Http\Request;
 
 class ClassRoomController extends Controller
@@ -26,16 +28,9 @@ class ClassRoomController extends Controller
         return view('admin.classes.index', compact('classes', 'teachers'));
     }
 
-    // Nyimpen data kelas baru ke tabel class_rooms
-    public function store(Request $request)
+    public function store(StoreClassRoomRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'grade_level' => 'required|string|max:50',
-            'homeroom_teacher_id' => 'nullable|exists:users,id',
-        ]);
-
-        ClassRoom::create($request->all());
+        ClassRoom::create($request->validated());
 
         return redirect()->back()->with('success', 'Data kelas berhasil ditambahkan.');
     }
@@ -51,17 +46,10 @@ class ClassRoomController extends Controller
         return view('admin.classes.edit', compact('classRoom', 'teachers'));
     }
 
-    // Ngupdate (Edit) data kelas yang udah ada di database
-    public function update(Request $request, $id)
+    public function update(UpdateClassRoomRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'grade_level' => 'required|string|max:50',
-            'homeroom_teacher_id' => 'nullable|exists:users,id',
-        ]);
-
         $classRoom = ClassRoom::findOrFail($id);
-        $classRoom->update($request->all());
+        $classRoom->update($request->validated());
 
         // Balikin lagi ke halaman index tabel kelas
         return redirect()->route('classes.index')->with('success', 'Data kelas berhasil diperbarui.');
