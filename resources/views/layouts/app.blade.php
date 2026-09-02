@@ -6,90 +6,90 @@
     <title>@yield('title', 'Portal Akademik') - SMPS MI</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-ivory text-deep-space antialiased">
+<body class="bg-catskill-white text-blue-zodiac antialiased">
 
     <div class="flex h-screen overflow-hidden">
         
         <!-- Sidebar (Kiri) -->
-        <aside class="w-64 bg-deep-space border-r border-midnight-blue flex flex-col shadow-xl z-20">
+        <aside class="w-64 bg-blue-zodiac border-r border-bismark flex flex-col shadow-xl z-20">
             <!-- Logo area -->
-            <div class="h-20 flex items-center px-6 border-b border-midnight-blue">
-                <div class="bg-starlight text-deep-space p-2 rounded-lg mr-3 shadow-lg shadow-starlight/20">
+            <div class="h-20 flex items-center px-6 border-b border-bismark">
+                <div class="bg-catskill-white text-blue-zodiac p-2 rounded-lg mr-3 shadow-lg shadow-catskill-white/20">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path></svg>
                 </div>
                 <div>
-                    <h2 class="text-sm font-bold text-ivory tracking-wide leading-tight font-heading">Portal Akademik</h2>
-                    <p class="text-xs text-soft-gold font-medium">SMPS MI</p>
+                    <h2 class="text-sm font-bold text-catskill-white tracking-wide leading-tight font-heading">Portal Akademik</h2>
+                    <p class="text-xs text-botticelli font-medium">SMPS MI</p>
                 </div>
             </div>
 
             <!-- Menu Navigasi -->
             <nav class="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
-                <a href="/dashboard" class="flex items-center gap-3 px-3 py-2.5 bg-starlight text-deep-space shadow-md shadow-starlight/20 rounded-lg font-medium text-sm transition">
+                <a href="/dashboard" class="flex items-center gap-3 px-3 py-2.5 bg-catskill-white text-blue-zodiac shadow-md shadow-catskill-white/20 rounded-lg font-medium text-sm transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
                     Dashboard
                 </a>
                 
-                <p class="px-3 pt-4 pb-2 text-xs font-semibold text-constellation uppercase tracking-wider">Menu Utama</p>
+                <p class="px-3 pt-4 pb-2 text-xs font-semibold text-gull-gray uppercase tracking-wider">Menu Utama</p>
 
                 <!-- Menu Tahun Ajaran (Hanya muncul jika yang login adalah admin) -->
                 @if(Auth::user()->role === 'admin')
-                <a href="{{ route('academic-years.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-moonlight hover:bg-midnight-blue hover:text-ivory rounded-lg font-medium text-sm transition">
+                <a href="{{ route('academic-years.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-botticelli hover:bg-bismark hover:text-catskill-white rounded-lg font-medium text-sm transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     Tahun Ajaran
                 </a>
                 
-                <a href="{{ route('classes.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-moonlight hover:bg-midnight-blue hover:text-ivory rounded-lg font-medium text-sm transition">
+                <a href="{{ route('classes.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-botticelli hover:bg-bismark hover:text-catskill-white rounded-lg font-medium text-sm transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
                     Data Kelas
                 </a>
 
-                <a href="{{ route('subjects.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-moonlight hover:bg-midnight-blue hover:text-ivory rounded-lg font-medium text-sm transition">
+                <a href="{{ route('subjects.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-botticelli hover:bg-bismark hover:text-catskill-white rounded-lg font-medium text-sm transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                     Mata Pelajaran
                 </a>
 
-                <a href="{{ route('teacher-assignments.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-moonlight hover:bg-midnight-blue hover:text-ivory rounded-lg font-medium text-sm transition">
+                <a href="{{ route('teacher-assignments.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-botticelli hover:bg-bismark hover:text-catskill-white rounded-lg font-medium text-sm transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
                     Penugasan Guru
                 </a>
 
-                <a href="{{ route('lesson-schedules.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-moonlight hover:bg-midnight-blue hover:text-ivory rounded-lg font-medium text-sm transition">
+                <a href="{{ route('lesson-schedules.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-botticelli hover:bg-bismark hover:text-catskill-white rounded-lg font-medium text-sm transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     Jadwal Pelajaran
                 </a>
 
-                <a href="{{ route('class-enrollments.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-moonlight hover:bg-midnight-blue hover:text-ivory rounded-lg font-medium text-sm transition">
+                <a href="{{ route('class-enrollments.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-botticelli hover:bg-bismark hover:text-catskill-white rounded-lg font-medium text-sm transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                     Pembagian Kelas
                 </a>
 
                 <!-- Navigasi Menu Ekstrakurikuler -->
-                <a href="{{ route('extracurriculars.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-moonlight hover:bg-midnight-blue hover:text-ivory rounded-lg font-medium text-sm transition">
+                <a href="{{ route('extracurriculars.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-botticelli hover:bg-bismark hover:text-catskill-white rounded-lg font-medium text-sm transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     Ekstrakurikuler
                 </a>
 
                 <!-- Navigasi Menu Pendaftaran Ekstrakurikuler -->
-                <a href="{{ route('extracurricular-registrations.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-moonlight hover:bg-midnight-blue hover:text-ivory rounded-lg font-medium text-sm transition">
+                <a href="{{ route('extracurricular-registrations.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-botticelli hover:bg-bismark hover:text-catskill-white rounded-lg font-medium text-sm transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                     Pendaftaran Ekstrakurikuler
                 </a>
 
                 <!-- Navigasi Menu Verifikasi Pembayaran -->
-                <a href="{{ route('admin.payments.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-moonlight hover:bg-midnight-blue hover:text-ivory rounded-lg font-medium text-sm transition">
+                <a href="{{ route('admin.payments.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-botticelli hover:bg-bismark hover:text-catskill-white rounded-lg font-medium text-sm transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     Verifikasi Pembayaran
                 </a>
                 
                 <!-- Menu Data Guru (Baru diganti namanya) -->
-                <a href="{{ route('teachers.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-moonlight hover:bg-midnight-blue hover:text-ivory rounded-lg font-medium text-sm transition">
+                <a href="{{ route('teachers.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-botticelli hover:bg-bismark hover:text-catskill-white rounded-lg font-medium text-sm transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                     Data Guru
                 </a>
                 
                 <!-- Menu Data Siswa -->
-                <a href="{{ route('students.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-moonlight hover:bg-midnight-blue hover:text-ivory rounded-lg font-medium text-sm transition">
+                <a href="{{ route('students.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-botticelli hover:bg-bismark hover:text-catskill-white rounded-lg font-medium text-sm transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path></svg>
                     Data Siswa
                 </a>
@@ -116,22 +116,22 @@
 
                 @elseif(Auth::user()->role === 'siswa')
                 <!-- Menu Khusus Siswa -->
-                <a href="{{ route('siswa.profile.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-moonlight hover:bg-midnight-blue hover:text-ivory rounded-lg font-medium text-sm transition">
+                <a href="{{ route('siswa.profile.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-botticelli hover:bg-bismark hover:text-catskill-white rounded-lg font-medium text-sm transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                     Profil Saya
                 </a>
 
-                <a href="{{ route('siswa.timetables.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-moonlight hover:bg-midnight-blue hover:text-ivory rounded-lg font-medium text-sm transition">
+                <a href="{{ route('siswa.timetables.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-botticelli hover:bg-bismark hover:text-catskill-white rounded-lg font-medium text-sm transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     Jadwal Pelajaran
                 </a>
 
-                <a href="{{ route('siswa.extracurriculars.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-moonlight hover:bg-midnight-blue hover:text-ivory rounded-lg font-medium text-sm transition">
+                <a href="{{ route('siswa.extracurriculars.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-botticelli hover:bg-bismark hover:text-catskill-white rounded-lg font-medium text-sm transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     Katalog Ekstrakurikuler
                 </a>
                 
-                <a href="{{ route('siswa.payments.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-moonlight hover:bg-midnight-blue hover:text-ivory rounded-lg font-medium text-sm transition">
+                <a href="{{ route('siswa.payments.index') }}" class="flex items-center gap-3 px-3 py-2.5 text-botticelli hover:bg-bismark hover:text-catskill-white rounded-lg font-medium text-sm transition">
                     <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
                     Riwayat Pembayaran
                 </a>
@@ -143,8 +143,8 @@
         <div class="flex-1 flex flex-col overflow-hidden">
             
             <!-- Topbar (Atas) -->
-            <header class="h-20 bg-ivory border-b border-starlight/20 flex items-center justify-between px-8 z-10 shadow-sm shadow-midnight-blue/5">
-                <h1 class="text-xl font-bold text-deep-space font-heading">@yield('header', 'Dashboard')</h1>
+            <header class="h-20 bg-catskill-white border-b border-catskill-white/20 flex items-center justify-between px-8 z-10 shadow-sm shadow-bismark/5">
+                <h1 class="text-xl font-bold text-blue-zodiac font-heading">@yield('header', 'Dashboard')</h1>
                 
                 <div class="flex items-center gap-4">
                     <div class="text-right">
@@ -162,7 +162,7 @@
             </header>
 
             <!-- Area Konten Dinamis -->
-            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-ivory/50 p-8">
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-catskill-white/50 p-8">
                 @yield('content')
             </main>
 

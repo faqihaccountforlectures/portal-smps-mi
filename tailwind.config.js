@@ -8,17 +8,15 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                'deep-space': '#0A1026',
-                'midnight-blue': '#142B52',
-                'constellation': '#254A7A',
-                'moonlight': '#5D7EA8',
-                'starlight': '#D4B06A',
-                'soft-gold': '#F0D79A',
-                'ivory': '#F8F6EE',
+                'blue-zodiac': '#0f2f57',
+                'bismark': '#4b6b8b',
+                'gull-gray': '#95a6b7',
+                'botticelli': '#c9d6e4',
+                'catskill-white': '#f8fafc',
             },
             fontFamily: {
-                'heading': ['"Playfair Display"', 'serif'],
-                'body': ['Poppins', 'sans-serif'],
+                'heading': ['Lora', 'serif'],
+                'body': ['"Nunito Sans"', 'sans-serif'],
             }
         },
     },
