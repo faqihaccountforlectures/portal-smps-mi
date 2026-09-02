@@ -14,3 +14,33 @@
     }
 }
 
+
+@layer utilities {
+    /* Elegan Custom Scrollbar */
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        @apply bg-gull-gray/30 rounded-full transition-colors;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-bismark/50;
+    }
+
+    /* Utilitas tambahan: Sembunyikan scrollbar sepenuhnya tapi tetap bisa di-scroll */
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    .hide-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+}
+
