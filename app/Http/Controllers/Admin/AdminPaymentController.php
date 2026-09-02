@@ -161,4 +161,102 @@ class AdminPaymentController extends Controller
 
         return back()->with('success', 'Pembayaran siswa telah ditolak.');
     }
+
+    /**
+     * Mencetak laporan pembayaran ke PDF berdasarkan filter pencarian
+     */
+    public function exportPdf(Request $request)
+    {
+        $statusFilter = $request->query('status');
+        $search = $request->query('search');
+
+        // Gunakan logika yang sama dengan index() untuk mengambil data
+        $realPayments = Payment::with(['student.studentProfile', 'extracurricular', 'verifier'])
+            ->get();
+
+        $approvedRegistrations = ExtracurricularRegistration::with(['student.studentProfile', 'extracurricular'])
+            ->where('status', 'approved')
+            ->get();
+
+        $monthsName = [
+            1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April', 5 => 'Mei', 6 => 'Juni',
+            7 => 'Juli', 8 => 'Agustus', 9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+        ];
+        
+        $unpaidBills = collect();
+        $currentDate = now()->startOfMonth();
+
+        foreach ($approvedRegistrations as $reg) {
+            if ($reg->extracurricular->fee <= 0) continue;
+
+            $startDate = $reg->created_at->startOfMonth();
+            $iteratorDate = $startDate->copy();
+            
+            while ($iteratorDate->lte($currentDate)) {
+                $monthIndex = $iteratorDate->month;
+                $year = $iteratorDate->year;
+                $monthStr = $monthsName[$monthIndex];
+                
+                $hasPaid = $realPayments->where('student_id', $reg->student_id)
+                                    ->where('extracurricular_id', $reg->extracurricular_id)
+                                    ->where('month', $monthStr)
+                                    ->where('year', $year)
+                                    ->whereIn('payment_status', ['pending', 'verified'])
+                                    ->first();
+
+                if (!$hasPaid) {
+                    $dummyPayment = new Payment([
+                        'student_id' => $reg->student_id,
+                        'extracurricular_id' => $reg->extracurricular_id,
+                        'month' => $monthStr,
+                        'year' => $year,
+                        'total_amount' => $reg->extracurricular->fee,
+                        'payment_status' => 'unpaid'
+                    ]);
+                    $dummyPayment->setRelation('extracurricular', $reg->extracurricular);
+                    $dummyPayment->setRelation('student', $reg->student);
+                    $dummyPayment->created_at = $iteratorDate->copy(); 
+                    $unpaidBills->push($dummyPayment);
+                }
+                $iteratorDate->addMonth();
+            }
+        }
+
+        $allTransactions = $unpaidBills->concat($realPayments);
+
+        if ($statusFilter) {
+            if ($statusFilter === 'lunas') $allTransactions = $allTransactions->where('payment_status', 'verified');
+            elseif ($statusFilter === 'belum_lunas') $allTransactions = $allTransactions->where('payment_status', 'unpaid');
+            elseif ($statusFilter === 'verifikasi') $allTransactions = $allTransactions->where('payment_status', 'pending');
+            elseif ($statusFilter === 'ditolak') $allTransactions = $allTransactions->where('payment_status', 'rejected');
+        }
+
+        if ($search) {
+            $searchLower = strtolower($search);
+            $allTransactions = $allTransactions->filter(function($payment) use ($searchLower) {
+                $studentName = strtolower($payment->student->studentProfile->full_name ?? $payment->student->email ?? '');
+                return str_contains($studentName, $searchLower);
+            });
+        }
+
+        $allTransactions = $allTransactions->sort(function($a, $b) {
+            if ($a->payment_status === 'pending' && $b->payment_status !== 'pending') return -1;
+            if ($a->payment_status !== 'pending' && $b->payment_status === 'pending') return 1;
+            return $b->created_at <=> $a->created_at;
+        })->values();
+
+        $totalAmount = $allTransactions->where('payment_status', 'verified')->sum('total_amount');
+        
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.payments.report-pdf', [
+            'payments' => $allTransactions,
+            'statusFilter' => $statusFilter,
+            'search' => $search,
+            'totalAmount' => $totalAmount,
+            'printDate' => now()->translatedFormat('d F Y')
+        ]);
+        
+        $pdf->setPaper('A4', 'landscape');
+        
+        return $pdf->download('laporan-pembayaran-ekskul-' . now()->format('Y-m-d') . '.pdf');
+    }
 }

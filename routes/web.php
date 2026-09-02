@@ -170,6 +170,8 @@ Route::patch('/admin/extracurricular-registrations/{id}/reject', [Extracurricula
 // ==========================================
 // Menampilkan riwayat pembayaran ekstrakurikuler dari seluruh siswa
 Route::get('/admin/payments', [AdminPaymentController::class, 'index'])->name('admin.payments.index');
+// Mengekspor laporan riwayat pembayaran ke PDF
+Route::get('/admin/payments/export/pdf', [AdminPaymentController::class, 'exportPdf'])->name('admin.payments.export.pdf');
 // Menyetujui keabsahan bukti pembayaran yang diunggah siswa
 Route::patch('/admin/payments/{id}/verify', [AdminPaymentController::class, 'verify'])->name('admin.payments.verify');
 // Menolak keabsahan bukti pembayaran yang diunggah siswa

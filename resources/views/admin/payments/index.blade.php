@@ -22,27 +22,34 @@
             </div>
             
             <!-- Form Pencarian dan Filter -->
-            <form action="{{ route('admin.payments.index') }}" method="GET" class="flex flex-col sm:flex-row gap-2">
-                <!-- Search -->
-                <div class="relative">
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+            <div class="flex flex-col sm:flex-row gap-3 items-center w-full sm:w-auto">
+                <a href="{{ route('admin.payments.export.pdf', request()->all()) }}" target="_blank" class="w-full sm:w-auto bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-xl font-semibold shadow-md shadow-slate-800/20 transition-all flex items-center justify-center gap-2 text-sm whitespace-nowrap">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    Cetak PDF
+                </a>
+                
+                <form action="{{ route('admin.payments.index') }}" method="GET" class="flex flex-col sm:flex-row gap-2 w-full">
+                    <!-- Search -->
+                    <div class="relative w-full sm:w-auto">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                        </div>
+                        <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Cari nama siswa..." class="bg-white border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 block w-full pl-9 p-2 transition-colors">
                     </div>
-                    <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Cari nama siswa..." class="bg-white border border-slate-200 text-slate-800 text-sm rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 block w-full pl-9 p-2 transition-colors">
-                </div>
-                
-                <!-- Filter Status -->
-                <select name="status" class="bg-white border border-slate-200 text-slate-600 text-sm rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 p-2 transition-colors" onchange="this.form.submit()">
-                    <option value="">Semua Status</option>
-                    <option value="verifikasi" {{ ($statusFilter ?? '') === 'verifikasi' ? 'selected' : '' }}>Butuh Verifikasi</option>
-                    <option value="belum_lunas" {{ ($statusFilter ?? '') === 'belum_lunas' ? 'selected' : '' }}>Belum Lunas</option>
-                    <option value="lunas" {{ ($statusFilter ?? '') === 'lunas' ? 'selected' : '' }}>Lunas</option>
-                    <option value="ditolak" {{ ($statusFilter ?? '') === 'ditolak' ? 'selected' : '' }}>Ditolak</option>
-                </select>
-                
-                <!-- Submit (hidden karena select sudah ada onchange, tapi butuh untuk search input) -->
-                <button type="submit" class="hidden">Cari</button>
-            </form>
+                    
+                    <!-- Filter Status -->
+                    <select name="status" class="bg-white border border-slate-200 text-slate-600 text-sm rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 p-2 transition-colors w-full sm:w-auto" onchange="this.form.submit()">
+                        <option value="">Semua Status</option>
+                        <option value="verifikasi" {{ ($statusFilter ?? '') === 'verifikasi' ? 'selected' : '' }}>Butuh Verifikasi</option>
+                        <option value="belum_lunas" {{ ($statusFilter ?? '') === 'belum_lunas' ? 'selected' : '' }}>Belum Lunas</option>
+                        <option value="lunas" {{ ($statusFilter ?? '') === 'lunas' ? 'selected' : '' }}>Lunas</option>
+                        <option value="ditolak" {{ ($statusFilter ?? '') === 'ditolak' ? 'selected' : '' }}>Ditolak</option>
+                    </select>
+                    
+                    <!-- Submit (hidden karena select sudah ada onchange, tapi butuh untuk search input) -->
+                    <button type="submit" class="hidden">Cari</button>
+                </form>
+            </div>
         </div>
         
         <!-- Container untuk Tabel -->
