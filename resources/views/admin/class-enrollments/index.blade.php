@@ -37,6 +37,12 @@
             <span class="block text-3xl font-extrabold">{{ $classes->sum('enrollments_count') }}</span>
             <span class="text-xs font-semibold text-blue-100 uppercase tracking-wider">Total Siswa Terdaftar</span>
         </div>
+        <div>
+            <a href="{{ route('class-enrollments.graduate') }}" class="bg-yellow-400 hover:bg-yellow-500 text-yellow-900 px-4 py-2.5 rounded-lg font-bold shadow-md transition-colors flex items-center gap-2 whitespace-nowrap">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z"></path><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"></path></svg>
+                Kelulusan & Alumni Kelas 9
+            </a>
+        </div>
     </div>
 
     <!-- DAFTAR KELAS -->

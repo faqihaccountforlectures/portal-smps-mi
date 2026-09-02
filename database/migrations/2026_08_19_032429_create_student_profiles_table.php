@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('gender', ['laki-laki', 'perempuan']); // Jenis kelamin siswa
             $table->string('phone_number', 20)->nullable(); // Nomor telepon siswa
             $table->string('parent_phone', 20)->nullable(); // Nomor telepon orang tua siswa
+            $table->enum('status', ['aktif', 'lulus', 'keluar'])->default('aktif'); // Status siswa
             $table->timestamps(); // created_at dan updated_at
         });
     }

@@ -212,12 +212,20 @@ Route::delete('/admin/students/{id}', [\App\Http\Controllers\Admin\StudentContro
 // ==========================================
 // Menampilkan daftar seluruh kelas pada tahun ajaran aktif beserta statistik jumlah siswa
 Route::get('/admin/class-enrollments', [\App\Http\Controllers\Admin\ClassEnrollmentController::class, 'index'])->name('class-enrollments.index');
+// Menampilkan halaman khusus kelulusan dan penanganan tinggal kelas
+Route::get('/admin/class-enrollments/graduate/action', [\App\Http\Controllers\Admin\ClassEnrollmentController::class, 'graduateStudents'])->name('class-enrollments.graduate');
+// Memproses kelulusan dan penempatan siswa yang tinggal kelas
+Route::post('/admin/class-enrollments/graduate/action', [\App\Http\Controllers\Admin\ClassEnrollmentController::class, 'storeGraduation'])->name('class-enrollments.store-graduation');
 // Menampilkan detail daftar siswa yang telah dialokasikan pada kelas tertentu
 Route::get('/admin/class-enrollments/{class_id}', [\App\Http\Controllers\Admin\ClassEnrollmentController::class, 'show'])->name('class-enrollments.show');
 // Menampilkan formulir penambahan siswa (yang belum memiliki kelas) ke kelas tertentu
 Route::get('/admin/class-enrollments/{class_id}/add-students', [\App\Http\Controllers\Admin\ClassEnrollmentController::class, 'addStudents'])->name('class-enrollments.add-students');
 // Memproses penyimpanan massal siswa ke dalam kelas tujuan
 Route::post('/admin/class-enrollments/{class_id}', [\App\Http\Controllers\Admin\ClassEnrollmentController::class, 'storeStudents'])->name('class-enrollments.store-students');
+// Menampilkan halaman formulir migrasi (Kenaikan Kelas) dari tahun ajaran sebelumnya
+Route::get('/admin/class-enrollments/{class_id}/promote', [\App\Http\Controllers\Admin\ClassEnrollmentController::class, 'promoteStudents'])->name('class-enrollments.promote');
+// Memproses migrasi data siswa dari kelas lama ke kelas baru (Kenaikan Kelas)
+Route::post('/admin/class-enrollments/{class_id}/promote', [\App\Http\Controllers\Admin\ClassEnrollmentController::class, 'storePromotion'])->name('class-enrollments.store-promotion');
 // Menghapus alokasi kelas seorang siswa (mengembalikan status menjadi belum memiliki kelas)
 Route::delete('/admin/class-enrollments/{enrollment_id}', [\App\Http\Controllers\Admin\ClassEnrollmentController::class, 'destroy'])->name('class-enrollments.destroy');
 });

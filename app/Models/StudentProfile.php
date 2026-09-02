@@ -17,6 +17,7 @@ class StudentProfile extends Model
         'gender',
         'phone_number',
         'parent_phone',
+        'status',
     ];
 
     // Relasi balik (Inverse) ke tabel users
