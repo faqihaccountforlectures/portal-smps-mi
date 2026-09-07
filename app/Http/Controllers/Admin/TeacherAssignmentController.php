@@ -16,8 +16,10 @@ class TeacherAssignmentController extends Controller
     /**
      * Menampilkan daftar penugasan guru (berdasarkan tahun ajaran aktif)
      */
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->query('search');
+
         // Cari tahun ajaran yang statusnya 'active'
         $activeYear = AcademicYear::where('is_active', true)->first();
 
@@ -48,11 +50,31 @@ class TeacherAssignmentController extends Controller
             $assignments[$key]->classRooms->push($assignment->classRoom);
         }
 
-        // Ubah jadi collection supaya gampang di-loop di blade
+        // Ubah jadi collection
         $assignments = collect($assignments)->values();
 
+        // Filter berdasarkan kata kunci pencarian (nama guru atau nama/kode mata pelajaran)
+        if ($search) {
+            $searchLower = strtolower($search);
+            $assignments = $assignments->filter(function($item) use ($searchLower) {
+                $teacherName = strtolower($item->teacher->teacherProfile->full_name ?? $item->teacher->email ?? '');
+                $subjectName = strtolower($item->subject->name ?? '');
+                $subjectCode = strtolower($item->subject->code ?? '');
+                return str_contains($teacherName, $searchLower) || str_contains($subjectName, $searchLower) || str_contains($subjectCode, $searchLower);
+            })->values();
+        }
+
+        // Paginasi manual (5 per halaman) untuk collection
+        $currentPage = \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 5;
+        $currentPageItems = $assignments->slice(($currentPage - 1) * $perPage, $perPage)->all();
+        $assignments = new \Illuminate\Pagination\LengthAwarePaginator($currentPageItems, count($assignments), $perPage, $currentPage, [
+            'path' => \Illuminate\Pagination\LengthAwarePaginator::resolveCurrentPath(),
+            'query' => $request->query(),
+        ]);
+
         // Lempar datanya ke view index
-        return view('admin.teacher-assignments.index', compact('assignments', 'activeYear'));
+        return view('admin.teacher-assignments.index', compact('assignments', 'activeYear', 'search'));
     }
 
     /**

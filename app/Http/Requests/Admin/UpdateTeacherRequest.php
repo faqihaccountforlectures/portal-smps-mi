@@ -28,10 +28,10 @@ class UpdateTeacherRequest extends FormRequest
             'email' => 'required|email|unique:users,email,' . $userId,
             
             'full_name' => 'required|string|max:255',
-            'nip' => 'nullable|string|max:50',
+            'nip' => 'required|string|max:50',
             'gender' => 'required|in:laki-laki,perempuan',
             'position' => 'required|in:guru,kepala_sekolah,wakil_kepala_sekolah',
-            'phone_number' => 'nullable|string|max:20',
+            'phone_number' => 'required|string|max:20',
         ];
     }
 
@@ -45,10 +45,12 @@ class UpdateTeacherRequest extends FormRequest
             'email.email' => 'Format alamat email tidak valid.',
             'email.unique' => 'Alamat email tersebut sudah digunakan oleh pengguna lain.',
             'full_name.required' => 'Nama lengkap wajib diisi.',
+            'nip.required' => 'NIP wajib diisi.',
             'gender.required' => 'Jenis kelamin wajib dipilih.',
             'gender.in' => 'Pilihan jenis kelamin tidak valid.',
             'position.required' => 'Jabatan wajib dipilih.',
             'position.in' => 'Pilihan jabatan tidak valid.',
+            'phone_number.required' => 'Nomor WA / Telepon wajib diisi.',
         ];
     }
 }

@@ -27,19 +27,20 @@
     @endif
 
     <div class="mb-6 flex items-center justify-between">
-        <a href="{{ route('class-enrollments.show', $classRoom->id) }}" class="inline-flex items-center gap-2 text-slate-500 hover:text-blue-600 transition-colors">
+        <a href="{{ route('class-enrollments.show', $classRoom->id) }}" class="inline-flex items-center gap-2 text-gray-muted hover:text-navy-base transition-colors font-medium">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-            <span class="font-medium text-sm">Kembali ke Detail Kelas</span>
+            <span class="text-sm">Kembali ke Detail Kelas</span>
         </a>
     </div>
 
     <!-- HEADER INFO -->
-    <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden mb-6 p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    {{-- FUNGSI KODE: Informasi Header Pilihan Siswa --}}
+    <div class="bg-white rounded-xl shadow-sm shadow-navy-base/5 border border-navy-light/30 overflow-hidden mb-6 p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-            <h2 class="text-lg font-bold text-slate-800">Pilih Siswa untuk Kelas {{ $classRoom->name }}</h2>
-            <p class="text-xs text-slate-500 mt-1">Daftar di bawah ini hanya menampilkan siswa yang <strong>BELUM</strong> mendapatkan kelas di Tahun Ajaran {{ $activeYear->semester }} {{ $activeYear->year_name }}.</p>
+            <h2 class="text-lg font-bold text-navy-dark font-heading">Pilih Siswa untuk Kelas {{ $classRoom->name }}</h2>
+            <p class="text-xs text-gray-muted mt-1.5">Daftar di bawah ini hanya menampilkan siswa yang <strong class="text-navy-base font-bold">BELUM</strong> mendapatkan kelas di Tahun Ajaran {{ $activeYear->semester }} {{ $activeYear->year_name }}.</p>
         </div>
-        <div class="bg-blue-50 px-3 py-1.5 rounded-md text-blue-700 text-xs font-semibold border border-blue-100 whitespace-nowrap">
+        <div class="bg-navy-light/10 px-4 py-2 rounded-lg text-navy-dark text-xs font-bold border border-navy-light/30 whitespace-nowrap shadow-sm uppercase tracking-widest">
             Tersedia: {{ $availableStudents->count() }} Siswa
         </div>
     </div>
@@ -47,35 +48,36 @@
     @if($availableStudents->count() > 0)
         <form action="{{ route('class-enrollments.store-students', $classRoom->id) }}" method="POST">
             @csrf
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-6">
-                <div class="px-6 py-4 border-b border-slate-50 bg-slate-50/50 flex justify-between items-center">
-                    <label class="flex items-center gap-3 cursor-pointer group">
-                        <input type="checkbox" id="checkAll" class="w-5 h-5 rounded border-slate-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 transition-colors">
-                        <span class="font-bold text-slate-700 group-hover:text-blue-600 transition-colors">Pilih Semua</span>
+            {{-- FUNGSI KODE: Tabel form checkbox siswa --}}
+            <div class="bg-white rounded-2xl shadow-sm shadow-navy-base/5 border border-navy-light/30 overflow-hidden mb-6 flex flex-col group hover:shadow-md hover:border-navy-base/30 transition-all duration-300">
+                <div class="px-7 py-4 border-b border-navy-light/30 bg-white-off/30 flex justify-between items-center">
+                    <label class="flex items-center gap-3 cursor-pointer group/label">
+                        <input type="checkbox" id="checkAll" class="w-5 h-5 rounded border-navy-light/50 text-navy-base shadow-sm focus:border-navy-base focus:ring focus:ring-navy-light/20 focus:ring-opacity-50 transition-colors">
+                        <span class="font-bold text-navy-dark group-hover/label:text-navy-base transition-colors tracking-wide">Pilih Semua</span>
                     </label>
-                    <span class="text-xs text-slate-400 font-medium" id="selectedCount">0 siswa terpilih</span>
+                    <span class="text-xs text-gray-muted font-bold tracking-wide" id="selectedCount">0 siswa terpilih</span>
                 </div>
                 
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
-                        <tbody class="text-sm divide-y divide-slate-50">
+                        <tbody class="text-sm divide-y divide-white-off">
                             @foreach($availableStudents as $student)
-                            <tr class="hover:bg-slate-50/50 transition-colors cursor-pointer" onclick="document.getElementById('student_{{ $student->id }}').click()">
-                                <td class="px-6 py-4 w-12">
-                                    <input type="checkbox" name="student_ids[]" value="{{ $student->id }}" id="student_{{ $student->id }}" class="student-checkbox w-5 h-5 rounded border-slate-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 transition-colors" onclick="event.stopPropagation()">
+                            <tr class="hover:bg-white-off/50 transition-colors cursor-pointer group" onclick="document.getElementById('student_{{ $student->id }}').click()">
+                                <td class="px-7 py-4 w-12">
+                                    <input type="checkbox" name="student_ids[]" value="{{ $student->id }}" id="student_{{ $student->id }}" class="student-checkbox w-5 h-5 rounded border-navy-light/50 text-navy-base shadow-sm focus:border-navy-base focus:ring focus:ring-navy-light/20 focus:ring-opacity-50 transition-colors" onclick="event.stopPropagation()">
                                 </td>
-                                <td class="px-6 py-4">
-                                    <span class="font-mono text-xs bg-slate-100 px-2 py-1 rounded text-slate-600">{{ $student->studentProfile->nisn ?? '-' }}</span>
+                                <td class="px-7 py-4">
+                                    <span class="font-mono text-xs font-bold text-navy-base bg-white-off/50 border border-navy-light/20 px-2.5 py-1.5 rounded-lg">{{ $student->studentProfile->nisn ?? '-' }}</span>
                                 </td>
-                                <td class="px-6 py-4 font-semibold text-slate-800">
+                                <td class="px-7 py-4 font-bold text-navy-dark">
                                     {{ $student->studentProfile->full_name ?? $student->email }}
                                 </td>
-                                <td class="px-6 py-4 text-slate-600">
+                                <td class="px-7 py-4">
                                     @if(isset($student->studentProfile->gender))
                                         @if($student->studentProfile->gender === 'laki-laki')
-                                            <span class="inline-flex items-center gap-1.5 text-slate-500 text-xs font-semibold"><div class="w-2 h-2 rounded-full bg-blue-500"></div> Laki-laki</span>
+                                            <span class="inline-flex items-center gap-1.5 text-gray-muted text-[11px] font-bold tracking-widest uppercase"><div class="w-2 h-2 rounded-full bg-blue-500 shadow-sm"></div> Laki-laki</span>
                                         @else
-                                            <span class="inline-flex items-center gap-1.5 text-slate-500 text-xs font-semibold"><div class="w-2 h-2 rounded-full bg-pink-500"></div> Perempuan</span>
+                                            <span class="inline-flex items-center gap-1.5 text-gray-muted text-[11px] font-bold tracking-widest uppercase"><div class="w-2 h-2 rounded-full bg-pink-500 shadow-sm"></div> Perempuan</span>
                                         @endif
                                     @else
                                         -
@@ -88,24 +90,24 @@
                 </div>
             </div>
 
-            <div class="flex justify-end gap-3 sticky bottom-6 z-10 bg-white/80 backdrop-blur p-4 rounded-2xl shadow-lg border border-slate-100">
-                <a href="{{ route('class-enrollments.show', $classRoom->id) }}" class="px-6 py-2.5 rounded-xl text-sm font-semibold text-slate-600 bg-slate-100 hover:bg-slate-200 transition-colors">Batal</a>
-                <button type="submit" class="px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-600/30 transition-all flex items-center gap-2">
+            <div class="flex justify-end gap-3 sticky bottom-6 z-10 bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-lg shadow-navy-base/5 border border-navy-light/30">
+                <a href="{{ route('class-enrollments.show', $classRoom->id) }}" class="px-6 py-2.5 rounded-xl text-sm font-bold text-gray-muted bg-white-off border border-navy-light/30 hover:bg-navy-light/10 hover:text-navy-dark transition-all">Batal</a>
+                <button type="submit" class="px-6 py-2.5 rounded-xl text-sm font-bold text-white-off bg-navy-dark hover:bg-navy-base shadow-md shadow-navy-base/20 transition-all flex items-center gap-2 active:scale-95">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     Simpan & Masukkan ke Kelas
                 </button>
             </div>
         </form>
     @else
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-12 text-center">
-            <div class="flex flex-col items-center justify-center text-slate-400">
-                <div class="bg-emerald-50 p-5 rounded-full mb-4">
-                    <svg class="w-12 h-12 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <div class="bg-white rounded-2xl shadow-sm border border-navy-light/30 p-12 text-center flex flex-col group hover:shadow-md hover:border-navy-base/30 transition-all duration-300">
+            <div class="flex flex-col items-center justify-center text-gray-muted">
+                <div class="w-16 h-16 bg-white-off border border-navy-light/30 p-4 rounded-full mb-4 flex items-center justify-center text-navy-base shadow-inner">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
-                <p class="text-lg font-bold text-slate-700">Semua Siswa Sudah Mendapat Kelas!</p>
-                <p class="text-sm mt-2 text-slate-500 max-w-md mx-auto">Saat ini tidak ada siswa yang tersisa untuk dimasukkan. Semua siswa yang terdaftar sudah tergabung dalam suatu kelas pada tahun ajaran ini.</p>
+                <p class="text-lg font-bold text-navy-dark font-heading">Semua Siswa Sudah Mendapat Kelas!</p>
+                <p class="text-sm mt-2 text-gray-muted max-w-md mx-auto leading-relaxed">Saat ini tidak ada siswa yang tersisa untuk dimasukkan. Semua siswa yang terdaftar sudah tergabung dalam suatu kelas pada tahun ajaran ini.</p>
                 
-                <a href="{{ route('class-enrollments.show', $classRoom->id) }}" class="mt-6 bg-slate-100 hover:bg-slate-200 text-slate-700 px-6 py-2.5 rounded-xl font-semibold transition-colors">
+                <a href="{{ route('class-enrollments.show', $classRoom->id) }}" class="mt-6 bg-white-off border border-navy-light/30 hover:bg-navy-light/10 text-navy-dark px-6 py-2.5 rounded-xl font-bold transition-all shadow-sm active:scale-95">
                     Kembali ke Kelas
                 </a>
             </div>

@@ -79,6 +79,9 @@
 
     <div class="filter-info">
         <p><strong>Tanggal Dicetak:</strong> {{ $printDate }}</p>
+        @if($monthFilter || $yearFilter)
+            <p><strong>Periode:</strong> {{ $monthFilter ?? 'Semua Bulan' }} {{ $yearFilter ?? '' }}</p>
+        @endif
         @if($statusFilter)
             <p><strong>Filter Status:</strong> 
                 @if($statusFilter == 'lunas') Lunas / Diverifikasi

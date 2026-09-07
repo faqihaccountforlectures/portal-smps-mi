@@ -12,7 +12,7 @@ class AcademicYearController extends Controller
     // Menampilkan daftar tahun ajaran
     public function index()
     {
-        $academicYears = AcademicYear::all();
+        $academicYears = AcademicYear::orderBy('year_name', 'asc')->paginate(5);
         return view('admin.academic-years.index', compact('academicYears'));
     }
 

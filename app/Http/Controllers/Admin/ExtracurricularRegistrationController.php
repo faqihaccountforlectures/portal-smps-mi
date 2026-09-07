@@ -14,13 +14,25 @@ class ExtracurricularRegistrationController extends Controller
      */
     public function index()
     {
-        // Mengambil semua data pendaftaran beserta relasi siswa (dan profilnya) serta data ekstrakurikulernya
+        // Mengambil data pendaftaran dipaginasi (10 per halaman) beserta relasi siswa (dan profilnya) serta data ekstrakurikulernya
         // Diurutkan berdasarkan tanggal daftar terbaru (created_at)
         $registrations = ExtracurricularRegistration::with(['student.studentProfile', 'extracurricular'])
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(10);
             
-        return view('admin.extracurricular_registrations.index', compact('registrations'));
+        // Hitung total statistik secara keseluruhan
+        $totalCount = ExtracurricularRegistration::count();
+        $pendingCount = ExtracurricularRegistration::where('status', 'pending')->count();
+        $approvedCount = ExtracurricularRegistration::where('status', 'approved')->count();
+        $rejectedCount = ExtracurricularRegistration::where('status', 'rejected')->count();
+
+        return view('admin.extracurricular_registrations.index', compact(
+            'registrations',
+            'totalCount',
+            'pendingCount',
+            'approvedCount',
+            'rejectedCount'
+        ));
     }
 
     /**

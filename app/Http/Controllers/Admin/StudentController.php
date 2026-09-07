@@ -13,12 +13,28 @@ use Illuminate\Support\Facades\DB;
 
 class StudentController extends Controller
 {
-    // Nampilin daftar siswa di tabel utama
-    public function index()
+    // Nampilin daftar siswa di tabel utama dengan pencarian & paginasi
+    public function index(Request $request)
     {
-        // Ambil user role siswa beserta profilnya sekalian biar querynya efisien
-        $students = User::where('role', 'siswa')->with('studentProfile')->get();
-        return view('admin.students.index', compact('students'));
+        $search = $request->query('search');
+
+        $query = User::where('role', 'siswa')
+            ->with('studentProfile');
+
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('email', 'like', "%{$search}%")
+                  ->orWhereHas('studentProfile', function($sp) use ($search) {
+                      $sp->where('full_name', 'like', "%{$search}%")
+                        ->orWhere('nisn', 'like', "%{$search}%")
+                        ->orWhere('parent_phone', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        $students = $query->latest()->paginate(10)->appends($request->all());
+
+        return view('admin.students.index', compact('students', 'search'));
     }
 
     // Nampilin form tambah data

@@ -25,6 +25,7 @@ class LessonScheduleController extends Controller
         // Ambil semua kelas untuk filter
         $classRooms = ClassRoom::orderBy('name')->get();
         $selectedClassId = $request->query('class_room_id');
+        $selectedDay = $request->query('day_filter');
 
         // Ambil jadwal sesuai kelas yang dipilih (atau kosong kalau belum milih)
         $schedules = collect();
@@ -33,13 +34,17 @@ class LessonScheduleController extends Controller
         if ($selectedClassId) {
             $selectedClass = ClassRoom::find($selectedClassId);
             if ($selectedClass) {
-                // Ambil jadwal untuk kelas tersebut di tahun ajaran aktif
-                $schedules = LessonSchedule::with(['teacherAssignment.teacher.teacherProfile', 'teacherAssignment.subject'])
-                    ->whereHas('teacherAssignment', function ($query) use ($activeYear, $selectedClassId) {
-                        $query->where('academic_year_id', $activeYear->id)
-                              ->where('class_room_id', $selectedClassId);
-                    })
-                    ->get()
+                $query = LessonSchedule::with(['teacherAssignment.teacher.teacherProfile', 'teacherAssignment.subject'])
+                    ->whereHas('teacherAssignment', function ($q) use ($activeYear, $selectedClassId) {
+                        $q->where('academic_year_id', $activeYear->id)
+                          ->where('class_room_id', $selectedClassId);
+                    });
+
+                if ($selectedDay) {
+                    $query->where('day_of_week', $selectedDay);
+                }
+
+                $schedules = $query->get()
                     // Kelompokkan per hari dan urutkan berdasarkan jam mulai
                     ->sortBy('start_time')
                     ->groupBy('day_of_week');

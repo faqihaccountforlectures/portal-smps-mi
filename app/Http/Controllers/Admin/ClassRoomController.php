@@ -20,7 +20,7 @@ class ClassRoomController extends Controller
         $classes = ClassRoom::with('homeroomTeacher.teacherProfile')
             ->orderBy('grade_level')
             ->orderBy('name')
-            ->get();
+            ->paginate(5);
         
         // Ngambil daftar akun yang ber-role 'guru' buat ngisi pilihan dropdown Wali Kelas
         $teachers = User::where('role', 'guru')->with('teacherProfile')->get();

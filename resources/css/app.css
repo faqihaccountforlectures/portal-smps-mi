@@ -6,7 +6,7 @@
 
 @layer base {
     body {
-        @apply font-body bg-catskill-white text-blue-zodiac;
+        @apply font-body bg-white-off text-navy-dark;
     }
     
     h1, h2, h3, h4, h5, h6 {
@@ -27,11 +27,11 @@
     }
     
     ::-webkit-scrollbar-thumb {
-        @apply bg-gull-gray/30 rounded-full transition-colors;
+        @apply bg-gray-muted/30 rounded-full transition-colors;
     }
     
     ::-webkit-scrollbar-thumb:hover {
-        @apply bg-bismark/50;
+        @apply bg-navy-base/50;
     }
 
     /* Utilitas tambahan: Sembunyikan scrollbar sepenuhnya tapi tetap bisa di-scroll */

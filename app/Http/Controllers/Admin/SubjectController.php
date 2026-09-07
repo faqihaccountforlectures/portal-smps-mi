@@ -18,7 +18,7 @@ class SubjectController extends Controller
     public function index()
     {
         // Ambil semua data mata pelajaran dari database, urutin berdasarkan kode biar rapi
-        $subjects = Subject::orderBy('code', 'asc')->get();
+        $subjects = Subject::orderBy('code', 'asc')->paginate(5);
         
         // Kirim datanya ke view (tampilan HTML) yang ada di folder resources/views/admin/subjects/index.blade.php
         return view('admin.subjects.index', compact('subjects'));

@@ -29,8 +29,8 @@ class StoreStudentRequest extends FormRequest
             'nisn' => 'required|string|max:20|unique:student_profiles,nisn',
             
             'gender' => 'required|in:laki-laki,perempuan',
-            'phone_number' => 'nullable|string|max:20',
-            'parent_phone' => 'nullable|string|max:20',
+            'phone_number' => 'required|string|max:20',
+            'parent_phone' => 'required|string|max:20',
         ];
     }
 
@@ -48,6 +48,8 @@ class StoreStudentRequest extends FormRequest
             'nisn.unique' => 'NISN tersebut sudah terdaftar untuk siswa lain.',
             'gender.required' => 'Jenis kelamin wajib dipilih.',
             'gender.in' => 'Pilihan jenis kelamin tidak valid.',
+            'phone_number.required' => 'Nomor telepon siswa wajib diisi.',
+            'parent_phone.required' => 'Nomor telepon orang tua wajib diisi.',
         ];
     }
 }

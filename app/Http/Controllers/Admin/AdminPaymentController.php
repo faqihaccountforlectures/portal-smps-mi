@@ -18,6 +18,8 @@ class AdminPaymentController extends Controller
     public function index(Request $request)
     {
         $statusFilter = $request->query('status');
+        $monthFilter = $request->query('month');
+        $yearFilter = $request->query('year');
         $search = $request->query('search');
 
         // 1. Ambil semua data pembayaran riil dari seluruh siswa
@@ -83,7 +85,16 @@ class AdminPaymentController extends Controller
         // 3. Gabungkan pembayaran riil dan tagihan virtual
         $allTransactions = $unpaidBills->concat($realPayments);
 
-        // 4. Proses Filter Status
+        // 4. Proses Filter Bulan & Tahun
+        if ($monthFilter) {
+            $allTransactions = $allTransactions->where('month', $monthFilter);
+        }
+
+        if ($yearFilter) {
+            $allTransactions = $allTransactions->where('year', (int)$yearFilter);
+        }
+
+        // 5. Proses Filter Status
         if ($statusFilter) {
             if ($statusFilter === 'lunas') {
                 $allTransactions = $allTransactions->where('payment_status', 'verified');
@@ -96,7 +107,7 @@ class AdminPaymentController extends Controller
             }
         }
 
-        // 5. Proses Pencarian Nama Siswa
+        // 6. Proses Pencarian Nama Siswa
         if ($search) {
             $searchLower = strtolower($search);
             $allTransactions = $allTransactions->filter(function($payment) use ($searchLower) {
@@ -105,17 +116,20 @@ class AdminPaymentController extends Controller
             });
         }
 
-        // 6. Urutkan Data (Pending paling atas, lalu berdasar tanggal terbaru)
+        // 7. Urutkan Data (Pending paling atas, lalu berdasar tanggal terbaru)
         $allTransactions = $allTransactions->sort(function($a, $b) {
-            // Prioritas 1: Pending (Menunggu Verifikasi)
             if ($a->payment_status === 'pending' && $b->payment_status !== 'pending') return -1;
             if ($a->payment_status !== 'pending' && $b->payment_status === 'pending') return 1;
-            
-            // Prioritas 2: Tanggal terbaru
             return $b->created_at <=> $a->created_at;
         })->values();
 
-        // 7. Manual Pagination
+        // 8. Manual Pagination & Counts
+        $totalCount = $allTransactions->count();
+        $pendingCount = $allTransactions->where('payment_status', 'pending')->count();
+        $verifiedCount = $allTransactions->where('payment_status', 'verified')->count();
+        $unpaidCount = $allTransactions->where('payment_status', 'unpaid')->count();
+        $rejectedCount = $allTransactions->where('payment_status', 'rejected')->count();
+
         $perPage = 10;
         $page = $request->query('page', 1);
         $paginatedItems = $allTransactions->slice(($page - 1) * $perPage, $perPage);
@@ -127,7 +141,23 @@ class AdminPaymentController extends Controller
             ['path' => $request->url(), 'query' => $request->query()]
         );
 
-        return view('admin.payments.index', compact('payments', 'search', 'statusFilter'));
+        $monthsList = array_values($monthsName);
+        $yearsList = range(now()->year - 2, now()->year + 1);
+
+        return view('admin.payments.index', compact(
+            'payments', 
+            'search', 
+            'statusFilter',
+            'monthFilter',
+            'yearFilter',
+            'monthsList',
+            'yearsList',
+            'totalCount',
+            'pendingCount',
+            'verifiedCount',
+            'unpaidCount',
+            'rejectedCount'
+        ));
     }
 
     /**
@@ -168,6 +198,8 @@ class AdminPaymentController extends Controller
     public function exportPdf(Request $request)
     {
         $statusFilter = $request->query('status');
+        $monthFilter = $request->query('month');
+        $yearFilter = $request->query('year');
         $search = $request->query('search');
 
         // Gunakan logika yang sama dengan index() untuk mengambil data
@@ -224,6 +256,14 @@ class AdminPaymentController extends Controller
 
         $allTransactions = $unpaidBills->concat($realPayments);
 
+        if ($monthFilter) {
+            $allTransactions = $allTransactions->where('month', $monthFilter);
+        }
+
+        if ($yearFilter) {
+            $allTransactions = $allTransactions->where('year', (int)$yearFilter);
+        }
+
         if ($statusFilter) {
             if ($statusFilter === 'lunas') $allTransactions = $allTransactions->where('payment_status', 'verified');
             elseif ($statusFilter === 'belum_lunas') $allTransactions = $allTransactions->where('payment_status', 'unpaid');
@@ -250,6 +290,8 @@ class AdminPaymentController extends Controller
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.payments.report-pdf', [
             'payments' => $allTransactions,
             'statusFilter' => $statusFilter,
+            'monthFilter' => $monthFilter,
+            'yearFilter' => $yearFilter,
             'search' => $search,
             'totalAmount' => $totalAmount,
             'printDate' => now()->translatedFormat('d F Y')
@@ -257,6 +299,7 @@ class AdminPaymentController extends Controller
         
         $pdf->setPaper('A4', 'landscape');
         
-        return $pdf->download('laporan-pembayaran-ekskul-' . now()->format('Y-m-d') . '.pdf');
+        $filenameMonth = $monthFilter ? '-' . strtolower($monthFilter) : '';
+        return $pdf->download('laporan-pembayaran-ekskul' . $filenameMonth . '-' . now()->format('Y-m-d') . '.pdf');
     }
 }

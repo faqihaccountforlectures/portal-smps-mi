@@ -17,8 +17,8 @@ class ExtracurricularController extends Controller
      */
     public function index()
     {
-        // Ambil semua data ekskul beserta data guru pembinanya dan profil gurunya, urutkan berdasarkan nama
-        $extracurriculars = Extracurricular::with('teacher.teacherProfile')->orderBy('name')->get();
+        // Ambil semua data ekskul beserta data guru pembinanya dan profil gurunya, urutkan berdasarkan nama, paginate 5
+        $extracurriculars = Extracurricular::with('teacher.teacherProfile')->orderBy('name')->paginate(5);
         
         // Kirim datanya ke halaman index
         return view('admin.extracurriculars.index', compact('extracurriculars'));

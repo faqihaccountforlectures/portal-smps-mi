@@ -28,8 +28,8 @@ class StoreTeacherRequest extends FormRequest
             // Nama lengkap diwajibkan dengan batas maksimal 255 karakter
             'full_name' => 'required|string|max:255',
             
-            // NIP bersifat opsional, maksimal 50 karakter
-            'nip' => 'nullable|string|max:50',
+            // NIP diwajibkan, maksimal 50 karakter
+            'nip' => 'required|string|max:50',
             
             // Jenis kelamin diwajibkan, hanya menerima nilai yang telah ditentukan
             'gender' => 'required|in:laki-laki,perempuan',
@@ -37,8 +37,8 @@ class StoreTeacherRequest extends FormRequest
             // Jabatan diwajibkan, hanya menerima nilai yang telah ditentukan
             'position' => 'required|in:guru,kepala_sekolah,wakil_kepala_sekolah',
             
-            // Nomor telepon bersifat opsional, maksimal 20 karakter
-            'phone_number' => 'nullable|string|max:20',
+            // Nomor telepon diwajibkan, maksimal 20 karakter
+            'phone_number' => 'required|string|max:20',
         ];
     }
 
@@ -52,10 +52,12 @@ class StoreTeacherRequest extends FormRequest
             'email.email' => 'Format alamat email tidak valid.',
             'email.unique' => 'Alamat email tersebut sudah terdaftar pada sistem. Silakan gunakan alamat email lain.',
             'full_name.required' => 'Nama lengkap wajib diisi.',
+            'nip.required' => 'NIP wajib diisi.',
             'gender.required' => 'Jenis kelamin wajib dipilih.',
             'gender.in' => 'Pilihan jenis kelamin tidak valid.',
             'position.required' => 'Jabatan wajib dipilih.',
             'position.in' => 'Pilihan jabatan tidak valid.',
+            'phone_number.required' => 'Nomor WA / Telepon wajib diisi.',
         ];
     }
 }

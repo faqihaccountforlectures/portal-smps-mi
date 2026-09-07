@@ -13,12 +13,28 @@ use Illuminate\Support\Facades\DB;
 
 class TeacherController extends Controller
 {
-    // Ngambil data buat ditampilin di tabel utama
-    public function index()
+    // Ngambil data buat ditampilin di tabel utama dengan pencarian & paginasi
+    public function index(Request $request)
     {
-        // Narik user yang rolenya 'guru', sekalian ngambil profilnya biar gampang pas ditampilin
-        $teachers = User::where('role', 'guru')->with('teacherProfile')->get();
-        return view('admin.teachers.index', compact('teachers'));
+        $search = $request->query('search');
+
+        $query = User::where('role', 'guru')
+            ->with('teacherProfile');
+
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('email', 'like', "%{$search}%")
+                  ->orWhereHas('teacherProfile', function($tp) use ($search) {
+                      $tp->where('full_name', 'like', "%{$search}%")
+                        ->orWhere('nip', 'like', "%{$search}%")
+                        ->orWhere('phone_number', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        $teachers = $query->latest()->paginate(10)->appends($request->all());
+
+        return view('admin.teachers.index', compact('teachers', 'search'));
     }
 
     // Nampilin halaman form tambah data
@@ -54,7 +70,7 @@ class TeacherController extends Controller
         });
 
         // Balik ke halaman daftar guru sambil ngasih pesan sukses
-        return redirect()->route('teachers.index')->with('success', 'Asik! Data guru baru berhasil ditambahkan.');
+        return redirect()->route('teachers.index')->with('success', 'Data guru berhasil ditambahkan!');
     }
 
     // Nampilin halaman form buat edit data (narik datanya dulu berdasarkan ID)
