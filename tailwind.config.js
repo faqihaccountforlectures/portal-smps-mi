@@ -17,6 +17,7 @@ module.exports = {
                 'gray-muted': '#64748b',  // Warna abu-abu sekunder (slate-500) untuk teks deskripsi atau elemen kurang menonjol
             },
             fontFamily: {
+                'sans': ['"Nunito Sans"', 'sans-serif'],
                 'heading': ['Lora', 'serif'],
                 'body': ['"Nunito Sans"', 'sans-serif'],
             }
