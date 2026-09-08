@@ -43,7 +43,7 @@
                     <!-- Header Hari -->
                     <div class="bg-white-off/50 border-b border-navy-light/30 px-6 py-4 flex items-center justify-between">
                         <h3 class="font-bold text-navy-dark text-base font-heading tracking-wide flex items-center gap-2">
-                            <svg class="w-4 h-4 text-navy-base" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            <svg class="w-4 h-4 text-navy-base" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             {{ $hari }}
                         </h3>
                     </div>
@@ -73,7 +73,7 @@
                             <!-- Tampilan Kosong Jika Hari Libur -->
                             <div class="h-full flex flex-col items-center justify-center text-center py-8 text-gray-muted">
                                 <div class="w-10 h-10 bg-white-off text-navy-light rounded-full flex items-center justify-center mb-2 border border-navy-light/20">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+                                    <svg class="w-5 h-5 text-navy-base" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 </div>
                                 <p class="text-[11px] font-bold text-gray-muted uppercase tracking-wider">Tidak Ada Kelas</p>
                             </div>

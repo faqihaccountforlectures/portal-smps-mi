@@ -27,7 +27,7 @@ class ExtracurricularController extends Controller
     }
 
     /**
-     * Menampilkan detail spesifik dari satu ekstrakurikuler beserta daftar siswanya.
+     * Menampilkan detail spesifik dari satu ekstrakurikuler beserta daftar siswanya (dengan paginasi 5).
      * Hanya ekstrakurikuler yang dibina oleh guru ini yang bisa diakses.
      *
      * @param int $id ID ekstrakurikuler
@@ -37,13 +37,16 @@ class ExtracurricularController extends Controller
         // Mendapatkan ID user (guru) yang sedang login
         $teacherId = Auth::id();
         
-        // Mengambil detail ekstrakurikuler, dipastikan hanya milik guru yang login (where teacher_id).
-        // Kita juga memuat relasi (Eager Loading) pendaftaran, data akun siswa, dan profil siswa
-        // agar tidak terjadi query N+1 (performa lebih cepat).
+        // Mengambil detail ekstrakurikuler milik guru yang login beserta total pendaftar
         $extracurricular = Extracurricular::where('teacher_id', $teacherId)
-            ->with(['registrations.student.studentProfile'])
+            ->withCount('registrations')
             ->findOrFail($id);
+
+        // Mengambil daftar pendaftaran siswa dengan paginasi 5 per halaman
+        $registrations = $extracurricular->registrations()
+            ->with(['student.studentProfile'])
+            ->paginate(5);
             
-        return view('guru.extracurriculars.show', compact('extracurricular'));
+        return view('guru.extracurriculars.show', compact('extracurricular', 'registrations'));
     }
 }
