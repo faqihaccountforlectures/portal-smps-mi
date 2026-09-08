@@ -14,12 +14,10 @@
         <aside class="w-64 bg-navy-dark flex flex-col z-20">
             <!-- Logo area -->
             <div class="h-20 flex items-center px-6 bg-white-pure border-b border-navy-light/20 shrink-0">
-                <div class="bg-navy-light/10 text-navy-base p-2.5 rounded-xl mr-3 border border-navy-light/30 shadow-sm">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 14l9-5-9-5-9 5 9 5z"></path></svg>
-                </div>
+                <img src="{{ asset('images/logo.png') }}" alt="Logo SMP Science Mutiara Insani" class="w-10 h-10 object-contain mr-3 shrink-0">
                 <div>
-                    <h2 class="text-[15px] font-bold text-navy-dark tracking-wide leading-tight font-heading">Portal Akademik</h2>
-                    <p class="text-[10px] text-gray-muted font-bold uppercase tracking-widest mt-0.5">SMP Science Mutiara Insani</p>
+                    <h2 class="text-[14px] font-bold text-navy-dark tracking-wide leading-tight font-heading">Portal Akademik</h2>
+                    <p class="text-[9px] text-gray-muted font-bold uppercase tracking-wider mt-0.5">SMP Science Mutiara Insani</p>
                 </div>
             </div>
 

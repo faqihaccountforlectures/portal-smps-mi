@@ -16,12 +16,7 @@
             <div class="flex justify-between h-20 items-center">
                 <!-- Logo & Nama Sekolah -->
                 <div class="flex items-center gap-3">
-                    <div class="bg-blue-900 text-white p-2.5 rounded-full shadow-md">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
-                        </svg>
-                    </div>
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo SMP Science Mutiara Insani" class="w-12 h-12 object-contain drop-shadow-sm">
                     <div>
                         <h1 class="font-bold text-xl text-blue-900 leading-tight">SMP Science Mutiara Insani</h1>
                         <p class="text-xs text-gray-500 font-medium">Terakreditasi A</p>
@@ -76,6 +71,10 @@
 
     <!-- Footer -->
     <footer class="bg-slate-900 text-white py-10 text-center">
+        <div class="flex items-center justify-center gap-3 mb-3">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo SMP Science Mutiara Insani" class="w-10 h-10 object-contain">
+            <span class="font-bold text-lg text-white">SMP Science Mutiara Insani</span>
+        </div>
         <p class="text-slate-400 text-sm">© 2026 SMP Science Mutiara Insani Purwakarta. All rights reserved.</p>
     </footer>
 
