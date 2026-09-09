@@ -17,6 +17,7 @@ class ExtracurricularRegistrationController extends Controller
         // Mengambil data pendaftaran dipaginasi (10 per halaman) beserta relasi siswa (dan profilnya) serta data ekstrakurikulernya
         // Diurutkan berdasarkan tanggal daftar terbaru (created_at)
         $registrations = ExtracurricularRegistration::with(['student.studentProfile', 'extracurricular'])
+            ->orderByRaw("CASE WHEN status = 'pending' THEN 0 ELSE 1 END")
             ->orderBy('created_at', 'desc')
             ->paginate(10);
             

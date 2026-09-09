@@ -41,6 +41,7 @@
         th {
             background-color: #f3f4f6;
             font-weight: bold;
+            text-align: center;
         }
         .text-center { text-align: center; }
         .text-right { text-align: right; }
@@ -57,17 +58,6 @@
         .signature-space {
             height: 80px;
         }
-        .badge {
-            padding: 3px 6px;
-            border-radius: 4px;
-            font-size: 10px;
-            text-transform: uppercase;
-            font-weight: bold;
-        }
-        .badge-verified { background-color: #dcfce7; color: #166534; }
-        .badge-pending { background-color: #fef08a; color: #854d0e; }
-        .badge-unpaid { background-color: #fee2e2; color: #991b1b; }
-        .badge-rejected { background-color: #f1f5f9; color: #475569; }
     </style>
 </head>
 <body>
@@ -99,34 +89,33 @@
     <table>
         <thead>
             <tr>
-                <th class="text-center" width="5%">No</th>
-                <th width="15%">Siswa</th>
-                <th width="20%">Ekstrakurikuler</th>
-                <th width="15%">Bulan & Tahun</th>
-                <th width="15%" class="text-center">Status</th>
-                <th width="15%" class="text-right">Nominal</th>
-                <th width="15%">Diverifikasi Oleh</th>
+                <th width="5%">No</th>
+                <th width="18%">Nama</th>
+                <th width="12%">NISN</th>
+                <th width="15%">Ekstrakurikuler</th>
+                <th width="14%">Bulan & Tahun</th>
+                <th width="11%">Status</th>
+                <th width="12%">Nominal</th>
+                <th width="13%">Diverifikasi</th>
             </tr>
         </thead>
         <tbody>
             @forelse($payments as $index => $payment)
                 <tr>
                     <td class="text-center">{{ $index + 1 }}</td>
-                    <td>
-                        {{ $payment->student->studentProfile->full_name ?? $payment->student->email ?? '-' }}<br>
-                        <small>{{ $payment->student->studentProfile->nisn ?? '-' }}</small>
-                    </td>
+                    <td>{{ $payment->student->studentProfile->full_name ?? $payment->student->email ?? '-' }}</td>
+                    <td>{{ $payment->student->studentProfile->nisn ?? '-' }}</td>
                     <td>{{ $payment->extracurricular->name ?? '-' }}</td>
                     <td>{{ $payment->month }} {{ $payment->year }}</td>
                     <td class="text-center">
                         @if($payment->payment_status === 'verified')
-                            <span class="badge badge-verified">LUNAS</span>
+                            LUNAS
                         @elseif($payment->payment_status === 'pending')
-                            <span class="badge badge-pending">VERIFIKASI</span>
+                            VERIFIKASI
                         @elseif($payment->payment_status === 'unpaid')
-                            <span class="badge badge-unpaid">BELUM LUNAS</span>
+                            BELUM LUNAS
                         @elseif($payment->payment_status === 'rejected')
-                            <span class="badge badge-rejected">DITOLAK</span>
+                            DITOLAK
                         @endif
                     </td>
                     <td class="text-right">Rp {{ number_format($payment->total_amount, 0, ',', '.') }}</td>
@@ -140,11 +129,11 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7" class="text-center">Tidak ada data pembayaran yang ditemukan.</td>
+                    <td colspan="8" class="text-center">Tidak ada data pembayaran yang ditemukan.</td>
                 </tr>
             @endforelse
             <tr class="total-row">
-                <td colspan="5" class="text-right">Total Pemasukan (Status Lunas):</td>
+                <td colspan="6" class="text-right">Total Pemasukan (Status Lunas):</td>
                 <td class="text-right">Rp {{ number_format($totalAmount, 0, ',', '.') }}</td>
                 <td></td>
             </tr>

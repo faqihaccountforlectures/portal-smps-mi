@@ -87,7 +87,19 @@ class StudentPaymentController extends Controller
         }
 
         // Gabungkan tagihan virtual (belum lunas) dengan riwayat pembayaran asli, lalu urutkan
-        $allTransactions = $unpaidBills->concat($payments)->sortByDesc('created_at');
+        $sortedTransactions = $unpaidBills->concat($payments)->sortByDesc('created_at')->values();
+
+        // Paginasi Manual (10 data per halaman)
+        $perPage = 10;
+        $page = request()->query('page', 1);
+        $paginatedItems = $sortedTransactions->slice(($page - 1) * $perPage, $perPage);
+        $allTransactions = new \Illuminate\Pagination\LengthAwarePaginator(
+            $paginatedItems, 
+            $sortedTransactions->count(), 
+            $perPage, 
+            $page, 
+            ['path' => request()->url(), 'query' => request()->query()]
+        );
 
         return view('siswa.payments.index', compact('allTransactions', 'approvedRegistrations'));
     }

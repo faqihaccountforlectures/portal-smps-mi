@@ -109,11 +109,11 @@
                         <!-- Kolom Nama Siswa -->
                         <td class="px-7 py-4">
                             <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl bg-navy-light/10 text-navy-base flex items-center justify-center font-bold text-base border border-navy-light/30 shrink-0 shadow-sm group-hover/row:scale-105 transition-transform">
+                                <div class="w-9 h-9 rounded-xl bg-navy-light/10 text-navy-base flex items-center justify-center font-bold text-sm border border-navy-light/30 shrink-0 shadow-sm group-hover/row:scale-105 transition-transform">
                                     {{ substr($registration->student->studentProfile->full_name ?? $registration->student->email ?? 'S', 0, 1) }}
                                 </div>
                                 <div>
-                                    <p class="font-bold text-navy-dark block text-base">{{ $registration->student->studentProfile->full_name ?? $registration->student->email }}</p>
+                                    <p class="font-bold text-navy-dark block text-sm">{{ $registration->student->studentProfile->full_name ?? $registration->student->email }}</p>
                                     @if($registration->student->studentProfile && $registration->student->studentProfile->nisn)
                                         <p class="text-[11px] text-gray-muted font-semibold flex items-center gap-1 mt-0.5 tracking-wide">
                                             <span class="bg-white-off px-2 py-0.5 rounded border border-navy-light/20 font-mono">NISN: {{ $registration->student->studentProfile->nisn }}</span>

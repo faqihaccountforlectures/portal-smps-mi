@@ -157,7 +157,7 @@
                             <tr class="hover:bg-white-off/50 transition-colors group/row">
                                 <!-- Info Ekskul dan Bulan -->
                                 <td class="px-7 py-4">
-                                    <p class="font-bold text-navy-dark text-base">{{ $payment->month }} {{ $payment->year }}</p>
+                                    <p class="font-bold text-navy-dark text-sm">{{ $payment->month }} {{ $payment->year }}</p>
                                     <span class="inline-flex items-center gap-1.5 mt-1 bg-navy-light/10 border border-navy-light/30 text-navy-dark px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider shadow-sm">
                                         {{ $payment->extracurricular->name }}
                                     </span>
@@ -165,7 +165,7 @@
                                 
                                 <!-- Nominal dan Metode -->
                                 <td class="px-7 py-4">
-                                    <p class="font-bold text-navy-base text-base">Rp {{ number_format($payment->total_amount, 0, ',', '.') }}</p>
+                                    <p class="font-bold text-navy-base text-sm">Rp {{ number_format($payment->total_amount, 0, ',', '.') }}</p>
                                     @if($payment->payment_status !== 'unpaid')
                                         <p class="text-[10px] text-gray-muted mt-0.5 font-bold uppercase tracking-wider">{{ $payment->payment_method }}</p>
                                     @endif
@@ -230,6 +230,22 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Footer Tabel & Paginasi -->
+                @if($allTransactions->hasPages())
+                <div class="px-7 py-4 border-t border-navy-light/30 bg-white-off/30 flex flex-col sm:flex-row justify-between items-center gap-4 mt-auto">
+                    <span class="text-xs text-gray-muted font-medium">
+                        Menampilkan <b class="text-navy-dark">{{ $allTransactions->firstItem() }}</b> - <b class="text-navy-dark">{{ $allTransactions->lastItem() }}</b> dari <b class="text-navy-dark">{{ $allTransactions->total() }}</b> transaksi
+                    </span>
+                    <div class="pagination-wrapper">
+                        {{ $allTransactions->appends(request()->all())->links() }}
+                    </div>
+                </div>
+                @else
+                <div class="px-7 py-4 border-t border-navy-light/30 bg-white-off/30 flex justify-between items-center text-xs text-gray-muted font-medium mt-auto">
+                    <span>Total Transaksi: <b class="text-navy-dark">{{ $allTransactions->total() }}</b> data</span>
+                </div>
+                @endif
             </div>
         </div>
     </div>

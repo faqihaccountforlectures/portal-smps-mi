@@ -25,7 +25,7 @@
             <nav class="flex-1 px-4 py-3 space-y-0.5 overflow-y-auto hide-scrollbar border-r border-navy-base/30">
                 <a href="/dashboard" class="flex items-center gap-3 px-4 py-1.5 rounded-lg text-sm transition-all {{ request()->is('dashboard') ? 'bg-navy-base/40 text-white-off font-bold border-l-4 border-navy-light shadow-inner' : 'text-white-off/70 hover:bg-navy-base/20 hover:text-white-off font-medium group' }}">
                     <svg class="w-5 h-5 {{ request()->is('dashboard') ? 'text-navy-light' : 'text-navy-light/70 group-hover:text-navy-light transition-colors' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
-                    Dashboard
+                    Dasbor
                 </a>
                 
                 <p class="px-4 pt-3 pb-1 text-[10px] font-bold text-navy-light uppercase tracking-widest">Menu Utama</p>
