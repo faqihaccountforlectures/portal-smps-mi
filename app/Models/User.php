@@ -15,10 +15,12 @@ class User extends Authenticatable
 
     // Kolom-kolom di database yang boleh diisi secara massal (misal pake metode create atau update)
     protected $fillable = [
-        'email',
+        'name',         // Nama Lengkap Pengguna (Admin/Pengguna Sistem)
+        'email',        // Email / Username untuk Login
+        'phone_number', // Nomor Telepon / WhatsApp
         'password',
-        'google_id', // Buat nyimpen ID dari Google SSO
-        'role', // Buat nentuin dia itu admin, guru, atau siswa
+        'google_id',    // Buat nyimpen ID dari Google SSO
+        'role',         // Buat nentuin dia itu admin, guru, atau siswa
     ];
 
     // Kolom yang disembunyiin pas datanya diambil (biar password gak bocor di respon API/JSON)

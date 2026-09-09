@@ -12,7 +12,12 @@
 
 
 @layer utilities {
-    /* Elegan Custom Scrollbar */
+    /* Elegan Custom Scrollbar (Global - Sama seperti Landing Page) */
+    html, body {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(148, 163, 184, 0.4) transparent;
+    }
+
     ::-webkit-scrollbar {
         width: 6px;
         height: 6px;
@@ -23,11 +28,13 @@
     }
     
     ::-webkit-scrollbar-thumb {
-        @apply bg-gray-muted/30 rounded-full transition-colors;
+        background-color: rgba(148, 163, 184, 0.4);
+        border-radius: 9999px;
+        transition: background-color 0.2s ease-in-out;
     }
     
     ::-webkit-scrollbar-thumb:hover {
-        @apply bg-navy-base/50;
+        background-color: rgba(30, 58, 138, 0.6);
     }
 
     /* Utilitas tambahan: Sembunyikan scrollbar sepenuhnya tapi tetap bisa di-scroll */
@@ -37,6 +44,26 @@
     .hide-scrollbar {
         -ms-overflow-style: none;  /* IE and Edge */
         scrollbar-width: none;  /* Firefox */
+    }
+
+    /* Scrollbar tipis elegan khusus sidebar (lebar 4px sebagai petunjuk scroll) */
+    .thin-scrollbar::-webkit-scrollbar {
+        width: 4px;
+    }
+    .thin-scrollbar::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 9999px;
+    }
+    .thin-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.25);
+        border-radius: 9999px;
+    }
+    .thin-scrollbar::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.5);
+    }
+    .thin-scrollbar {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 255, 255, 0.25) rgba(255, 255, 255, 0.05);
     }
 }
 

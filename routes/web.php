@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\ExtracurricularRegistrationController;
 use App\Http\Controllers\Siswa\StudentExtracurricularController;
 use App\Http\Controllers\Siswa\StudentPaymentController;
 use App\Http\Controllers\Admin\AdminPaymentController;
+use App\Http\Controllers\Admin\AdminProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -176,6 +177,16 @@ Route::get('/admin/payments/export/pdf', [AdminPaymentController::class, 'export
 Route::patch('/admin/payments/{id}/verify', [AdminPaymentController::class, 'verify'])->name('admin.payments.verify');
 // Menolak keabsahan bukti pembayaran yang diunggah siswa
 Route::patch('/admin/payments/{id}/reject', [AdminPaymentController::class, 'reject'])->name('admin.payments.reject');
+
+// ==========================================
+// RUTE PROFIL & PENGATURAN AKUN ADMIN
+// ==========================================
+// Menampilkan halaman profil & pengaturan akun admin
+Route::get('/admin/profile', [AdminProfileController::class, 'index'])->name('admin.profile.index');
+// Memperbarui data profil admin (Nama, Email, No HP)
+Route::put('/admin/profile', [AdminProfileController::class, 'updateProfile'])->name('admin.profile.update');
+// Memperbarui password akun admin & hentikan sesi di perangkat lain
+Route::put('/admin/profile/password', [AdminProfileController::class, 'updatePassword'])->name('admin.profile.update-password');
 
 // ==========================================
 // RUTE MASTER DATA GURU (TEACHERS)
