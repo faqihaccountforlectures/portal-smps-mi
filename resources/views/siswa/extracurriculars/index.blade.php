@@ -30,6 +30,25 @@
         </div>
     </div>
 
+    <!-- Banner Informasi Pembayaran & Rekening Resmi -->
+    <div class="bg-gradient-to-r from-navy-dark via-navy-base to-[#1e3a8a] text-white-off p-4 rounded-2xl mb-6 shadow-sm border border-navy-light/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+            <div class="p-2.5 bg-white-pure/10 rounded-xl text-amber-300 border border-white-pure/10 shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <div>
+                <h4 class="text-xs font-bold font-heading text-white-pure tracking-wide">Informasi Iuran Ekstrakurikuler</h4>
+                <p class="text-[11px] text-white-off/80 mt-0.5 font-medium">Biaya iuran ekstrakurikuler <b>Rp 100.000,- / ekskul</b> per bulan, dibayarkan ke Rekening <b>Bank Sinarmas <span class="font-mono text-amber-300">0058091286</span> a.n Sarah Meiyana Putri Utami (Ms. Sarah)</b>.</p>
+            </div>
+        </div>
+        <a href="{{ route('siswa.payments.index') }}" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-amber-400 hover:bg-amber-300 text-navy-dark font-bold text-xs rounded-xl shadow-sm transition-all shrink-0 active:scale-95">
+            <span>Riwayat Pembayaran</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+    </div>
+
     <!-- Grid Katalog Ekskul -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @forelse($extracurriculars as $ekskul)

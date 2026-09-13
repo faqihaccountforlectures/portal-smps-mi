@@ -253,25 +253,25 @@
     </section>
 
     <!-- FUNGSI KODE: Section Video Profil & Live Map Lokasi Sekolah -->
-    <section class="py-12 bg-white-pure border-t border-navy-light/20">
+    <section class="py-14 bg-white-off border-t border-navy-light/20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
                 
                 <!-- Card 1: Video Profil Sekolah (YouTube Embed) -->
-                <div class="lg:col-span-6 bg-white-pure rounded-3xl p-5 sm:p-6 border border-navy-light/30 shadow-xl flex flex-col justify-between relative overflow-hidden group min-h-[280px]">
+                <div class="lg:col-span-6 bg-white rounded-3xl p-5 sm:p-6 border border-navy-light/30 shadow-sm shadow-navy-base/5 hover:shadow-lg hover:border-navy-base/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between relative overflow-hidden group min-h-[280px]">
                     <div class="flex items-center justify-between gap-3 mb-3">
                         <div class="flex items-center gap-2.5">
-                            <div class="w-9 h-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-200 shadow-sm">
+                            <div class="w-9 h-9 rounded-xl bg-red-50 text-red-600 flex items-center justify-center shrink-0 border border-red-200 shadow-sm group-hover:scale-105 transition-transform">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="font-bold text-base text-navy-dark font-heading">Video Profil Sekolah</h4>
+                                <h4 class="font-bold text-base text-navy-dark font-heading group-hover:text-navy-base transition-colors">Video Profil Sekolah</h4>
                                 <p class="text-xs text-gray-muted font-medium">SMP Science Mutiara Insani Purwakarta</p>
                             </div>
                         </div>
-                        <a href="https://youtu.be/NYeyeyumWPA?si=ncWARGMhPVnf24Wv" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-50 hover:bg-red-600 hover:text-white text-red-600 text-xs font-semibold rounded-xl border border-red-200 transition-all shrink-0">
+                        <a href="https://youtu.be/NYeyeyumWPA?si=ncWARGMhPVnf24Wv" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-50 hover:bg-red-600 hover:text-white text-red-600 text-xs font-semibold rounded-xl border border-red-200 transition-all shrink-0 shadow-sm">
                             <span>YouTube</span>
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                         </a>
@@ -290,21 +290,21 @@
                 </div>
 
                 <!-- Card 2: Live Map Lokasi SMP Science Mutiara Insani (Samping Card CTA) -->
-                <div class="lg:col-span-6 bg-white-pure rounded-3xl p-5 sm:p-6 border border-navy-light/30 shadow-xl flex flex-col justify-between relative overflow-hidden group min-h-[280px]">
+                <div class="lg:col-span-6 bg-white rounded-3xl p-5 sm:p-6 border border-navy-light/30 shadow-sm shadow-navy-base/5 hover:shadow-lg hover:border-navy-base/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between relative overflow-hidden group min-h-[280px]">
                     <div class="flex items-center justify-between gap-3 mb-3">
                         <div class="flex items-center gap-2.5">
-                            <div class="w-9 h-9 rounded-xl bg-navy-light/10 flex items-center justify-center text-navy-base shrink-0">
+                            <div class="w-9 h-9 rounded-xl bg-navy-light/10 flex items-center justify-center text-navy-base shrink-0 border border-navy-light/30 shadow-sm group-hover:scale-105 transition-transform">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                                 </svg>
                             </div>
                             <div>
-                                <h4 class="font-bold text-base text-navy-dark font-heading">Lokasi SMP Science Mutiara Insani</h4>
+                                <h4 class="font-bold text-base text-navy-dark font-heading group-hover:text-navy-base transition-colors">Lokasi SMP Science Mutiara Insani</h4>
                                 <p class="text-xs text-gray-muted font-medium">Munjuljaya, Purwakarta, Jawa Barat</p>
                             </div>
                         </div>
-                        <a href="https://www.google.com/maps/place/SMP+Science+Mutiara+Insani/@-6.5312535,107.4705822,17z/data=!3m1!4b1!4m6!3m5!1s0x2e690f71de365203:0x25ee54b1bd5ccdb1!8m2!3d-6.5312535!4d107.4731571!16s%2Fg%2F11s53ys3pp?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-navy-base/10 hover:bg-navy-base hover:text-white-pure text-navy-base text-xs font-semibold rounded-xl transition-all shrink-0">
+                        <a href="https://www.google.com/maps/place/SMP+Science+Mutiara+Insani/@-6.5312535,107.4705822,17z/data=!3m1!4b1!4m6!3m5!1s0x2e690f71de365203:0x25ee54b1bd5ccdb1!8m2!3d-6.5312535!4d107.4731571!16s%2Fg%2F11s53ys3pp?entry=ttu&g_ep=EgoyMDI2MDkwMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-navy-base/10 hover:bg-navy-base hover:text-white-pure text-navy-base text-xs font-semibold rounded-xl transition-all shrink-0 shadow-sm">
                             <span>Google Maps</span>
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
                         </a>

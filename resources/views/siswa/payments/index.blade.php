@@ -48,6 +48,41 @@
                         <p class="text-[11px] text-gray-muted tracking-wide font-bold">Setor iuran ekstrakurikuler bulanan</p>
                     </div>
                 </div>
+
+                <!-- Banner Informasi Rekening Pembayaran Resmi -->
+                <div class="bg-gradient-to-br from-navy-dark via-navy-base to-[#1e3a8a] text-white-off p-4 rounded-xl mb-5 shadow-sm border border-navy-light/30 relative overflow-hidden">
+                    <div class="flex items-center gap-2 mb-2">
+                        <div class="p-1.5 bg-white-pure/10 rounded-lg text-amber-300 shrink-0">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <h4 class="text-xs font-bold font-heading text-white-pure tracking-wide">Rekening Resmi Pembayaran</h4>
+                    </div>
+                    
+                    <div class="space-y-1.5 text-xs bg-white-pure/10 backdrop-blur-md p-3 rounded-lg border border-white-pure/10">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[11px] text-white-off/80 font-medium">Bank Tujuan:</span>
+                            <span class="font-bold text-white-pure">Bank Sinarmas</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[11px] text-white-off/80 font-medium">No. Rekening:</span>
+                            <div class="flex items-center gap-1.5">
+                                <span class="font-mono font-bold text-amber-300 text-xs tracking-wider">0058091286</span>
+                                <button type="button" onclick="navigator.clipboard.writeText('0058091286'); alert('Nomor rekening Bank Sinarmas (0058091286) berhasil disalin!');" class="text-[10px] bg-white-pure/20 hover:bg-white-pure/30 text-white-pure px-1.5 py-0.5 rounded transition-all active:scale-95" title="Salin No. Rekening">
+                                    Salin
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-[11px] text-white-off/80 font-medium">Atas Nama:</span>
+                            <span class="font-bold text-white-pure text-[11px]">Sarah Meiyana Putri Utami (Ms. Sarah)</span>
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-white-off/80 mt-2 font-medium">
+                        💡 <b>Biaya Iuran:</b> Rp 100.000,- / ekskul per bulan.
+                    </p>
+                </div>
                 
                 @if($approvedRegistrations->isEmpty())
                     <!-- Tampilan kalau siswa belum terdaftar di ekskul apa pun -->
