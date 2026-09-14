@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('email')->unique(); // Email untuk login / notifikasi
             $table->string('password')->nullable(); // Nullable jika login lewat Google OAuth
             $table->string('google_id')->nullable(); // ID akun google dari Socialite
-            $table->enum('role', ['admin', 'guru', 'siswa', 'kepsek'])->default('siswa'); // Hak akses role
+            $table->enum('role', ['admin', 'guru', 'siswa'])->default('siswa'); // Hak akses role
             $table->timestamps();
         });
     }
