@@ -193,6 +193,10 @@ Route::put('/admin/profile/password', [AdminProfileController::class, 'updatePas
 // ==========================================
 // Menampilkan daftar keseluruhan data guru yang terdaftar
 Route::get('/admin/teachers', [\App\Http\Controllers\Admin\TeacherController::class, 'index'])->name('teachers.index');
+// Mengunduh berkas template CSV untuk impor data guru
+Route::get('/admin/teachers/template', [\App\Http\Controllers\Admin\TeacherController::class, 'downloadTemplate'])->name('teachers.template');
+// Memproses impor massal data guru dari berkas CSV/Excel
+Route::post('/admin/teachers/import', [\App\Http\Controllers\Admin\TeacherController::class, 'import'])->name('teachers.import');
 // Menampilkan formulir pendaftaran akun dan profil guru baru
 Route::get('/admin/teachers/create', [\App\Http\Controllers\Admin\TeacherController::class, 'create'])->name('teachers.create');
 // Menyimpan data akun dan profil guru ke basis data melalui transaksi DB
@@ -209,6 +213,10 @@ Route::delete('/admin/teachers/{id}', [\App\Http\Controllers\Admin\TeacherContro
 // ==========================================
 // Menampilkan daftar keseluruhan data siswa (termasuk informasi orang tua)
 Route::get('/admin/students', [\App\Http\Controllers\Admin\StudentController::class, 'index'])->name('students.index');
+// Mengunduh berkas template CSV untuk impor data siswa
+Route::get('/admin/students/template', [\App\Http\Controllers\Admin\StudentController::class, 'downloadTemplate'])->name('students.template');
+// Memproses impor massal data siswa dari berkas CSV/Excel
+Route::post('/admin/students/import', [\App\Http\Controllers\Admin\StudentController::class, 'import'])->name('students.import');
 // Menampilkan formulir pendaftaran akun dan profil siswa baru
 Route::get('/admin/students/create', [\App\Http\Controllers\Admin\StudentController::class, 'create'])->name('students.create');
 // Menyimpan data akun dan profil siswa ke basis data melalui transaksi DB

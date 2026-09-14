@@ -72,7 +72,10 @@
                 
                 <!-- Menu Data Siswa -->
                 <a href="{{ route('students.index') }}" class="flex items-center gap-3 px-4 py-1.5 rounded-lg text-sm transition-all {{ request()->routeIs('students.*') ? 'bg-navy-base/40 text-white-off font-bold border-l-4 border-navy-light shadow-inner' : 'text-white-off/70 hover:bg-navy-base/20 hover:text-white-off font-medium group' }}">
-                    <svg class="w-5 h-5 {{ request()->routeIs('students.*') ? 'text-navy-light' : 'text-navy-light/70 group-hover:text-navy-light transition-colors' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"></path></svg>
+                    <svg class="w-5 h-5 {{ request()->routeIs('students.*') ? 'text-navy-light' : 'text-navy-light/70 group-hover:text-navy-light transition-colors' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"></path>
+                    </svg>
                     Data Siswa
                 </a>
                 <p class="px-4 pt-3 pb-1 text-[10px] font-bold text-navy-light uppercase tracking-widest">Keuangan & Ekskul</p>
