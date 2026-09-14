@@ -46,8 +46,8 @@
                         {{-- Input Kode Mata Pelajaran (1 Kolom) --}}
                         <div class="md:col-span-1">
                             <label class="block text-sm font-semibold text-navy-dark mb-1.5">Kode Mapel <span class="text-rose-500">*</span></label>
-                            <input type="text" name="code" value="{{ old('code') }}" placeholder="Contoh: MTK-07" required class="w-full bg-white-off/50 border border-navy-light/50 text-navy-dark font-semibold text-sm rounded-xl px-4 py-2.5 focus:bg-white focus:ring-2 focus:ring-navy-base/20 focus:border-navy-base outline-none transition-all">
-                            <p class="text-[10px] text-gray-muted mt-1.5 ml-1">Maksimal 20 karakter unik.</p>
+                            <input type="text" name="code" value="{{ old('code') }}" placeholder="Contoh: A-7, B-8, D-7" required class="w-full bg-white-off/50 border border-navy-light/50 text-navy-dark font-semibold text-sm rounded-xl px-4 py-2.5 focus:bg-white focus:ring-2 focus:ring-navy-base/20 focus:border-navy-base outline-none transition-all">
+                            <p class="text-[10px] text-gray-muted mt-1.5 ml-1">Format: Kode mapel + kelas (contoh: A-7 untuk PAI BP Kelas 7).</p>
                         </div>
 
                         {{-- Input Nama Mata Pelajaran (2 Kolom biar lega) --}}

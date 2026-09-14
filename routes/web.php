@@ -110,6 +110,10 @@ Route::delete('/admin/classes/{id}', [\App\Http\Controllers\Admin\ClassRoomContr
 // ==========================================
 // Menampilkan daftar lengkap mata pelajaran (Wajib & Muatan Lokal)
 Route::get('/admin/subjects', [SubjectController::class, 'index'])->name('subjects.index');
+// Mengunduh berkas template CSV untuk impor data mata pelajaran
+Route::get('/admin/subjects/template', [SubjectController::class, 'downloadTemplate'])->name('subjects.template');
+// Memproses impor massal data mata pelajaran dari berkas CSV/Excel
+Route::post('/admin/subjects/import', [SubjectController::class, 'import'])->name('subjects.import');
 // Menampilkan formulir untuk menambah mata pelajaran baru
 Route::get('/admin/subjects/create', [SubjectController::class, 'create'])->name('subjects.create');
 // Menyimpan data mata pelajaran baru ke basis data
