@@ -84,7 +84,7 @@
                     Akses Staf Administrator
                 </p>
                 <p class="text-[11px] text-slate-600 leading-relaxed font-medium">
-                    Masukkan username admin dan password resmi Anda untuk mengelola portal.
+                    Masukkan email resmi admin dan password Anda untuk mengelola portal.
                 </p>
             </div>
 
@@ -92,8 +92,8 @@
             <form method="POST" action="{{ route('login.post') }}" class="text-left space-y-3.5">
                 @csrf
                 <div>
-                    <label for="email" class="block text-xs font-bold text-gray-700 mb-1">Username Administrator</label>
-                    <input type="text" name="email" id="email" value="{{ old('email') }}" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-xs font-medium" placeholder="masukkan username admin" required>
+                    <label for="email" class="block text-xs font-bold text-gray-700 mb-1">Email Administrator</label>
+                    <input type="email" name="email" id="email" value="{{ old('email') }}" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-xs font-medium" placeholder="admin@smpsmi.com" required>
                 </div>
                 
                 <div>
