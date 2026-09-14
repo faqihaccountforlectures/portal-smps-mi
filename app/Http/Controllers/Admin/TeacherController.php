@@ -27,6 +27,7 @@ class TeacherController extends Controller
                   ->orWhereHas('teacherProfile', function($tp) use ($search) {
                       $tp->where('full_name', 'like', "%{$search}%")
                         ->orWhere('nip', 'like', "%{$search}%")
+                        ->orWhere('teacher_code', 'like', "%{$search}%")
                         ->orWhere('phone_number', 'like', "%{$search}%");
                   });
             });
@@ -61,6 +62,7 @@ class TeacherController extends Controller
             // 2. Kalo akunnya sukses dibuat, langsung bikinin profilnya dan sambungin pake ID user tadi
             TeacherProfile::create([
                 'user_id' => $user->id,
+                'teacher_code' => $validatedData['teacher_code'] ?? null,
                 'full_name' => $validatedData['full_name'],
                 'nip' => $validatedData['nip'],
                 'gender' => $validatedData['gender'],
@@ -100,6 +102,7 @@ class TeacherController extends Controller
             // Kalo ternyata dari database-nya belum punya profil (jaga-jaga error manual), ya dibikinin baru.
             if ($teacher->teacherProfile) {
                 $teacher->teacherProfile->update([
+                    'teacher_code' => $validatedData['teacher_code'] ?? null,
                     'full_name' => $validatedData['full_name'],
                     'nip' => $validatedData['nip'],
                     'gender' => $validatedData['gender'],
@@ -109,6 +112,7 @@ class TeacherController extends Controller
             } else {
                 TeacherProfile::create([
                     'user_id' => $teacher->id,
+                    'teacher_code' => $validatedData['teacher_code'] ?? null,
                     'full_name' => $validatedData['full_name'],
                     'nip' => $validatedData['nip'],
                     'gender' => $validatedData['gender'],
@@ -161,6 +165,7 @@ class TeacherController extends Controller
 
             // Baris header kolom template
             fputcsv($handle, [
+                'Kode Guru',
                 'Nama Lengkap',
                 'NIP',
                 'Email Akun Belajar',
@@ -169,34 +174,37 @@ class TeacherController extends Controller
                 'Nomor HP',
             ]);
 
-            // Baris contoh data pengisian ke-1 (Guru Pengajar) - Gunakan ="..." agar Excel tidak mengubah NIP & No HP jadi format ilmiah E+
+            // Baris contoh data pengisian ke-1 (Guru Pengajar)
             fputcsv($handle, [
-                'Budi Santoso, S.Pd',
-                '="198501012010011001"',
-                'budi.santoso@guru.smp.belajar.id',
+                '1',
+                'Siti Julaeha, S.Pd',
+                '="198503142010012021"',
+                'siti.julaeha@guru.smp.belajar.id',
                 'Guru',
-                'Laki-laki',
-                '="081234567890"',
+                'Perempuan',
+                '="081223344551"',
             ]);
 
-            // Baris contoh data pengisian ke-2 (Kepala Sekolah)
+            // Baris contoh data pengisian ke-2 (Guru Pengajar)
             fputcsv($handle, [
-                'Dra. Hj. Maryam, M.Pd',
-                '="197503152000032002"',
-                'maryam@guru.smp.belajar.id',
+                '2',
+                'Novi Indah Lestari, S.Pd',
+                '="198708222011012018"',
+                'novi.indah.lestari@guru.smp.belajar.id',
+                'Guru',
+                'Perempuan',
+                '="081223344552"',
+            ]);
+
+            // Baris contoh data pengisian ke-3 (Kepala Sekolah)
+            fputcsv($handle, [
+                '19',
+                'Rika Aryanti, M.Pd., Gr',
+                '="198205122008012015"',
+                'rika.aryanti@admin.smp.belajar.id',
                 'Kepala Sekolah',
                 'Perempuan',
-                '="081334455667"',
-            ]);
-
-            // Baris contoh data pengisian ke-3 (Wakil Kepala Sekolah)
-            fputcsv($handle, [
-                'Ahmad Rifai, S.Si',
-                '="199008202015021003"',
-                'ahmad.rifai@guru.smp.belajar.id',
-                'Wakil Kepala Sekolah',
-                'Laki-laki',
-                '="081398765432"',
+                '="081223344550"',
             ]);
 
             fclose($handle);
@@ -238,6 +246,7 @@ class TeacherController extends Controller
         $teachersToInsert = [];
         $batchEmails = [];
         $batchNips = [];
+        $batchCodes = [];
 
         // 3. Membaca dan memvalidasi setiap baris data dari berkas CSV
         while (($row = fgetcsv($handle, 1000, $delimiter)) !== false) {
@@ -254,13 +263,39 @@ class TeacherController extends Controller
                 continue;
             }
 
-            // Bersihkan data dari karakter ekstra tanda kutip / formula Excel (contoh: ="0812..." atau '0812...)
-            $fullName    = trim($row[0] ?? '');
-            $nip         = trim(trim($row[1] ?? ''), "=\"' \t\n\r\0\x0B");
-            $email       = trim($row[2] ?? '');
-            $positionRaw = strtolower(trim($row[3] ?? ''));
-            $genderRaw   = strtolower(trim($row[4] ?? ''));
-            $phoneNumber = trim(trim($row[5] ?? ''), "=\"' \t\n\r\0\x0B");
+            // Deteksi otomatis format: apakah kolom pertama adalah Kode Guru (format 7 kolom atau kolom ke-4 berformat email)
+            $hasTeacherCode = count($row) >= 7 || filter_var($row[3] ?? '', FILTER_VALIDATE_EMAIL);
+
+            if ($hasTeacherCode) {
+                $teacherCode = trim(trim($row[0] ?? ''), "=\"' \t\n\r\0\x0B");
+                $fullName    = trim($row[1] ?? '');
+                $nip         = trim(trim($row[2] ?? ''), "=\"' \t\n\r\0\x0B");
+                $email       = trim($row[3] ?? '');
+                $positionRaw = strtolower(trim($row[4] ?? ''));
+                $genderRaw   = strtolower(trim($row[5] ?? ''));
+                $phoneNumber = trim(trim($row[6] ?? ''), "=\"' \t\n\r\0\x0B");
+            } else {
+                $teacherCode = null;
+                $fullName    = trim($row[0] ?? '');
+                $nip         = trim(trim($row[1] ?? ''), "=\"' \t\n\r\0\x0B");
+                $email       = trim($row[2] ?? '');
+                $positionRaw = strtolower(trim($row[3] ?? ''));
+                $genderRaw   = strtolower(trim($row[4] ?? ''));
+                $phoneNumber = trim(trim($row[5] ?? ''), "=\"' \t\n\r\0\x0B");
+            }
+
+            // Validasi Kode Guru jika diisi
+            if ($teacherCode !== null && $teacherCode !== '') {
+                if (strlen($teacherCode) > 10) {
+                    $errors[] = "Baris ke-{$rowNumber}: Kode guru '{$teacherCode}' maksimal 10 karakter.";
+                    continue;
+                }
+                if (in_array($teacherCode, $batchCodes)) {
+                    $errors[] = "Baris ke-{$rowNumber}: Kode guru '{$teacherCode}' terdeteksi ganda di dalam berkas yang sama.";
+                    continue;
+                }
+                $batchCodes[] = $teacherCode;
+            }
 
             // Validasi Nama Lengkap
             if (empty($fullName) || strlen($fullName) > 100) {
@@ -280,12 +315,6 @@ class TeacherController extends Controller
                 continue;
             }
 
-            // Cek duplikasi NIP di database
-            if (TeacherProfile::where('nip', $nip)->exists()) {
-                $errors[] = "Baris ke-{$rowNumber}: NIP '{$nip}' sudah terdaftar di sistem.";
-                continue;
-            }
-
             // Validasi format Email
             if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $errors[] = "Baris ke-{$rowNumber}: Format email '{$email}' tidak valid.";
@@ -298,12 +327,6 @@ class TeacherController extends Controller
                 continue;
             }
 
-            // Cek duplikasi Email di database
-            if (User::where('email', $email)->exists()) {
-                $errors[] = "Baris ke-{$rowNumber}: Email '{$email}' sudah digunakan oleh pengguna lain.";
-                continue;
-            }
-
             // Normalisasi pilihan Jabatan
             if (in_array($positionRaw, ['kepala sekolah', 'kepala_sekolah', 'kepsek'])) {
                 $position = 'kepala_sekolah';
@@ -312,7 +335,7 @@ class TeacherController extends Controller
             } elseif (in_array($positionRaw, ['guru', 'guru pengajar', 'pengajar', 'guru mata pelajaran'])) {
                 $position = 'guru';
             } else {
-                $errors[] = "Baris ke-{$rowNumber}: Jabatan '{$row[3]}' tidak valid. Gunakan 'Guru', 'Kepala Sekolah', atau 'Wakil Kepala Sekolah'.";
+                $errors[] = "Baris ke-{$rowNumber}: Jabatan '{$positionRaw}' tidak valid. Gunakan 'Guru', 'Kepala Sekolah', atau 'Wakil Kepala Sekolah'.";
                 continue;
             }
 
@@ -322,7 +345,7 @@ class TeacherController extends Controller
             } elseif (in_array($genderRaw, ['p', 'perempuan', 'wanita'])) {
                 $gender = 'perempuan';
             } else {
-                $errors[] = "Baris ke-{$rowNumber}: Jenis kelamin '{$row[4]}' tidak valid. Gunakan 'Laki-laki' atau 'Perempuan'.";
+                $errors[] = "Baris ke-{$rowNumber}: Jenis kelamin '{$genderRaw}' tidak valid. Gunakan 'Laki-laki' atau 'Perempuan'.";
                 continue;
             }
 
@@ -331,6 +354,7 @@ class TeacherController extends Controller
             $batchNips[]   = $nip;
 
             $teachersToInsert[] = [
+                'teacher_code' => $teacherCode ?: null,
                 'full_name'    => $fullName,
                 'nip'          => $nip,
                 'email'        => $email,
@@ -354,24 +378,27 @@ class TeacherController extends Controller
             return redirect()->back()->with('error', 'Berkas CSV tidak memuat data guru yang dapat diimpor.');
         }
 
-        // 4. Eksekusi penyimpanan ke basis data menggunakan Database Transaction
+        // 4. Eksekusi penyimpanan ke basis data menggunakan Database Transaction (updateOrCreate agar data dapat disinkronkan)
         DB::transaction(function () use ($teachersToInsert) {
             foreach ($teachersToInsert as $teacherData) {
-                // Membuat akun pengguna (password null karena menggunakan Google SSO Belajar.id)
-                $user = User::create([
-                    'email' => $teacherData['email'],
-                    'role'  => 'guru',
-                ]);
+                // Buat atau ambil akun user (guru)
+                $user = User::firstOrCreate(
+                    ['email' => $teacherData['email']],
+                    ['role'  => 'guru']
+                );
 
-                // Membuat profil guru terkait
-                TeacherProfile::create([
-                    'user_id'      => $user->id,
-                    'full_name'    => $teacherData['full_name'],
-                    'nip'          => $teacherData['nip'],
-                    'gender'       => $teacherData['gender'],
-                    'position'     => $teacherData['position'],
-                    'phone_number' => $teacherData['phone_number'],
-                ]);
+                // Buat atau perbarui profil guru
+                TeacherProfile::updateOrCreate(
+                    ['user_id' => $user->id],
+                    [
+                        'teacher_code' => $teacherData['teacher_code'],
+                        'full_name'    => $teacherData['full_name'],
+                        'nip'          => $teacherData['nip'],
+                        'gender'       => $teacherData['gender'],
+                        'position'     => $teacherData['position'],
+                        'phone_number' => $teacherData['phone_number'],
+                    ]
+                );
             }
         });
 

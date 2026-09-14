@@ -82,6 +82,7 @@
                 <thead>
                     <tr class="bg-white-off/50 text-gray-muted text-[10px] uppercase tracking-widest border-b border-navy-light/30">
                         <th class="px-7 py-4 font-bold w-16 text-center">No</th>
+                        <th class="px-7 py-4 font-bold w-20 text-center">Kode</th>
                         <th class="px-7 py-4 font-bold">Profil Guru</th>
                         <th class="px-7 py-4 font-bold">NIP</th>
                         <th class="px-7 py-4 font-bold">No. Telepon</th>
@@ -94,6 +95,15 @@
                     <tr class="hover:bg-white-off/50 transition-colors group/row">
                         <td class="px-7 py-4 text-center text-gray-muted font-bold font-mono">
                             {{ $teachers->firstItem() + $index }}
+                        </td>
+                        <td class="px-7 py-4 text-center">
+                            @if(isset($teacher->teacherProfile->teacher_code) && $teacher->teacherProfile->teacher_code)
+                                <span class="bg-navy-light/20 text-navy-dark font-bold font-mono px-2.5 py-1 rounded-lg text-xs border border-navy-light/40">
+                                    {{ $teacher->teacherProfile->teacher_code }}
+                                </span>
+                            @else
+                                <span class="text-gray-muted italic text-xs">-</span>
+                            @endif
                         </td>
                         <td class="px-7 py-4">
                             <div class="flex items-center gap-3">
@@ -143,7 +153,7 @@
                     @include('admin.teachers.delete')
                     @empty
                     <tr>
-                        <td colspan="6" class="px-7 py-16 text-center">
+                        <td colspan="7" class="px-7 py-16 text-center">
                             <div class="flex flex-col items-center justify-center text-gray-muted">
                                 <div class="bg-navy-light/10 p-4 rounded-2xl mb-4 border border-navy-light/30 text-navy-base">
                                     <svg class="w-10 h-10 text-navy-base" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>

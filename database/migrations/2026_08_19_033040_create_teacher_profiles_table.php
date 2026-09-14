@@ -16,6 +16,7 @@ return new class extends Migration
             // Relasi One-to-One dengan tabel users
             $table->foreignId('user_id')->unique()->constrained('users')->onDelete('cascade');
             $table->string('nip', 30)->unique(); // NIP atau NUPTK guru
+            $table->string('teacher_code', 10)->nullable()->unique(); // Kode guru (1, 2, ..., 20)
             $table->string('full_name', 100); // Nama lengkap beserta gelar
             $table->enum('position', ['guru', 'kepala_sekolah', 'wakil_kepala_sekolah'])->default('guru'); // Jabatan guru
             $table->enum('gender', ['laki-laki', 'perempuan']); // Jenis kelamin guru

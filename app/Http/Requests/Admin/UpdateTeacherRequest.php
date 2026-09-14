@@ -27,6 +27,9 @@ class UpdateTeacherRequest extends FormRequest
             // agar sistem tidak menganggap email lamanya sebagai duplikat saat proses pembaruan.
             'email' => 'required|email|unique:users,email,' . $userId,
             
+            // Kode guru unik, mengecualikan guru yang sedang diedit
+            'teacher_code' => ['nullable', 'string', 'max:10', \Illuminate\Validation\Rule::unique('teacher_profiles', 'teacher_code')->ignore($userId, 'user_id')],
+
             'full_name' => 'required|string|max:255',
             'nip' => 'required|string|max:50',
             'gender' => 'required|in:laki-laki,perempuan',

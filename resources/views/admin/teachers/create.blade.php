@@ -73,16 +73,25 @@
                         </div>
                         
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 flex-grow">
-                            <!-- Nama Lengkap -->
+                            <!-- Kode Guru -->
                             <div>
-                                <label class="block text-sm font-bold text-navy-dark mb-1.5 tracking-wide">Nama Lengkap & Gelar <span class="text-rose-500">*</span></label>
-                                <input type="text" name="full_name" value="{{ old('full_name') }}" placeholder="Contoh: Budi Santoso, S.Pd., M.Si." required class="w-full bg-white border border-navy-light/40 text-navy-dark text-sm rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-navy-base focus:border-navy-base outline-none transition-all duration-200 shadow-sm font-medium">
+                                <label class="block text-sm font-bold text-navy-dark mb-1.5 tracking-wide flex items-center justify-between">
+                                    <span>Kode Guru (Jadwal)</span>
+                                    <span class="text-[11px] text-gray-muted font-normal">Opsional (Contoh: 1, 2)</span>
+                                </label>
+                                <input type="text" name="teacher_code" value="{{ old('teacher_code') }}" placeholder="Contoh: 1, 2, ..., 20" class="w-full bg-white border border-navy-light/40 text-navy-dark text-sm rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-navy-base focus:border-navy-base outline-none transition-all duration-200 shadow-sm font-medium">
                             </div>
 
                             <!-- NIP -->
                             <div>
                                 <label class="block text-sm font-bold text-navy-dark mb-1.5 tracking-wide">NIP <span class="text-rose-500">*</span></label>
                                 <input type="text" name="nip" value="{{ old('nip') }}" placeholder="Masukkan NIP" required class="w-full bg-white border border-navy-light/40 text-navy-dark text-sm rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-navy-base focus:border-navy-base outline-none transition-all duration-200 shadow-sm font-medium">
+                            </div>
+
+                            <!-- Nama Lengkap -->
+                            <div class="sm:col-span-2">
+                                <label class="block text-sm font-bold text-navy-dark mb-1.5 tracking-wide">Nama Lengkap & Gelar <span class="text-rose-500">*</span></label>
+                                <input type="text" name="full_name" value="{{ old('full_name') }}" placeholder="Contoh: Budi Santoso, S.Pd., M.Si." required class="w-full bg-white border border-navy-light/40 text-navy-dark text-sm rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-navy-base focus:border-navy-base outline-none transition-all duration-200 shadow-sm font-medium">
                             </div>
 
                             <!-- Jenis Kelamin -->

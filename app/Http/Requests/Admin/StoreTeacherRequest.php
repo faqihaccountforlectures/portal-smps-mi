@@ -25,6 +25,9 @@ class StoreTeacherRequest extends FormRequest
             // Alamat email diwajibkan, berformat email, dan harus belum pernah didaftarkan di tabel users
             'email' => 'required|email|unique:users,email',
             
+            // Kode guru unik (1, 2, ..., 20), opsional
+            'teacher_code' => 'nullable|string|max:10|unique:teacher_profiles,teacher_code',
+
             // Nama lengkap diwajibkan dengan batas maksimal 255 karakter
             'full_name' => 'required|string|max:255',
             
