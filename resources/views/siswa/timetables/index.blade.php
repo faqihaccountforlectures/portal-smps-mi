@@ -64,9 +64,16 @@
                                     
                                     <!-- Nama Guru -->
                                     <p class="text-xs text-gray-muted font-medium mt-1 flex items-center gap-1.5 truncate">
-                                        <svg class="w-3.5 h-3.5 text-navy-light shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
-                                        <span class="truncate">{{ $jadwal->teacherAssignment->teacher->teacherProfile->full_name ?? ($jadwal->teacherAssignment->teacher->name ?? 'Guru Belum Ditentukan') }}</span>
-                                    </p>
+                                         <svg class="w-3.5 h-3.5 text-navy-light shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                         <span class="truncate">
+                                             {{-- FUNGSI KODE: Mapel S & U diajar bersama oleh seluruh dewan guru --}}
+                                             @if(in_array($jadwal->teacherAssignment->subject->code ?? '', ['S', 'U']))
+                                                 Semua Guru
+                                             @else
+                                                 {{ $jadwal->teacherAssignment->teacher->teacherProfile->full_name ?? ($jadwal->teacherAssignment->teacher->name ?? 'Guru Belum Ditentukan') }}
+                                             @endif
+                                         </span>
+                                     </p>
                                 </div>
                             @endforeach
                         @else

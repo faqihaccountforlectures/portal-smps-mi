@@ -16,11 +16,23 @@
     @endif
     
     @if(session('error'))
-        <div class="bg-rose-50 border-l-4 border-rose-500 text-rose-700 px-5 py-4 rounded-xl mb-6 shadow-sm shadow-rose-500/10 flex items-center gap-3 animate-[fade-in-down_0.5s_ease-out]">
-            <div class="bg-rose-100 p-2 rounded-lg text-rose-600">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+        <div class="mb-6 bg-rose-50 border border-rose-200 text-rose-700 px-5 py-4 rounded-xl relative flex flex-col gap-2 shadow-sm animate-[fade-in-down_0.5s_ease-out]" role="alert">
+            <div class="flex items-center gap-3">
+                <div class="bg-rose-100 p-1.5 rounded-lg shrink-0">
+                    <svg class="w-5 h-5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <span class="font-bold text-sm">{{ session('error') }}</span>
             </div>
-            <span class="text-sm font-bold tracking-wide">{{ session('error') }}</span>
+            @if(session('import_errors'))
+            <div class="mt-2 pl-10">
+                <p class="text-[11px] font-bold uppercase tracking-wider mb-1 text-rose-800">Rincian Baris yang Perlu Diperbaiki:</p>
+                <ul class="list-disc list-inside text-xs space-y-1 text-rose-700 max-h-48 overflow-y-auto thin-scrollbar bg-white/60 p-3 rounded-lg border border-rose-200">
+                    @foreach(session('import_errors') as $err)
+                        <li>{{ $err }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
         </div>
     @endif
 
@@ -46,6 +58,12 @@
                     <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Cari nama guru / mapel..." class="w-full bg-white border border-navy-light/50 text-navy-dark font-semibold text-xs rounded-xl pl-9 pr-4 py-2.5 focus:bg-white focus:ring-2 focus:ring-navy-base/20 focus:border-navy-base outline-none transition-all placeholder:text-gray-muted/60">
                     <button type="submit" class="hidden">Cari</button>
                 </form>
+
+                {{-- Tombol Impor Excel / CSV --}}
+                <button type="button" onclick="openTeacherAssignmentImportModal()" class="w-full sm:w-auto px-4 py-2.5 bg-white border border-navy-light/50 text-navy-dark hover:text-navy-base hover:bg-navy-light/10 font-bold text-xs rounded-xl shadow-sm hover:shadow active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap">
+                    <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                    <span>Impor Excel / CSV</span>
+                </button>
 
                 <a href="{{ route('teacher-assignments.create') }}" class="inline-flex items-center justify-center gap-2 bg-navy-dark text-white-off font-bold text-xs px-4 py-2.5 rounded-xl hover:bg-navy-base hover:shadow-lg hover:shadow-navy-base/20 active:scale-[0.98] transition-all duration-300 w-full sm:w-auto whitespace-nowrap">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
@@ -153,6 +171,94 @@
         </div>
         @endif
     </div>
+
+    {{-- FUNGSI KODE: Modal Pop-up untuk Mengunggah Berkas CSV / Excel Data Penugasan Guru --}}
+    <div id="teacherAssignmentImportModal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-navy-dark/60 backdrop-blur-sm p-4 transition-opacity duration-300">
+        <div class="bg-white rounded-2xl shadow-2xl border border-navy-light/30 max-w-lg w-full overflow-hidden transform transition-all">
+            <!-- Header Modal -->
+            <div class="px-6 py-5 border-b border-navy-light/20 flex justify-between items-center bg-white-off/40">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 bg-emerald-50 text-emerald-600 rounded-xl border border-emerald-200">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-navy-dark font-heading text-base">Impor Penugasan Guru</h3>
+                        <p class="text-[11px] text-gray-muted font-medium mt-0.5">Unggah berkas CSV untuk membagi tugas mengajar guru ke setiap kelas secara massal.</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeTeacherAssignmentImportModal()" class="text-gray-muted hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Isi Modal & Formulir -->
+            <form action="{{ route('teacher-assignments.import') }}" method="POST" enctype="multipart/form-data" class="p-6 space-y-5">
+                @csrf
+
+                <!-- Panduan & Tombol Unduh Template -->
+                <div class="bg-navy-light/10 border border-navy-light/30 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div>
+                        <p class="text-xs font-bold text-navy-dark">Gunakan Template Resmi</p>
+                        <p class="text-[11px] text-gray-muted mt-0.5">Unduh template berformat CSV untuk mengisi daftar penugasan guru.</p>
+                    </div>
+                    <a href="{{ route('teacher-assignments.template') }}" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg shadow-sm flex items-center gap-1.5 shrink-0 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Unduh Template
+                    </a>
+                </div>
+
+                <!-- Input File CSV -->
+                <div class="space-y-1.5">
+                    <label for="assignment_csv_file" class="block text-xs font-bold text-navy-dark">Pilih Berkas CSV (.csv)</label>
+                    <input type="file" id="assignment_csv_file" name="file" accept=".csv,text/csv,text/plain" required class="w-full text-xs text-navy-dark border border-navy-light/40 rounded-xl file:mr-4 file:py-2.5 file:px-4 file:rounded-l-xl file:border-0 file:text-xs file:font-bold file:bg-navy-dark file:text-white-off hover:file:bg-navy-base cursor-pointer focus:outline-none focus:ring-2 focus:ring-navy-base/20">
+                    <p class="text-[10px] text-gray-muted">Ukuran berkas maksimal 5 MB. Pastikan kolom Kode Guru, Kode Mapel, dan Kelas terisi.</p>
+                </div>
+
+                <!-- Petunjuk Format Pengisian -->
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 flex items-start gap-2.5 text-amber-800">
+                    <svg class="w-4 h-4 text-amber-600 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <div class="text-[11px] leading-relaxed space-y-1.5">
+                        <p class="font-bold">Panduan Format Kolom CSV:</p>
+                        <ul class="list-disc list-inside space-y-1">
+                            <li><b>Kode Guru:</b> Nomor kode guru pada dokumen (contoh: <code class="bg-amber-100 px-1 rounded font-mono">1</code>, <code class="bg-amber-100 px-1 rounded font-mono">2</code>, atau <code class="bg-amber-100 px-1 rounded font-mono">19</code> untuk Kokurikuler, <code class="bg-amber-100 px-1 rounded font-mono">20</code> untuk Pembiasaan).</li>
+                            <li><b>Kode Mata Pelajaran:</b> Kode mapel di sistem (contoh: <code class="bg-amber-100 px-1 rounded font-mono">F-7</code>, <code class="bg-amber-100 px-1 rounded font-mono">B-8</code>, <code class="bg-amber-100 px-1 rounded font-mono">S</code>, <code class="bg-amber-100 px-1 rounded font-mono">U</code>).</li>
+                            <li><b>Kelas:</b> Nama ruang kelas tujuan (contoh: <code class="bg-amber-100 px-1 rounded font-mono">VII A</code>, <code class="bg-amber-100 px-1 rounded font-mono">VIII B</code>).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Tombol Aksi Modal -->
+                <div class="pt-3 border-t border-navy-light/20 flex justify-end gap-2.5">
+                    <button type="button" onclick="closeTeacherAssignmentImportModal()" class="px-4 py-2 text-xs font-bold text-gray-muted hover:text-navy-dark rounded-xl hover:bg-navy-light/10 transition-colors">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-5 py-2 bg-navy-dark text-white-off hover:bg-navy-base text-xs font-bold rounded-xl shadow-sm hover:shadow active:scale-95 transition-all">
+                        Mulai Impor Penugasan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {{-- FUNGSI KODE: Skrip kendali interaksi buka/tutup modal impor penugasan guru --}}
+    <script>
+        function openTeacherAssignmentImportModal() {
+            const modal = document.getElementById('teacherAssignmentImportModal');
+            modal.classList.remove('hidden');
+        }
+
+        function closeTeacherAssignmentImportModal() {
+            const modal = document.getElementById('teacherAssignmentImportModal');
+            modal.classList.add('hidden');
+        }
+
+        // Menutup modal jika pengguna menekan tombol Escape (ESC) pada keyboard
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeTeacherAssignmentImportModal();
+            }
+        });
+    </script>
 @endsection
 
 

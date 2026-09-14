@@ -128,6 +128,10 @@ Route::delete('/admin/subjects/{id}', [SubjectController::class, 'destroy'])->na
 // ==========================================
 // RUTE PENUGASAN GURU (TEACHER ASSIGNMENTS)
 // ==========================================
+// Mengunduh berkas template CSV untuk impor data penugasan guru
+Route::get('/teacher-assignments/template', [TeacherAssignmentController::class, 'downloadTemplate'])->name('teacher-assignments.template');
+// Memproses impor massal data penugasan guru dari berkas CSV/Excel
+Route::post('/teacher-assignments/import', [TeacherAssignmentController::class, 'import'])->name('teacher-assignments.import');
 // Menampilkan daftar penugasan guru (alokasi guru pada mata pelajaran)
 Route::get('/teacher-assignments', [TeacherAssignmentController::class, 'index'])->name('teacher-assignments.index');
 // Menampilkan formulir pendaftaran penugasan guru baru
@@ -144,6 +148,10 @@ Route::delete('/teacher-assignments/{teacher_id}/{subject_id}', [TeacherAssignme
 // ==========================================
 // RUTE MANAJEMEN JADWAL PELAJARAN (TIMETABLES)
 // ==========================================
+// Mengunduh berkas template matriks CSV untuk impor data jadwal pelajaran mingguan
+Route::get('/lesson-schedules/template', [LessonScheduleController::class, 'downloadTemplate'])->name('lesson-schedules.template');
+// Memproses impor massal data jadwal pelajaran matriks dari berkas CSV/Excel
+Route::post('/lesson-schedules/import', [LessonScheduleController::class, 'import'])->name('lesson-schedules.import');
 // Menginisialisasi rute sumber daya (resource) untuk jadwal pelajaran
 Route::resource('lesson-schedules', LessonScheduleController::class);
 

@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Tambah Penugasan Guru')
 @section('header', 'Penugasan Guru')
@@ -49,31 +49,36 @@
                 <form action="{{ route('teacher-assignments.store') }}" method="POST" class="space-y-5">
                     @csrf
                     
-                    {{-- Kita pake grid 3 kolom supaya 3 dropdown sejajar menyamping (layout lebar) --}}
+                    {{-- FUNGSI KODE: Grid 3 kolom untuk memilih Guru (Bisa centang semua), Mata Pelajaran, dan Kelas --}}
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                         
-                        {{-- Kolom 1: Pilih Guru --}}
+                        {{-- Kolom 1: Pilih Guru (Mendukung Centang Semua Guru untuk Pembiasaan / Kokurikuler) --}}
                         <div class="md:col-span-1">
-                            <label class="block text-sm font-semibold text-navy-dark mb-1.5">Nama Guru <span class="text-rose-500">*</span></label>
-                            <div class="relative">
-                                <select name="teacher_id" required class="w-full bg-white-off/50 border border-navy-light/50 text-navy-dark font-semibold text-sm rounded-xl pl-4 pr-10 py-2.5 focus:bg-white focus:ring-2 focus:ring-navy-base/20 focus:border-navy-base outline-none transition-all appearance-none cursor-pointer">
-                                    <option value="" disabled selected>-- Pilih Guru --</option>
-                                    @foreach($teachers as $teacher)
-                                        {{-- Pengecekan biar pilihan lamanya gak ilang kalau kena validasi error --}}
-                                        <option value="{{ $teacher->id }}" {{ old('teacher_id') == $teacher->id ? 'selected' : '' }}>
-                                            {{ $teacher->teacherProfile->full_name ?? 'Tanpa Nama' }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-muted">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                                </div>
+                            <div class="flex items-center justify-between mb-2">
+                                <label class="block text-sm font-semibold text-navy-dark">Pilih Guru <span class="text-rose-500">*</span></label>
+                                <label class="inline-flex items-center gap-1.5 cursor-pointer text-[11px] font-bold text-navy-base hover:text-navy-dark select-none">
+                                    <input type="checkbox" id="checkAllTeachers" class="w-3.5 h-3.5 text-navy-base rounded border-slate-300 focus:ring-0 cursor-pointer">
+                                    <span>Centang Semua</span>
+                                </label>
                             </div>
+                            <div class="bg-white-off/50 border border-navy-light/50 rounded-xl p-3 max-h-[160px] overflow-y-auto custom-scrollbar space-y-2">
+                                @foreach($teachers as $teacher)
+                                    <label class="flex items-center gap-2 cursor-pointer group py-0.5">
+                                        <input type="checkbox" name="teacher_ids[]" value="{{ $teacher->id }}" 
+                                            {{ (is_array(old('teacher_ids')) && in_array($teacher->id, old('teacher_ids'))) ? 'checked' : '' }}
+                                            class="teacher-checkbox w-4 h-4 text-navy-base bg-white border-slate-400 rounded focus:ring-blue-900/20 focus:ring-2 transition-all cursor-pointer">
+                                        <span class="text-xs font-medium text-navy-dark group-hover:text-navy-base transition-colors truncate" title="{{ $teacher->teacherProfile->full_name ?? 'Tanpa Nama' }}">
+                                            {{ $teacher->teacherProfile->full_name ?? 'Tanpa Nama' }}
+                                        </span>
+                                    </label>
+                                @endforeach
+                            </div>
+                            <p class="text-[11px] text-gray-muted mt-2 leading-relaxed">Centang guru yang ditugaskan, atau gunakan <b>Centang Semua</b> untuk mata pelajaran Pembiasaan & Kokurikuler.</p>
                         </div>
 
                         {{-- Kolom 2: Pilih Mata Pelajaran --}}
                         <div class="md:col-span-1">
-                            <label class="block text-sm font-semibold text-navy-dark mb-1.5">Mata Pelajaran <span class="text-rose-500">*</span></label>
+                            <label class="block text-sm font-semibold text-navy-dark mb-2">Mata Pelajaran <span class="text-rose-500">*</span></label>
                             <div class="relative">
                                 <select name="subject_id" required class="w-full bg-white-off/50 border border-navy-light/50 text-navy-dark font-semibold text-sm rounded-xl pl-4 pr-10 py-2.5 focus:bg-white focus:ring-2 focus:ring-navy-base/20 focus:border-navy-base outline-none transition-all appearance-none cursor-pointer">
                                     <option value="" disabled selected>-- Pilih Mapel --</option>
@@ -87,24 +92,31 @@
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </div>
                             </div>
+                            <p class="text-[11px] text-gray-muted mt-2 leading-relaxed">Pilih mata pelajaran yang hendak ditugaskan.</p>
                         </div>
 
                         {{-- Kolom 3: Pilih Kelas (Checkboxes) --}}
                         <div class="md:col-span-1">
-                            <label class="block text-sm font-semibold text-navy-dark mb-2">Pilih Kelas (Bisa Centang Banyak) <span class="text-rose-500">*</span></label>
-                            <div class="bg-white-off/50 border border-navy-light/50 rounded-xl p-4 max-h-[140px] overflow-y-auto custom-scrollbar">
-                                <div class="grid grid-cols-2 gap-3">
+                            <div class="flex items-center justify-between mb-2">
+                                <label class="block text-sm font-semibold text-navy-dark">Pilih Kelas <span class="text-rose-500">*</span></label>
+                                <label class="inline-flex items-center gap-1.5 cursor-pointer text-[11px] font-bold text-navy-base hover:text-navy-dark select-none">
+                                    <input type="checkbox" id="checkAllClasses" class="w-3.5 h-3.5 text-navy-base rounded border-slate-300 focus:ring-0 cursor-pointer">
+                                    <span>Centang Semua</span>
+                                </label>
+                            </div>
+                            <div class="bg-white-off/50 border border-navy-light/50 rounded-xl p-3 max-h-[160px] overflow-y-auto custom-scrollbar">
+                                <div class="grid grid-cols-2 gap-2">
                                     @foreach($classRooms as $class)
-                                        <label class="flex items-center gap-2 cursor-pointer group">
+                                        <label class="flex items-center gap-2 cursor-pointer group py-0.5">
                                             <input type="checkbox" name="class_room_ids[]" value="{{ $class->id }}" 
                                                 {{ (is_array(old('class_room_ids')) && in_array($class->id, old('class_room_ids'))) ? 'checked' : '' }}
-                                                class="w-4 h-4 text-navy-base bg-white border-slate-400 rounded focus:ring-blue-900/20 focus:ring-2 transition-all">
-                                            <span class="text-sm font-medium text-navy-dark group-hover:text-navy-base transition-colors">{{ $class->name }}</span>
+                                                class="class-checkbox w-4 h-4 text-navy-base bg-white border-slate-400 rounded focus:ring-blue-900/20 focus:ring-2 transition-all cursor-pointer">
+                                            <span class="text-xs font-medium text-navy-dark group-hover:text-navy-base transition-colors">{{ $class->name }}</span>
                                         </label>
                                     @endforeach
                                 </div>
                             </div>
-                            <p class="text-[11px] text-gray-muted mt-2 leading-relaxed">Centang kelas mana saja yang diajar oleh guru ini untuk mata pelajaran di samping.</p>
+                            <p class="text-[11px] text-gray-muted mt-2 leading-relaxed">Centang kelas yang diajar untuk mata pelajaran ini.</p>
                         </div>
                         
                     </div>
@@ -122,6 +134,41 @@
             </div>
         </div>
     </div>
+
+    {{-- FUNGSI KODE: JavaScript interaktif untuk Centang Semua Guru dan Centang Semua Kelas --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Logika Centang Semua Guru
+            const checkAllTeachers = document.getElementById('checkAllTeachers');
+            const teacherCheckboxes = document.querySelectorAll('.teacher-checkbox');
+            if (checkAllTeachers) {
+                checkAllTeachers.addEventListener('change', function() {
+                    teacherCheckboxes.forEach(cb => cb.checked = checkAllTeachers.checked);
+                });
+                teacherCheckboxes.forEach(cb => {
+                    cb.addEventListener('change', function() {
+                        const allChecked = Array.from(teacherCheckboxes).length > 0 && Array.from(teacherCheckboxes).every(c => c.checked);
+                        checkAllTeachers.checked = allChecked;
+                    });
+                });
+            }
+
+            // Logika Centang Semua Kelas
+            const checkAllClasses = document.getElementById('checkAllClasses');
+            const classCheckboxes = document.querySelectorAll('.class-checkbox');
+            if (checkAllClasses) {
+                checkAllClasses.addEventListener('change', function() {
+                    classCheckboxes.forEach(cb => cb.checked = checkAllClasses.checked);
+                });
+                classCheckboxes.forEach(cb => {
+                    cb.addEventListener('change', function() {
+                        const allChecked = Array.from(classCheckboxes).length > 0 && Array.from(classCheckboxes).every(c => c.checked);
+                        checkAllClasses.checked = allChecked;
+                    });
+                });
+            }
+        });
+    </script>
 @endsection
 
 
