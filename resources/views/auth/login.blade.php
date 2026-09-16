@@ -8,10 +8,13 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!-- Tailwind CSS CDN Fallback -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts (Inter) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts (Inter & Plus Jakarta Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
+        .font-heading { font-family: 'Plus Jakarta Sans', sans-serif; }
     </style>
 </head>
 <body class="bg-slate-50 flex items-center justify-center min-h-screen p-4">
@@ -25,7 +28,7 @@
         </div>
 
         <!-- Teks Judul Portal -->
-        <h1 class="text-xl font-bold text-[#0f172a] mb-0.5">Portal Akademik</h1>
+        <h1 class="text-xl font-bold text-[#0f172a] mb-0.5 font-heading">Portal Akademik</h1>
         <p class="text-gray-500 text-xs font-semibold mb-6">SMP Science Mutiara Insani</p>
 
         <!-- Pesan Error Session (Jika ada error login atau akses ditolak) -->
