@@ -192,15 +192,52 @@
                     <h1 class="text-base md:text-xl font-bold text-navy-dark font-heading truncate">@yield('header', 'Dashboard')</h1>
                 </div>
                 
-                <div class="flex items-center gap-3 md:gap-4 shrink-0">
-                    <div class="text-right">
-                        <p class="text-xs md:text-sm font-bold text-navy-dark truncate max-w-[140px] sm:max-w-none">{{ Auth::user()->email }}</p>
-                        <p class="text-[9px] md:text-[10px] text-gray-muted font-bold uppercase tracking-widest mt-0.5">{{ Auth::user()->role }}</p>
-                    </div>
+                @php
+                    // FUNGSI KODE: Menentukan tautan menuju halaman profil berdasarkan role akun pengguna
+                    $profileRoute = match(Auth::user()->role) {
+                        'admin' => route('admin.profile.index'),
+                        'guru'  => route('guru.profile.index'),
+                        'siswa' => route('siswa.profile.index'),
+                        default => '#',
+                    };
+
+                    // FUNGSI KODE: Memberikan warna aksen lencana (badge) yang berbeda untuk tiap role
+                    $roleBadgeClass = match(Auth::user()->role) {
+                        'admin' => 'bg-purple-50 text-purple-700 border-purple-200',
+                        'guru'  => 'bg-emerald-50 text-emerald-700 border-emerald-200',
+                        'siswa' => 'bg-blue-50 text-blue-700 border-blue-200',
+                        default => 'bg-gray-50 text-gray-700 border-gray-200',
+                    };
+                @endphp
+
+                <!-- FUNGSI KODE: Bagian Informasi Profil Pengguna (Nama Lengkap, Lencana Role, Avatar Inisial, dan Tombol Logout) -->
+                <div class="flex items-center gap-2.5 sm:gap-3.5 shrink-0">
+                    
+                    <!-- Tautan Pintas Menuju Halaman Profil Saya -->
+                    <a href="{{ $profileRoute }}" class="flex items-center gap-2.5 p-1 rounded-xl hover:bg-navy-light/10 transition-all group" title="Buka Profil Saya">
+                        <!-- Nama Lengkap dan Role Badge (Tersembunyi di layar ponsel super kecil agar tidak sesak) -->
+                        <div class="text-right hidden sm:block">
+                            <p class="text-xs md:text-sm font-bold text-navy-dark font-heading group-hover:text-navy-base transition-colors truncate max-w-[140px] md:max-w-[200px]">
+                                {{ Auth::user()->display_name }}
+                            </p>
+                            <span class="inline-block text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border mt-0.5 {{ $roleBadgeClass }}">
+                                {{ Auth::user()->role }}
+                            </span>
+                        </div>
+
+                        <!-- Avatar Lingkaran Inisial Nama Pengguna -->
+                        <div class="w-9 h-9 md:w-10 md:h-10 rounded-full bg-gradient-to-tr from-navy-dark to-navy-base text-white-pure flex items-center justify-center font-bold text-xs md:text-sm font-heading shadow-sm border border-navy-light/40 shrink-0 group-hover:scale-105 group-hover:shadow transition-transform">
+                            {{ Auth::user()->initial }}
+                        </div>
+                    </a>
+
+                    <!-- Garis Pembatas Vertikal -->
+                    <div class="h-6 w-px bg-navy-light/30"></div>
+
                     <!-- Tombol Logout -->
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button type="submit" class="p-2 md:p-2.5 bg-white border border-navy-light/50 text-gray-muted rounded-xl hover:text-rose-600 hover:bg-rose-50 hover:border-rose-200 transition-all shadow-sm hover:shadow-md" title="Keluar">
+                        <button type="submit" class="p-2 md:p-2.5 bg-white border border-navy-light/50 text-gray-muted rounded-xl hover:text-rose-600 hover:bg-rose-50 hover:border-rose-200 transition-all shadow-sm hover:shadow-md" title="Keluar dari Sistem">
                             <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                         </button>
                     </form>

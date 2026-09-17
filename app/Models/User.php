@@ -47,4 +47,40 @@ class User extends Authenticatable
     {
         return $this->hasOne(TeacherProfile::class);
     }
+
+    /**
+     * FUNGSI KODE: Accessor untuk mendapatkan nama lengkap tampilan pengguna.
+     * Secara cerdas memeriksa profil pengguna sesuai peran:
+     * - Jika Guru: mengambil nama dari teacherProfile->full_name.
+     * - Jika Siswa: mengambil nama dari studentProfile->full_name.
+     * - Jika Admin atau profil belum ada: menggunakan kolom 'name' atau potongan awal email.
+     */
+    public function getDisplayNameAttribute(): string
+    {
+        if ($this->role === 'guru' && $this->relationLoaded('teacherProfile') ? $this->teacherProfile : $this->teacherProfile()->first()) {
+            $profile = $this->teacherProfile;
+            if (!empty($profile->full_name)) {
+                return $profile->full_name;
+            }
+        }
+
+        if ($this->role === 'siswa' && $this->relationLoaded('studentProfile') ? $this->studentProfile : $this->studentProfile()->first()) {
+            $profile = $this->studentProfile;
+            if (!empty($profile->full_name)) {
+                return $profile->full_name;
+            }
+        }
+
+        return !empty($this->name) ? $this->name : explode('@', $this->email)[0];
+    }
+
+    /**
+     * FUNGSI KODE: Accessor untuk mendapatkan 1 karakter inisial nama depan pengguna
+     * untuk dirender sebagai foto profil lingkaran (avatar placeholder) di topbar.
+     */
+    public function getInitialAttribute(): string
+    {
+        $name = trim($this->display_name);
+        return strtoupper(mb_substr($name, 0, 1, 'UTF-8')) ?: 'U';
+    }
 }
