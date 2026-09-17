@@ -46,4 +46,13 @@ class TeacherAssignment extends Model
     {
         return $this->belongsTo(AcademicYear::class, 'academic_year_id');
     }
+
+    /**
+     * FUNGSI KODE: Relasi one-to-many ke model Materi Pelajaran (LearningMaterial).
+     * Satu penugasan guru (alokasi mapel di suatu kelas) dapat memiliki banyak berkas/materi pelajaran.
+     */
+    public function learningMaterials()
+    {
+        return $this->hasMany(LearningMaterial::class, 'teacher_assignment_id');
+    }
 }
