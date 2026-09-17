@@ -8,17 +8,29 @@
 </head>
 <body class="bg-white-off text-navy-dark antialiased">
 
+    <!-- FUNGSI KODE: Latar belakang redup (backdrop overlay) saat sidebar mobile dibuka -->
+    <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-navy-dark/60 backdrop-blur-xs z-40 hidden md:hidden transition-opacity"></div>
+
     <div class="flex h-screen overflow-hidden">
         
-        <!-- Sidebar (Kiri) -->
-        <aside class="w-64 bg-navy-dark flex flex-col z-20">
+        <!-- FUNGSI KODE: Sidebar navigasi utama.
+             Pada layar desktop (md ke atas), sidebar berposisi statis dan dapat disembunyikan/dimunculkan dengan tombol toggle.
+             Pada layar mobile (< md), sidebar bertindak sebagai drawer off-canvas yang meluncur dari kiri. -->
+        <aside id="mobile-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-navy-dark flex flex-col transition-all duration-300 ease-in-out transform -translate-x-full md:static md:translate-x-0 shrink-0 shadow-2xl md:shadow-none">
             <!-- Logo area -->
-            <div class="h-20 flex items-center px-6 bg-white-pure border-b border-navy-light/20 shrink-0">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo SMP Science Mutiara Insani" class="w-10 h-10 object-contain mr-3 shrink-0">
-                <div>
-                    <h2 class="text-[14px] font-bold text-navy-dark tracking-wide leading-tight font-heading">Portal Akademik</h2>
-                    <p class="text-[9px] text-gray-muted font-bold uppercase tracking-wider mt-0.5">SMP Science Mutiara Insani</p>
+            <div class="h-20 flex items-center justify-between px-6 bg-white-pure border-b border-navy-light/20 shrink-0">
+                <div class="flex items-center">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo SMP Science Mutiara Insani" class="w-10 h-10 object-contain mr-3 shrink-0">
+                    <div>
+                        <h2 class="text-[14px] font-bold text-navy-dark tracking-wide leading-tight font-heading">Portal Akademik</h2>
+                        <p class="text-[9px] text-gray-muted font-bold uppercase tracking-wider mt-0.5">SMP Science Mutiara Insani</p>
+                    </div>
                 </div>
+
+                <!-- Tombol Tutup (X) khusus layar mobile -->
+                <button type="button" onclick="toggleSidebar()" class="md:hidden p-1.5 rounded-lg text-gray-muted hover:text-navy-dark hover:bg-navy-light/10 transition-colors" aria-label="Tutup Menu">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
             </div>
 
             <!-- Menu Navigasi -->
@@ -165,35 +177,85 @@
 
 
         <!-- Area Kanan (Topbar & Konten) -->
-        <div class="flex-1 flex flex-col overflow-hidden">
+        <div class="flex-1 flex flex-col overflow-hidden min-w-0">
             
-            <!-- Topbar (Atas) -->
-            <header class="h-20 bg-white-pure border-b border-navy-light/20 flex items-center justify-between px-8 z-10">
-                <h1 class="text-xl font-bold text-navy-dark font-heading">@yield('header', 'Dashboard')</h1>
+            <!-- FUNGSI KODE: Topbar atas yang memuat tombol toggle menu (hamburger), judul halaman, dan info pengguna -->
+            <header class="h-16 md:h-20 bg-white-pure border-b border-navy-light/20 flex items-center justify-between px-4 md:px-8 z-10 shrink-0">
+                <div class="flex items-center gap-3 min-w-0">
+                    <!-- FUNGSI KODE: Tombol Hamburger (3 garis) untuk menyembunyikan/memunculkan sidebar di Laptop maupun HP -->
+                    <button type="button" onclick="toggleSidebar()" class="p-2 rounded-xl text-navy-dark hover:bg-navy-light/10 border border-navy-light/30 transition-colors shrink-0" title="Sembunyikan / Tampilkan Menu" aria-label="Toggle Menu Navigasi">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+
+                    <h1 class="text-base md:text-xl font-bold text-navy-dark font-heading truncate">@yield('header', 'Dashboard')</h1>
+                </div>
                 
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-3 md:gap-4 shrink-0">
                     <div class="text-right">
-                        <p class="text-sm font-bold text-navy-dark">{{ Auth::user()->email }}</p>
-                        <p class="text-[10px] text-gray-muted font-bold uppercase tracking-widest mt-0.5">{{ Auth::user()->role }}</p>
+                        <p class="text-xs md:text-sm font-bold text-navy-dark truncate max-w-[140px] sm:max-w-none">{{ Auth::user()->email }}</p>
+                        <p class="text-[9px] md:text-[10px] text-gray-muted font-bold uppercase tracking-widest mt-0.5">{{ Auth::user()->role }}</p>
                     </div>
                     <!-- Tombol Logout -->
                     <form action="{{ route('logout') }}" method="POST">
                         @csrf
-                        <button type="submit" class="p-2.5 bg-white border border-navy-light/50 text-gray-muted rounded-xl hover:text-rose-600 hover:bg-rose-50 hover:border-rose-200 transition-all shadow-sm hover:shadow-md" title="Keluar">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+                        <button type="submit" class="p-2 md:p-2.5 bg-white border border-navy-light/50 text-gray-muted rounded-xl hover:text-rose-600 hover:bg-rose-50 hover:border-rose-200 transition-all shadow-sm hover:shadow-md" title="Keluar">
+                            <svg class="w-4 h-4 md:w-5 md:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                         </button>
                     </form>
                 </div>
             </header>
 
             <!-- Area Konten Dinamis -->
-            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-white-off/50 p-8">
+            <main class="flex-1 overflow-x-hidden overflow-y-auto bg-white-off/50 p-4 md:p-8">
                 @yield('content')
             </main>
 
         </div>
     </div>
 
+    <script>
+        // FUNGSI KODE: Mengontrol buka/tutup menu navigasi sidebar baik pada desktop (collapse) maupun mobile (drawer)
+        function toggleSidebar() {
+            const sidebar = document.getElementById('mobile-sidebar');
+            const backdrop = document.getElementById('sidebar-backdrop');
+            const isMobile = window.innerWidth < 768;
+
+            if (isMobile) {
+                // Logika Perangkat Layar Ponsel (Mobile Drawer)
+                if (sidebar.classList.contains('-translate-x-full')) {
+                    sidebar.classList.remove('-translate-x-full');
+                    sidebar.classList.add('translate-x-0');
+                    backdrop.classList.remove('hidden');
+                } else {
+                    sidebar.classList.add('-translate-x-full');
+                    sidebar.classList.remove('translate-x-0');
+                    backdrop.classList.add('hidden');
+                }
+            } else {
+                // Logika Perangkat Laptop/Desktop (Toggle Sembunyikan/Munculkan Sidebar)
+                // Menggunakan class md:-ml-64 untuk menggeser sidebar ke luar layar secara mulus
+                if (sidebar.classList.contains('md:-ml-64')) {
+                    sidebar.classList.remove('md:-ml-64');
+                    localStorage.setItem('sidebar_desktop_collapsed', 'false');
+                } else {
+                    sidebar.classList.add('md:-ml-64');
+                    localStorage.setItem('sidebar_desktop_collapsed', 'true');
+                }
+            }
+        }
+
+        // FUNGSI KODE: Memulihkan status sidebar desktop yang tersimpan di memori browser saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.innerWidth >= 768 && localStorage.getItem('sidebar_desktop_collapsed') === 'true') {
+                const sidebar = document.getElementById('mobile-sidebar');
+                if (sidebar) {
+                    sidebar.classList.add('md:-ml-64');
+                }
+            }
+        });
+    </script>
 </body>
 </html>
 
