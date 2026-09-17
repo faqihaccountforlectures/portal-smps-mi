@@ -360,7 +360,7 @@
                             <svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                             </svg>
-                            <span class="text-white-off font-medium">Jam Operasional: Senin - Sabtu (Tutup pukul 16.00 WIB)</span>
+                            <span class="text-white-off font-medium">Jam Operasional: Senin - Jum'at (Tutup pukul 14.40 WIB)</span>
                         </div>
 
                         <div class="flex items-center gap-2.5">
