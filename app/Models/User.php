@@ -49,6 +49,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Relasi ke penugasan mengajar guru (TeacherAssignment).
+     */
+    public function teacherAssignments()
+    {
+        return $this->hasMany(TeacherAssignment::class, 'teacher_id');
+    }
+
+    /**
      * FUNGSI KODE: Accessor untuk mendapatkan nama lengkap tampilan pengguna.
      * Secara cerdas memeriksa profil pengguna sesuai peran:
      * - Jika Guru: mengambil nama dari teacherProfile->full_name.

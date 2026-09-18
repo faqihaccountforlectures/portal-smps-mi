@@ -15,4 +15,12 @@ class AcademicYear extends Model
         'semester',
         'is_active',
     ];
+
+    /**
+     * Relasi ke penugasan guru pada tahun ajaran ini.
+     */
+    public function teacherAssignments()
+    {
+        return $this->hasMany(TeacherAssignment::class, 'academic_year_id');
+    }
 }

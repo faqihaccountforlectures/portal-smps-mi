@@ -16,4 +16,13 @@ class Subject extends Model
         'kkm',
         'category',
     ];
+
+    /**
+     * FUNGSI KODE: Relasi ke tabel penugasan guru (teacher_assignments).
+     * Satu mata pelajaran dapat ditugaskan ke beberapa guru dan kelas.
+     */
+    public function teacherAssignments()
+    {
+        return $this->hasMany(TeacherAssignment::class, 'subject_id');
+    }
 }

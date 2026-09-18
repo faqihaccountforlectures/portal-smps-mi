@@ -30,4 +30,12 @@ class ClassRoom extends Model
     {
         return $this->hasMany(ClassEnrollment::class, 'class_room_id');
     }
+
+    /**
+     * Relasi ke data penugasan guru di kelas ini.
+     */
+    public function teacherAssignments()
+    {
+        return $this->hasMany(TeacherAssignment::class, 'class_room_id');
+    }
 }
